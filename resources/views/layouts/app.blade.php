@@ -14,6 +14,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
@@ -24,9 +27,10 @@
     <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 
+    @yield('head')
 </head>
 
-<body class="hold-transition {{ empty(Auth::user()) ? 'layout-top-nav' : 'sidebar-mini layout-fixed' }}">
+<body class="hold-transition {{ empty(Auth::user()) ? 'layout-top-nav' : 'sidebar-mini layout-fixed layout-navbar-fixed' }}">
     <!-- Site wrapper -->
     <div class="wrapper">
         @guest
@@ -54,7 +58,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-user-cog mr-1"></i> {{ Auth::user()->firstname }}
+                        <i class="fas fa-user-cog mr-1"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="logout();"><i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -71,26 +75,16 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="https://uilogos.co/img/logomark/towers.png" alt="Logo" class="brand-image"  style="filter: invert(85%)">
+                <img src="https://uilogos.co/img/logomark/towers.png" alt="Logo" class="brand-image" style="filter: invert(85%)">
                 <span class="brand-text font-weight-light">E-Commerce</span>
             </a>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
         </aside>
         @endguest
-        <main class="py-4">
+        <main class="content-wrapper">
             @yield('content')
         </main>
     </div>
+
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
@@ -98,6 +92,9 @@
     <!-- AdminLTE JS -->
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
 
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
     <!-- Custom JS -->
     <script>
         function logout() {
@@ -105,6 +102,7 @@
             document.getElementById('logout-form').submit();
         }
     </script>
+    @yield('script')
 </body>
 
 </html>

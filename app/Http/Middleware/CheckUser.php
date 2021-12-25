@@ -17,10 +17,10 @@ class CheckUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if (empty(Auth::user())) {
-            return route('login');
-        } else {
+        if (Auth::check()) {
             return $next($request);
+        } else {
+            return route('login');
         }
     }
 }

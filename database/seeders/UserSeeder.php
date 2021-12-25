@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
             'lastname' => 'admin',
             'email' => 'sanket.kumbhare@neosoftmail.com',
             'password' => Hash::make('admin123'),
+            'role_id'=>  1,
+            'active' => true,
         ]);
     }
 }

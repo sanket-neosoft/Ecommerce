@@ -17,6 +17,7 @@ class UserManagement extends Controller
     public function getUsers() {
         return view('user_management', ['users' => User::all()]);
     }
+    
     /**
      * Render the Add User form.
      *
@@ -30,7 +31,7 @@ class UserManagement extends Controller
      * Insert Data in users table
      *
      * @param Illuminate\Http\Request $request
-     * @return void
+     * @return session('status') = 'success' or 'failed'
      */
     public function addUser(Request $request) {
         $validator = $request->validate([
@@ -41,20 +42,20 @@ class UserManagement extends Controller
             'password_confirmation' => 'required',
             'role' => 'required',
         ], [
-            'fname.required' => 'Please enter first name',
+            'fname.required' => 'First name is required',
             'fname.alpha' => 'Only alphabets are allowed.',
-            'lname.required' => 'Please enter last name',
+            'lname.required' => 'Last name is required',
             'lname.alpha' => 'Only alphabets are allowed.',
-            'email.required' => 'Please enter email',
+            'email.required' => 'Email is required',
             'email.email' => 'Invalid email address',
             'email.unique' => 'Email address is already taken',
-            'password.required' => 'Please enter password',
+            'password.required' => 'Password is required',
             'passowrd.regex' => 'Only alphanumeric characters are allowed',
             'password.min' => 'Minimum password length should be 8 characters',
             'password.max' => 'Maximum password length should be 12 characters',
-            'password_confirmation.required' => 'Please re-enter password',
+            'password_confirmation.required' => 'Re-enter password',
             // 'password_confirmation.confirmed' => 'Password does not match',
-            'role' => 'Please select role'
+            'role.required' => 'Select role'
         ]);
         if ($validator) {
             $user = new User();

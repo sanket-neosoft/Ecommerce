@@ -28,6 +28,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 
     @yield('head')
+
+    <style>
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body class="hold-transition {{ empty(Auth::user()) ? 'layout-top-nav' : 'sidebar-mini layout-fixed layout-navbar-fixed' }}">

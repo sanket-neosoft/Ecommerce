@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('head')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
 @endsection
 
@@ -30,32 +29,33 @@
             <div class="col-12">
                 <div class="card card-outline card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">All Users</h3>
+                        <h3 class="card-title">All Users Info</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example" class="table table-condensed table-hover">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email Address</th>
                                     <th>Role</th>
                                     <th>Active</th>
-                                    <th>Actions</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
                                     <td>{{ $user->firstname }}</td>
                                     <td>{{ $user->lastname }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role_id }}</td>
+                                    <td>{{ $user->role->role_name }}</td>
                                     <td>{{ $user->active }}</td>
-                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-warning"><i class="fas fa-user-edit"></i></button>
+                                        <button class="btn btn-danger"><i class="fas fa-user-slash"></i></button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

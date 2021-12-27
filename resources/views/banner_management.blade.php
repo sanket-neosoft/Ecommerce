@@ -48,7 +48,7 @@
                                     <td><img src="{{ url('banners/' . $banner->banner_image) }}" alt="{{ $banner->banner_image }}" style="height: 5rem; object-fit: cover; object-position: center"></td>
                                     <td>{{ $banner->banner_name }}</td>
                                     <td>{{ $banner->banner_link }}</td>
-                                    <td style="text-align: center;">
+                                    <td class="text-center">
                                         <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
                                         <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </td>

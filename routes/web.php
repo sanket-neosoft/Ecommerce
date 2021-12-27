@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BannerManagement;
+use App\Http\Controllers\CategoryManagement;
 use App\Http\Controllers\UserManagement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/banner-management', [BannerManagement::class, 'getBanners'])->name('banner-management'); 
     Route::get('/banner-management/add-banner',[BannerManagement::class, 'addBannerForm'])->name('add-banner');
     Route::post('/banner-management/add', [BannerManagement::class, 'addBanner']);
+
+    // Category Controller
+    Route::get('/category-management', [CategoryManagement::class, 'getCategories'])->name('category-management');
 });

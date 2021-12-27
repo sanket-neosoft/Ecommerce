@@ -52,7 +52,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role->role_name }}</td>
                                     <td>{{ $user->active }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
                                         <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </td>

@@ -10,12 +10,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Banner Management</h1>
+                <h1>Category Management</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Banner Management</li>
+                    <li class="breadcrumb-item active">Category Management</li>
                 </ol>
             </div>
         </div>
@@ -29,30 +29,30 @@
             <div class="col-12">
                 <div class="card card-outline card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Banners</h3>
+                        <h3 class="card-title">Category</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="category" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Banner Name</th>
-                                    <th>Banner Link</th>
+                                    <th>Id</th>
+                                    <th>Category Name</th>
+                                    <th>Category Description</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($banners as $banner)
-                                <tr>
-                                    <td><img src="{{ url('banners/' . $banner->banner_image) }}" alt="{{ $banner->banner_image }}" style="height: 5rem; object-fit: cover; object-position: center"></td>
-                                    <td>{{ $banner->banner_name }}</td>
-                                    <td>{{ $banner->banner_link }}</td>
-                                    <td style="text-align: center;">
-                                        <button class="btn btn-warning"><i class="fas fa-pen"></i></button>
-                                        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
+                                @foreach ($categories as $category)
+                                    <tr>
+                                        <td>{{ $category->id }}</td>
+                                        <td>{{ $category->category_name }}</td>
+                                        <td>{{ $category->category_description }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-warning"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-danger"><i class="fas fa-pen"></i></button>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -72,6 +72,7 @@
 <script>
     $(document).ready(function() {
         $('#category').DataTable();
+        $('#sub-category').DataTable();
     });
 </script>
 @endsection

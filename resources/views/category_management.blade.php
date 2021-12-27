@@ -33,7 +33,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="banner" class="table table-hover">
+                        <table id="category" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Image</th>
@@ -71,7 +71,7 @@
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#banner').DataTable();
+        $('#category').DataTable();
     });
 </script>
 @endsection

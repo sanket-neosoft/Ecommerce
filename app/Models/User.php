@@ -42,7 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role() {
+    /**
+     *  User belongs to role relationship.
+     *
+     * @return belongsTo(Role::class)
+     */
+    public function role()
+    {
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
 }

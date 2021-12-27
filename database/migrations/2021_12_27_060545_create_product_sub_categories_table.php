@@ -16,7 +16,7 @@ class CreateProductSubCategoriesTable extends Migration
         Schema::create('product_sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string('sub_category_name');
-            $table->foreignId('product_categories_id')->constrained('product_categories', 'id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('categories_id')->constrained('product_categories', 'id')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

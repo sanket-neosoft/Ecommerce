@@ -33,7 +33,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example" class="table table-condensed table-hover">
+                        <table id="user" class="table table-condensed table-hover">
                             <thead>
                                 <tr>
                                     <th>First Name</th>
@@ -75,7 +75,7 @@
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#example').DataTable();
+        $('#user').DataTable();
     });
 </script>
 @endsection

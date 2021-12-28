@@ -10,13 +10,12 @@ class Product extends Model
     use HasFactory;
 
     /**
-     *  Product belongs to category relationship.
+     *  Products belongs to many Categories relationship.
      *
-     * @return belongsTo(ProductCategory::class)
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
      */
-    public function category()
-    {
-        return $this->belongsTo(ProductCategory::class, 'categories_id', 'id');
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'product_categories');
     }
 
     /**
@@ -24,8 +23,5 @@ class Product extends Model
      *
      * @return belongsTo(ProductSubCategory::class)
      */
-    public function subCategory()
-    {
-        return $this->belongsTo(ProducSubCategory::class, 'sub_categories_id', 'id');
-    }
+    
 }

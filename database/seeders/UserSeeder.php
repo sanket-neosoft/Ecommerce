@@ -15,10 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $email = 'sanket.kumbhare@neosoftmail.com';
         User::insert([
             'firstname' => 'Admin',
             'lastname' => 'admin',
-            'email' => 'sanket.kumbhare@neosoftmail.com',
+            'email' => $email,
+            'notification_email' => $email,
             'password' => Hash::make('admin123'),
             'role_id'=>  1,
             'active' => true,

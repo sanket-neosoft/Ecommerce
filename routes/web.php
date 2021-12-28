@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function() {
     Route::get('/user-management/add-user', [UserManagement::class, 'addUserForm'])->name('add-user');
     Route::post('/user-management/add', [UserManagement::class, 'addUser']);
     Route::get('/user-management', [UserManagement::class, 'getUsers'])->name('user-management');
+    Route::get('/user-management/user/{id}', [UserManagement::class, 'getUser']);
+    Route::post('/user-management/edit/{id}', [UserManagement::class, 'editUser']);
+    Route::delete('/user-management/delete/{id}', [UserManagement::class, 'deleteUser']);
 
     // Banner Controller 
     Route::get('/banner-management', [BannerManagement::class, 'getBanners'])->name('banner-management'); 

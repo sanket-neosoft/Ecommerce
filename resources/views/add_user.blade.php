@@ -129,11 +129,11 @@
     toastr.success("User Added Successfully");
 </script>
 
-@else
+@elseif (session('status') === "failed")
 
 <!-- toastr danger  -->
 <script>
-    toastr.danger("Failed to add user.");
+    toastr.error("Failed to add user.");
 </script>
 
 @endif

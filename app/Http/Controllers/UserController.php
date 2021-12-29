@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UserManagement extends Controller
+class UserController extends Controller
 {
     /**
      * Render the All Users data.
@@ -36,7 +36,7 @@ class UserManagement extends Controller
      *
      * @param $id
      * 
-     * @return response()->json(App\Models\User::find($id)) 
+     * @return App\Models\User 
      */
     public function getUser($id)
     {
@@ -48,7 +48,7 @@ class UserManagement extends Controller
      *
      * @param $id
      * 
-     * @return response()->json(App\Models\User::find($id)) 
+     * @return Illuminate\Http\Response
      */
     public function editUser(Request $request, $id)
     {

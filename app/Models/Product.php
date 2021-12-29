@@ -19,9 +19,12 @@ class Product extends Model
     }
 
     /**
-     *  product belongs to subcategory relationship.
-     *
-     * @return belongsTo(ProductSubCategory::class)
+     * Product has to Many Relationship
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function images() {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
     
 }

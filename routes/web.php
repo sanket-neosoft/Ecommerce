@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\BannerManagement;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryManagement;
-use App\Http\Controllers\UserManagement;
+use App\Http\Controllers\UserrController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,17 +24,20 @@ Route::middleware('auth')->group(function() {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // User Controller 
-    Route::get('/user-management/add-user', [UserManagement::class, 'addUserForm'])->name('add-user');
-    Route::post('/user-management/add', [UserManagement::class, 'addUser']);
-    Route::get('/user-management', [UserManagement::class, 'getUsers'])->name('user-management');
-    Route::get('/user-management/user/{id}', [UserManagement::class, 'getUser']);
-    Route::post('/user-management/edit/{id}', [UserManagement::class, 'editUser']);
-    Route::delete('/user-management/delete/{id}', [UserManagement::class, 'deleteUser']);
+    Route::get('/user-management/add-user', [UserrController::class, 'addUserForm'])->name('add-user');
+    Route::post('/user-management/add', [UserrController::class, 'addUser']);
+    Route::get('/user-management', [UserrController::class, 'getUsers'])->name('user-management');
+    Route::get('/user-management/user/{id}', [UserrController::class, 'getUser']);
+    Route::post('/user-management/edit/{id}', [UserrController::class, 'editUser']);
+    Route::delete('/user-management/delete/{id}', [UserrController::class, 'deleteUser']);
 
     // Banner Controller 
-    Route::get('/banner-management', [BannerManagement::class, 'getBanners'])->name('banner-management'); 
-    Route::get('/banner-management/add-banner',[BannerManagement::class, 'addBannerForm'])->name('add-banner');
-    Route::post('/banner-management/add', [BannerManagement::class, 'addBanner']);
+    Route::get('/banner-management', [BannerController::class, 'getBanners'])->name('banner-management'); 
+    Route::get('/banner-management/add-banner',[BannerController::class, 'addBannerForm'])->name('add-banner');
+    Route::post('/banner-management/add', [BannerController::class, 'addBanner']);
+    Route::delete('/banner-management/delete/{id}', [BannerController::class, 'deleteBanner']);
+    Route::get('/banner-management/banner/{id}', [BannerController::class, 'getBanner']);
+    Route::post('/banner-management/edit/{id}', [BannerController::class, 'editBanner']);
 
     // Category Controller
     Route::get('/category-management', [CategoryManagement::class, 'getCategories'])->name('category-management');

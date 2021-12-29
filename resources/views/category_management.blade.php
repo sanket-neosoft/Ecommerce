@@ -59,39 +59,6 @@
                     </div>         
                 </div>
             </div>
-            <div class="col-12">
-                <div class="card card-outline card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Sub Categories</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="category" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Sub-Category Name</th>
-                                    <th>Category Description</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($sub_categories as $sub_category)
-                                    <tr>
-                                        <td>{{ $category->id }}</td>
-                                        <td>{{ $category->category_name }}</td>
-                                        <td>{{ $category->category_description }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-warning"><i class="fas fa-trash-alt"></i></button>
-                                            <button class="btn btn-danger"><i class="fas fa-pen"></i></button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>         
-                </div>
-            </div>
         </div>
     </div>
 </section>

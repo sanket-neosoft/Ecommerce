@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\BannerController;
-use App\Http\Controllers\CategoryManagement;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserrController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,5 +40,6 @@ Route::middleware('auth')->group(function() {
     Route::post('/banner-management/edit/{id}', [BannerController::class, 'editBanner']);
 
     // Category Controller
-    Route::get('/category-management', [CategoryManagement::class, 'getCategories'])->name('category-management');
+    Route::get('/category-management', [CategoryController::class, 'getCategories'])->name('category-management');
+
 });

@@ -15,16 +15,24 @@ class Product extends Model
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
      */
     public function categories() {
-        return $this->belongsToMany(Category::class, 'product_categories');
+        return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
     }
 
     /**
      * Product has to Many Relationship
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+    */
     public function images() {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
     
+    /**
+     * Product has to Many Relationship
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attributes() {
+        return $this->hasMany(ProductAttribute::class, 'product_id', 'id');
+    }
 }

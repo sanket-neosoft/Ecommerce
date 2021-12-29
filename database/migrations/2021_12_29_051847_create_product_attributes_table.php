@@ -15,6 +15,9 @@ class CreateProductAttributesTable extends Migration
     {
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
+            $table->string('parameter');
+            $table->string('parameter_value');
+            $table->foreignId('product_id')->constrained('products', 'id')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

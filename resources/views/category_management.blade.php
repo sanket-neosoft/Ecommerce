@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-@endsection
-
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -46,11 +42,11 @@
                                 @foreach ($categories as $category)
                                     <tr>
                                         <td>{{ $category->id }}</td>
-                                        <td>{{ $category->category_name }}</td>
-                                        <td>{{ $category->category_description }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->description }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-warning"><i class="fas fa-trash-alt"></i></button>
-                                            <button class="btn btn-danger"><i class="fas fa-pen"></i></button>
+                                            <button class="btn btn-warning" data-id="{{ $category->id }}"><i class="fas fa-pen"></i></button>
+                                            <button class="btn btn-danger delete"  data-id="{{ $category->id }}" data-toggle="modal" data-target="#modal-delete"><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -64,15 +60,31 @@
 </section>
 <!-- /.content -->
 <!-- /.content-wrapper -->
+@include('components.delete_alert')
 @endsection
 @section('script')
-<!-- datatable  cdn -->
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#category').DataTable();
-        $('#sub-category').DataTable();
+
+        $(".delete").on("click", function() {
+            let element = this;
+            let id = $(this).data("id");
+            $("#d").on("click", function() {
+                $.ajax({
+                    url: `/category-management/delete/${id}`,
+                    method: "delete",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(response) {
+                        $(element).closest("tr").fadeOut();
+                        toastr.success(`Category deleted successfully.`);
+                    }
+                });
+            });
+        });
     });
 </script>
 @endsection

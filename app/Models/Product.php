@@ -14,7 +14,8 @@ class Product extends Model
      *
      * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
      */
-    public function categories() {
+    public function categories()
+    {
         return $this->belongsToMany(Category::class, 'products_categories', 'product_id', 'category_id');
     }
 
@@ -22,17 +23,19 @@ class Product extends Model
      * Product has to Many Relationship
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-    public function images() {
+     */
+    public function images()
+    {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
-    
+
     /**
      * Product has to Many Relationship
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function attributes() {
+    public function attributes()
+    {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'id');
     }
 }

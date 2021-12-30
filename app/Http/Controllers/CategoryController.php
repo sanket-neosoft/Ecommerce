@@ -18,5 +18,13 @@ class CategoryController extends Controller
         return view('category_management', ['categories' => Category::all()]);
     }
 
-    
+    /**
+     * Render the All Users data.
+     *
+     * @return void
+     */
+    public function deleteCategory($id)
+    {
+        Category::find($id)->delete();
+    }
 }

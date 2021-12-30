@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserrController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,5 +42,10 @@ Route::middleware('auth')->group(function() {
 
     // Category Controller
     Route::get('/category-management', [CategoryController::class, 'getCategories'])->name('category-management');
+    Route::delete('/category-management/delete/{id}', [CategoryController::class, 'deleteCategory']);
+
+    // Product Controller
+    Route::get('/product-management/add-product', [ProductController::class, 'addProductForm'])->name('add-product');
+    Route::post('/product-management/add', [ProductController::class, 'addProduct']);
 
 });

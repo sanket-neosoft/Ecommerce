@@ -10,13 +10,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Banner Management</h1>
+                <h1>Category Management</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('/banner-management') }}">Banner Management</a></li>
-                    <li class="breadcrumb-item active">Add Banner</li>
+                    <li class="breadcrumb-item"><a href="{{ url('/category-management') }}">Category Management</a></li>
+                    <li class="breadcrumb-item active">Add category</li>
                 </ol>
             </div>
         </div>
@@ -27,52 +27,33 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card card-outline card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Add Banner</h3>
+                        <h3 class="card-title">Add Category</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="POST" action="{{ url('banner-management/add') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('category-management/add') }}" enctype="multipart/form-data">
                         @csrf
-                        <div class="card-body row">
-                            <div class="form-group col-md-6">
-                                <label for="bname">Banner Name</label>
-                                <input type="text" class="form-control @error('bname') is-invalid @enderror" name="bname" id="bname" placeholder="Enter banner name" autofocus value="{{ old('bname') }}">
+                        <div class="card-body ">
+                            <div class="form-group">
+                                <label for="cname">Category Name</label>
+                                <input type="text" class="form-control @error('cname') is-invalid @enderror" name="cname" id="cname" placeholder="Enter category name" autofocus value="{{ old('cname') }}">
                                 @error('bname')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="banner-image">Banner Image</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input @error('bimage') is-invalid @enderror" id="banner-image" name="bimage" onchange="showPreview(event)">
-                                        <label class="custom-file-label" for="banner-image">Choose file</label>
-                                    </div>
-                                </div>
-                                @error('bimage')
+                            <div class="form-group">
+                                <label for="cdescription">Category Description</label>
+                                <textarea class="form-control @error('cname') is-invalid @enderror" rows="6" placeholder="Enter description" id="cdescription" name="cdescription"></textarea>
+                                @error('cdescription')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="fname">Banner link</label>
-                                <input type="text" class="form-control @error('blink') is-invalid @enderror" name="blink" id="blink" placeholder="Enter banner link" autofocus value="{{ old('blink') }}">
-                                @error('blink')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <div class="border rounded preview">
-                                    <img id="preview" src="https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png" style="width: 100%; height: 14rem; object-fit: cover; object-position: center" alt="">
-                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -109,14 +90,14 @@
 
 <!-- toastr success -->
 <script>
-    toastr.success("Banner Added Successfully");
+    toastr.success("Category Added Successfully");
 </script>
 
 @elseif (session('status') === "failed")
 
 <!-- toastr danger  -->
 <script>
-    toastr.error("Failed to add banner.");
+    toastr.error("Failed to add category.");
 </script>
 
 @endif

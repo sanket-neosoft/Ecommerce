@@ -44,7 +44,7 @@ class UserController extends Controller
     }
 
     /**
-     * Returns response
+     * Edit user details
      *
      * @param $id
      * 

@@ -10,7 +10,17 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     /**
-     * Render the Add User form.
+     * Render the All Product Details.
+     *
+     * @return App\Models\Product
+     */
+    public function getProducts()
+    {
+        return view('product_management', ['products' => Product::all()]);
+    }
+
+    /**
+     * Render the Add Product form.
      *
      * @return App\Models\Category
      */
@@ -78,5 +88,59 @@ class ProductController extends Controller
         } else {
             return back()->with('status', 'failed');
         }
+    }
+
+    /**
+     * Delete User data.
+     *
+     * @param $id
+     * @return void
+     */
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+        foreach ($product->images as $image) {
+            unlink(public_path('products/' . $image->image));
+        }
+        $product->delete();
+    }
+
+    /**
+     * Render the Product Images.
+     *
+     * @param $id
+     * 
+     * @return App\Models\Product
+     */
+    public function getProductImages($id)
+    {
+        return view('product_images', ['product' => Product::find($id)]);
+    }
+
+    /**
+     * Edit user details
+     *
+     * @param $id
+     * 
+     * @return App\Models\Product
+     * @return App\Models\Category
+     */
+    public function editProduct($id)
+    {
+        return view('edit_product', ['categories' => Category::all(), 'product' => Product::find($id)]);
+    }
+
+    /**
+     * Delete Product Image.
+     *
+     * @param $id
+     * 
+     * @return void
+     */
+    public function deleteProductImage($id)
+    {
+        $product_image = ProductImage::find($id);
+        unlink(public_path('products/' . $product_image->image));
+        $product_image->delete();
     }
 }

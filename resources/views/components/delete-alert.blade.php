@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Do you really want to delete ?</p>
+                <p>{{ $message }}</p>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

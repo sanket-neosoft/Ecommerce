@@ -11,7 +11,7 @@ class BannerController extends Controller
     /**
      * Render the Add Banner form
      *
-     * @return add_banner view
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function addBannerForm()
     {
@@ -104,7 +104,6 @@ class BannerController extends Controller
             }
         } 
     }
-
 
     /**
      * Delete Banner.

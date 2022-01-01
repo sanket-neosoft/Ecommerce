@@ -42,10 +42,19 @@ Route::middleware('auth')->group(function() {
 
     // Category Controller
     Route::get('/category-management', [CategoryController::class, 'getCategories'])->name('category-management');
+    Route::get('/category-management/add-category',[CategoryController::class, 'addCategoryForm'])->name('add-category');
     Route::delete('/category-management/delete/{id}', [CategoryController::class, 'deleteCategory']);
+    Route::post('category-management/add', [CategoryController::class, 'addCategory']);
+    Route::get('/category-management/category/{id}', [BannerController::class, 'getCategory']);
+    Route::get('/category-management/category/{id}', [CategoryController::class, 'getCategory']);
+    Route::post('/category-management/edit/{id}', [CategoryController::class, 'editCategory']);
 
     // Product Controller
+    Route::get('/product-management', [ProductController::class, 'getProducts'])->name('product-mangement');
     Route::get('/product-management/add-product', [ProductController::class, 'addProductForm'])->name('add-product');
     Route::post('/product-management/add', [ProductController::class, 'addProduct']);
-
+    Route::delete('/product-management/delete/{id}', [ProductController::class, 'deleteProduct']);
+    Route::get('/product-management/product-images/{id}', [ProductController::class, 'getProductImages'])->name('product-images');
+    Route::get('/product-management/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+    Route::delete('/product-management/product-image/delete/{id}', [ProductController::class, 'deleteProductImage']);
 });

@@ -36,6 +36,7 @@
                     <!-- form start -->
                     <form method="POST" action="{{ url('product-management/edit') }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{ $product->id }}">
                         <div class="card-body row">
                             <div class="col-md-6">
                                 <div class="form-group">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserrController;
 use Illuminate\Support\Facades\Auth;
@@ -57,4 +58,9 @@ Route::middleware('auth')->group(function() {
     Route::get('/product-management/product-images/{id}', [ProductController::class, 'getProductImages'])->name('product-images');
     Route::get('/product-management/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
     Route::delete('/product-management/product-image/delete/{id}', [ProductController::class, 'deleteProductImage']);
+    Route::post('/product-management/edit', [ProductController::class, 'editProductDetails']);
+
+    // Configuration Controller 
+    Route::get('/configuration-management', [ConfigController::class, 'getConfig'])->name('configuration-management');
+    Route::post('/configuration-management/edit', [ConfigController::class, 'editConfig']);
 });

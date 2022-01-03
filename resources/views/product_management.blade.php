@@ -55,7 +55,7 @@
                                     <td>{{ $product->sale_price }}</td>
                                     <td>
                                         @foreach ($product->categories as $category)
-                                        <span class="btn btn-primary m-1 p-1">{{ $category->name }}</span>
+                                        <h5><span class="badge badge-primary">{{ $category->name }}</span></h5>
                                         @endforeach
                                     </td>
                                     <td class="text-center">

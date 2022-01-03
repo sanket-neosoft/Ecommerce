@@ -39,6 +39,8 @@
     <!-- toastr css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
+    <link rel="icon" href="https://uilogos.co/img/logomark/towers.png">
+
     @yield('head')
 
     <style>

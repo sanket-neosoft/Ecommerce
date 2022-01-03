@@ -93,17 +93,19 @@
                   <a href="#"><i class="fa fa-star"></i> Wishlist</a>
                 </li>
                 <li>
-                  <a href="checkout.html"
-                    ><i class="fa fa-crosshairs"></i> Checkout</a
+                  <router-link to="/checkout"
+                    ><i class="fa fa-crosshairs"></i> Checkout</router-link
                   >
                 </li>
                 <li>
-                  <a href="cart.html"
-                    ><i class="fa fa-shopping-cart"></i> Cart</a
+                  <router-link to="cart"
+                    ><i class="fa fa-shopping-cart"></i> Cart</router-link
                   >
                 </li>
                 <li>
-                  <a href="login.html"><i class="fa fa-lock"></i> Login</a>
+                  <router-link to="/login"
+                    ><i class="fa fa-lock"></i> Login</router-link
+                  >
                 </li>
               </ul>
             </div>
@@ -139,9 +141,9 @@
                   <ul role="menu" class="sub-menu">
                     <li><a href="shop.html">Products</a></li>
                     <li><a href="product-details.html">Product Details</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><router-link to="/checkout">Checkout</router-link></li>
+                    <li><router-link to="/cart">Cart</router-link></li>
+                    <li><router-link to="/login">Login</router-link></li>
                   </ul>
                 </li>
                 <li class="dropdown">

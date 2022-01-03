@@ -15,7 +15,7 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade')->unique();
             $table->string('notification_email');
             $table->timestamps();
         });

@@ -51,4 +51,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
+
+    /**
+     *  User belongs to role relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function config()
+    {
+        return $this->hasOne(Configuration::class, 'user_id', 'id');
+    }
 }

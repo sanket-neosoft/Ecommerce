@@ -48,7 +48,7 @@
                                             </li>
                                             <li class="list-group-item">
                                                 <p class="mb-1"><b>Notification Email</b></p>
-                                                <a>{{ $user->notification_email }}</a>
+                                                <a>{{ $user->config->notification_email }}</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -66,7 +66,7 @@
                                             <p class="lead">You can change your notification email but your login email id will be same. You will get all notification on notification email.</p>
                                             <div class="form-group col-md">
                                                 <label for="nemail">Notification Email</label>
-                                                <input type="text" class="form-control @error('nemail') is-invalid @enderror" name="nemail" id="nemail" placeholder="Enter notification email"  value="{{ $user->notification_email }}">
+                                                <input type="text" class="form-control @error('nemail') is-invalid @enderror" name="nemail" id="nemail" placeholder="Enter notification email"  value="{{ $user->config->notification_email }}">
                                                 @error('bname')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -104,6 +104,11 @@
 <!-- toastr danger  -->
 <script>
     toastr.error("Failed to add product.");
+</script>
+
+@else 
+<script>
+    console.log("{{ session('status') }}");
 </script>
 @endif
 @endsection

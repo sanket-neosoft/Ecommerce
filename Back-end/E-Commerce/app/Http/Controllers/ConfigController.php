@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Configuration;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,14 +27,14 @@ class ConfigController extends Controller
     public function editConfig(Request $request) {
         $validator = $request->validate([
             'nemail' => 'required|email'
-        ],[
+        ], [
             'nemail.required' => 'Email is required',
             'nemail.email' => 'Invalid email id',
         ]);
         if ($validator) {
-            $user = User::find(Auth::user()->id);
-            $user->notification_email = $request->nemail;
-            $user->save();
+            $config = Configuration::where('user_id', Auth::user()->id)->first();
+            $config->notification_email = $request->nemail;
+            $config->save();
             return back()->with('status', 'success');
         }
     }

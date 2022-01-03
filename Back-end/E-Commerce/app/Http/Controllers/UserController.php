@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Configuration;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -136,6 +137,9 @@ class UserController extends Controller
                 $user->active = false;
             }
             $user->save();
+            $config = new Configuration();
+            $config->user_id = $user->id;
+            $config->notification_email = $request->email;
             return back()->with('status', 'success');
         } else {
             return back()->with('status', 'error');

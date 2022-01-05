@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EcommerceResource;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,18 +39,18 @@ class BannerController extends Controller
     {
         $validator = $request->validate([
             'bcaption' => 'required',
-            'bimage' => 'required|image|mimes:png,jpg',
+            'bimage' => 'required|mimes:png,jpg',
         ], [
             'bcaption.required' => 'Banner name is required',
             'bimage.required' => 'Select Image',
-            'bimage.image' => 'Only png and jpg files are allowed',
+            'bimage.mimes' => 'Only png and jpg files are allowed',
         ]);
         if ($validator) {
             $imageName = 'banner' . '-' . rand() . time() . '.' . $request->bimage->extension();
             $banner = new Banner();
             $banner->caption = $request->bcaption;
             $banner->link = $request->blink;
-            $banner->image =  $imageName;
+            $banner->image = 'banners/' . $imageName;
             if ($banner->save()) {
                 if ($request->bimage->move(public_path('banners'), $imageName)) {
                     return back()->with('status', 'success');
@@ -118,5 +119,16 @@ class BannerController extends Controller
         if (unlink(public_path('Banners/' . $banner->image))) {
             $banner->delete();
         }
+    }
+
+    /**
+     * get all banner details (Banner API).
+     *
+     * 
+     * @return App\Http\Resources\EcommerceResource
+     */
+    public function getBannersApi() {
+        $banner = Banner::all();
+        return response(['banners' => EcommerceResource::collection($banner), 'message' => 'All banners fetched'], 200);
     }
 }

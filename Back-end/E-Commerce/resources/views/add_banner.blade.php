@@ -38,9 +38,9 @@
                         @csrf
                         <div class="card-body row">
                             <div class="form-group col-md-6">
-                                <label for="bname">Banner Name</label>
-                                <input type="text" class="form-control @error('bname') is-invalid @enderror" name="bname" id="bname" placeholder="Enter banner name" autofocus value="{{ old('bname') }}">
-                                @error('bname')
+                                <label for="bcaption">Banner Caption</label>
+                                <input type="text" class="form-control @error('bcaption') is-invalid @enderror" name="bcaption" id="bcaption" placeholder="Enter banner caption" autofocus value="{{ old('bcaption') }}">
+                                @error('bcaption')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -55,8 +55,8 @@
                                     </div>
                                 </div>
                                 @error('bimage')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger" role="alert">
+                                    <small><strong>{{ $message }}</strong></small>
                                 </span>
                                 @enderror
                             </div>

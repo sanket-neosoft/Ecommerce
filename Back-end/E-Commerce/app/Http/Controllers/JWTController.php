@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JWTController extends Controller
 {
@@ -28,9 +29,25 @@ class JWTController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
+            'fname' => 'required|alpha',
+            'lname' => 'required|alpha',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|regex:/^[\w-]+$/|min:8|max:12',
+            'password_confirmation' => 'required',
+        ], [
+            'fname.required' => 'First name is required',
+            'fname.alpha' => 'Only alphabets are allowed.',
+            'lname.required' => 'Last name is required',
+            'lname.alpha' => 'Only alphabets are allowed.',
+            'email.required' => 'Email is required',
+            'email.email' => 'Invalid email address',
+            'email.unique' => 'Email address is already taken',
+            'password.required' => 'Password is required',
+            'passowrd.regex' => 'Only alphanumeric characters are allowed',
+            'password.min' => 'Minimum password length should be 8 characters',
+            'password.max' => 'Maximum password length should be 12 characters',
+            'password_confirmation.required' => 'Re-enter password',
+            // 'password_confirmation.confirmed' => 'Password does not match',
         ]);
 
         if($validator->fails()) {
@@ -38,14 +55,18 @@ class JWTController extends Controller
         }
 
         $user = User::create([
-                'name' => $request->name,
+                'firstname' => 'sanket  ',
+                'lastname' => $request->lname,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'role_id' => 5,
+                'active' => true,
+                'password' => Hash::make($request->password),
             ]);
 
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user
+            'user' => $user,
+            'token' => JWTAuth::fromUser($user),
         ], 201);
     }
 
@@ -70,6 +91,7 @@ class JWTController extends Controller
         }
 
         return $this->respondWithToken($token);
+        
     }
 
     /**
@@ -116,7 +138,7 @@ class JWTController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JWTController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// JWT Token Api
 Route::group(['middleware' => 'api'], function($router) {
     Route::post('/register', [JWTController::class, 'register']);
     Route::post('/login', [JWTController::class, 'login']);
@@ -28,4 +30,8 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::post('/profile', [JWTController::class, 'profile']);
 });
 
+// Banner Api
 Route::get('/banners', [BannerController::class, 'getBannersApi']);
+
+// Contact Us Api
+Route::post('/contactus', [ContactUsController::class, 'contactUs']);

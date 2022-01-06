@@ -4,7 +4,7 @@ import Contact from '../components/Contact.vue';
 import Login from '../components/Login.vue';
 import Checkout from '../components/Checkout.vue';
 import Cart from '../components/Cart.vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import Home from '../components/Home.vue';
 
 Vue.use(Router);
 
@@ -12,8 +12,8 @@ export default new Router({
     mode: 'history',
     routes: [{
         path: '/',
-        name: 'HelloWorld',
-        component: HelloWorld
+        name: 'Home',
+        component: Home
     }, {
         path: '/contact',
         name: 'Contact',

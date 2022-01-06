@@ -15,8 +15,7 @@
             <form
               id="main-contact-form"
               class="contact-form row"
-              name="contact-form"
-              method="post"
+              v-on:submit.prevent="contact()"
             >
               <div class="form-group col-md-6">
                 <input
@@ -25,6 +24,7 @@
                   class="form-control"
                   required="required"
                   placeholder="Name"
+                  v-model="contactForm.name"
                 />
               </div>
               <div class="form-group col-md-6">
@@ -34,15 +34,17 @@
                   class="form-control"
                   required="required"
                   placeholder="Email"
+                  v-model="contactForm.email"
                 />
               </div>
               <div class="form-group col-md-12">
                 <input
-                  type="text"
-                  name="subject"
+                  type="tel"
+                  name="contact"
                   class="form-control"
                   required="required"
-                  placeholder="Subject"
+                  placeholder="Contact Number"
+                  v-model="contactForm.contact"
                 />
               </div>
               <div class="form-group col-md-12">
@@ -53,6 +55,7 @@
                   class="form-control"
                   rows="8"
                   placeholder="Your Message Here"
+                  v-model="contactForm.message"
                 ></textarea>
               </div>
               <div class="form-group col-md-12">
@@ -103,8 +106,38 @@
 </template>
 
 <script>
+import Vue from "vue";
+import axios from "axios";
+import Vueaxios from "vue-axios";
+
+Vue.use(Vueaxios, axios);
+
 export default {
-    name: 'Contact'
+  name: "Contact",
+  data() {
+    return {
+      contactForm: {
+        name: null,
+        email: null,
+        contact: null,
+        message: null,
+      },
+      api: "http://127.0.0.1:8000/api/contactus",
+    };
+  },
+  methods: {
+    contact() {
+      let formData = {
+        name: this.contactForm.name,
+        email: this.contactForm.email,
+        contact: this.contactForm.contact,
+        message: this.contactForm.message,
+      };
+      Vue.axios.post(this.api, formData).then((res) => {
+        console.log(res.data);
+      });
+    },
+  },
 };
 </script>
 

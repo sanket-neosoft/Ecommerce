@@ -64,9 +64,10 @@ class JWTController extends Controller
             ]);
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'access_token' => JWTAuth::fromUser($user),
+            'token_type' => 'bearer',
+            'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
             'user' => $user,
-            'token' => JWTAuth::fromUser($user),
         ], 201);
     }
 
@@ -90,7 +91,7 @@ class JWTController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token, $request->email);
+        return $this->respondWithToken($token, auth()->guard('api')->user());
         
     }
 
@@ -133,13 +134,13 @@ class JWTController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token, $email)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
-            'email' => $email,
+            'user' => $user,
         ]);
     }
 }

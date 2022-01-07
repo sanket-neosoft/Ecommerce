@@ -4,7 +4,16 @@
       <div class="row">
         <div class="col-sm-12">
           <h2 class="title text-center">Contact <strong>Us</strong></h2>
-          <div id="gmap" class="contact-map"></div>
+          <div id="gmap" class="contact-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15068.354509124467!2d73.1231582435741!3d19.234968861579976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7954a866ebbd1%3A0xe9010fdbbc8d4393!2sD-Mart!5e0!3m2!1sen!2sin!4v1641571768982!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+            ></iframe>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -22,41 +31,107 @@
                   type="text"
                   name="name"
                   class="form-control"
-                  required="required"
                   placeholder="Name"
-                  v-model="contactForm.name"
+                  v-model.trim="$v.contactForm.name.$model"
                 />
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.name.required && $v.contactForm.name.$dirty
+                  "
+                >
+                  Name is required!
+                </div>
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.name.alpha && $v.contactForm.name.$dirty
+                  "
+                >
+                  Only alphabets are allowed!
+                </div>
               </div>
               <div class="form-group col-md-6">
                 <input
                   type="email"
                   name="email"
                   class="form-control"
-                  required="required"
                   placeholder="Email"
-                  v-model="contactForm.email"
+                  v-model.trim="$v.contactForm.email.$model"
                 />
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.email.required &&
+                    $v.contactForm.email.$dirty
+                  "
+                >
+                  Email is required!
+                </div>
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.email.email && $v.contactForm.email.$dirty
+                  "
+                >
+                  Invalid Email!
+                </div>
               </div>
               <div class="form-group col-md-12">
                 <input
                   type="tel"
                   name="contact"
                   class="form-control"
-                  required="required"
                   placeholder="Contact Number"
-                  v-model="contactForm.contact"
+                  v-model.trim="$v.contactForm.contact.$model"
                 />
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.contact.required &&
+                    $v.contactForm.contact.$dirty
+                  "
+                >
+                  Contact number is required!
+                </div>
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.contact.numeric &&
+                    $v.contactForm.contact.$dirty
+                  "
+                >
+                  Invalid contact number!
+                </div>
+                <div
+                  class="text-danger"
+                  v-if="
+                    (!$v.contactForm.contact.maxLength ||
+                      !$v.contactForm.contact.minLength) &&
+                    $v.contactForm.contact.$dirty
+                  "
+                >
+                  Contact number should be of 10 digits
+                </div>
               </div>
               <div class="form-group col-md-12">
                 <textarea
                   name="message"
                   id="message"
-                  required="required"
                   class="form-control"
                   rows="8"
                   placeholder="Your Message Here"
-                  v-model="contactForm.message"
+                  v-model.trim="$v.contactForm.message.$model"
                 ></textarea>
+                <div
+                  class="text-danger"
+                  v-if="
+                    !$v.contactForm.message.required &&
+                    $v.contactForm.message.$dirty
+                  "
+                >
+                  Message is required!
+                </div>
               </div>
               <div class="form-group col-md-12">
                 <input
@@ -106,36 +181,69 @@
 </template>
 
 <script>
+import { contactUs } from "../common/Service";
 import Vue from "vue";
-import axios from "axios";
-import Vueaxios from "vue-axios";
+import Vuelidate from "vuelidate";
+import toastr from "toastr";
+import {
+  required,
+  email,
+  alpha,
+  numeric,
+  maxLength,
+  minLength,
+} from "vuelidate/lib/validators";
 
-Vue.use(Vueaxios, axios);
+Vue.use(Vuelidate);
 
 export default {
   name: "Contact",
   data() {
     return {
       contactForm: {
-        name: null,
-        email: null,
-        contact: null,
-        message: null,
+        name: "",
+        email: "",
+        contact: "",
+        message: "",
       },
-      api: "http://127.0.0.1:8000/api/contactus",
+    };
+  },
+  validations() {
+    return {
+      contactForm: {
+        name: {
+          required,
+          alpha,
+        },
+        email: {
+          required,
+          email,
+        },
+        contact: {
+          required,
+          numeric,
+          maxLength: maxLength(10),
+          minLength: minLength(10),
+        },
+        message: { required },
+      },
     };
   },
   methods: {
     contact() {
-      let formData = {
-        name: this.contactForm.name,
-        email: this.contactForm.email,
-        contact: this.contactForm.contact,
-        message: this.contactForm.message,
-      };
-      Vue.axios.post(this.api, formData).then((res) => {
-        console.log(res.data);
-      });
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        console.log(`Name: ${this.contactForm.name}`);
+        let formData = {
+          name: this.contactForm.name,
+          email: this.contactForm.email,
+          contact: this.contactForm.contact,
+          message: this.contactForm.message,
+        };
+        contactUs(formData).then((res) => {
+          toastr.success(res.data.message);
+        });
+      }
     },
   },
 };

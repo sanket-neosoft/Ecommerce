@@ -1,13 +1,13 @@
 <template>
-  <Slider />
+  <Carousel />
 </template>
 
 <script>
-import Slider from './Slider.vue';
+import Carousel from './Carousel.vue';
 export default {
   name: 'Home',
   components: {
-    Slider,
+    Carousel,
   }
 }
 </script>

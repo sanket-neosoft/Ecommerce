@@ -73,7 +73,9 @@
 
 <script>
 import { userLogin, userRegister } from "@/common/Service";
-import { saveToken } from "@/common/JwtToken";
+import store from "../store";
+import router from "../router";
+
 export default {
   name: "Login",
   data() {
@@ -100,7 +102,12 @@ export default {
       userLogin(formData)
         .then((res) => {
           console.log(res.data);
-          saveToken(res.data.access_token);
+          localStorage.setItem("user", JSON.stringify(res.data));
+          store.dispatch({
+            type: "user",
+            user: res.data,
+          });
+          router.push("/");
         })
         .catch((err) => {
           console.log("Something Wrong " + err);
@@ -114,10 +121,9 @@ export default {
         password: this.registerForm.password,
         password_confirmation: this.registerForm.cnf_password,
       };
-      userRegister(formData)
-      .then((res) => {
+      userRegister(formData).then((res) => {
         console.log(res.data);
-      })
+      });
     },
   },
 };

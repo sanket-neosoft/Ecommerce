@@ -86,11 +86,11 @@ class JWTController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (!$token = auth()->attempt($validator->validated())) {
+        if (!$token = auth()->guard('api')->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token, $request->email);
         
     }
 
@@ -101,7 +101,7 @@ class JWTController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        auth()->guard('api')->logout();
 
         return response()->json(['message' => 'User successfully logged out.']);
     }
@@ -113,7 +113,7 @@ class JWTController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth()->guard('api')->refresh());
     }
 
     /**
@@ -123,7 +123,7 @@ class JWTController extends Controller
      */
     public function profile()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth()->guard('api')->user());
     }
 
     /**
@@ -133,12 +133,13 @@ class JWTController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $email)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
+            'email' => $email,
         ]);
     }
 }

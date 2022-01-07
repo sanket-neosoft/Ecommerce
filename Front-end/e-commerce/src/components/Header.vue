@@ -102,10 +102,15 @@
                     ><i class="fa fa-shopping-cart"></i> Cart</router-link
                   >
                 </li>
-                <li>
-                  <router-link to="/login"
-                    ><i class="fa fa-lock"></i> Login</router-link
+                <li v-if="user !== null">
+                  <a href="javascript:void(0)" v-on:click="logout()"
+                    ><i class="fa fa-lock"></i> Logout</a
                   >
+                </li>
+                <li v-else>
+                  <router-link to="/login"
+                    ><i class="fa fa-lock"></i> Login
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -143,14 +148,21 @@
                     <li><a href="product-details.html">Product Details</a></li>
                     <li><router-link to="/checkout">Checkout</router-link></li>
                     <li><router-link to="/cart">Cart</router-link></li>
-                    <li><router-link to="/login">Login</router-link></li>
+                    <li>
+                      <router-link to="/login">Login</router-link>
+                    </li>
+                    <li>
+                      <router-link to="/login">Logout</router-link>
+                    </li>
                   </ul>
                 </li>
                 <li class="dropdown">
                   <a href="#">Blog<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">
                     <li><a href="blog.html">Blog List</a></li>
-                    <li><a href="blog-single.html">Blog Single</a></li>
+                    <li>
+                      <a href="blog-single.html"></a>
+                    </li>
                   </ul>
                 </li>
                 <li><a href="404.html">404</a></li>
@@ -172,8 +184,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { userLogout } from '../common/Service';
+import store from '../store';
 export default {
   name: "Header",
+  methods: {
+    logout() {
+      userLogout().then((res) => {
+        console.log(res.data);
+      });
+      localStorage.removeItem("user");
+      store.dispatch({
+        type: 'user',
+        user: null,
+      })
+    },
+  },
+  computed: {
+    ...mapState(["user"]),
+  },
+  // email: (state) => state.email,
 };
 </script>
 

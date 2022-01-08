@@ -47,7 +47,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="cdescription">Category Description</label>
+                                <label for="cdescription">Category Description (Optional)</label>
                                 <textarea class="form-control @error('cname') is-invalid @enderror" rows="6" placeholder="Enter description" id="cdescription" name="cdescription"></textarea>
                                 @error('cdescription')
                                 <span class="invalid-feedback" role="alert">

@@ -13,7 +13,7 @@ class ContactUsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function contactUs(Request $request)
+    public function contactUsApi(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',

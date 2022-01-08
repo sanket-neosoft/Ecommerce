@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EcommerceResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -92,5 +93,16 @@ class CategoryController extends Controller
     public function deleteCategory($id)
     {
         Category::find($id)->delete();
+    }
+
+    /**
+     * get all banner details (Banner API).
+     * 
+     * @return App\Http\Resources\EcommerceResource
+     */
+    public function getCategoriesApi()
+    {
+        $category = Category::with(['products'])->get();
+        return response(['categories' => EcommerceResource::collection($category), 'message' => 'All categories fetched'], 200);
     }
 }

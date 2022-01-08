@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JWTController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,8 +32,17 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::post('/profile', [JWTController::class, 'profile']);
 });
 
-// Banner Api
+// All Banners Api
 Route::get('/banners', [BannerController::class, 'getBannersApi']);
 
 // Contact Us Api
-Route::post('/contactus', [ContactUsController::class, 'contactUs']);
+Route::post('/contactus', [ContactUsController::class, 'contactUsApi']);
+
+// All Products Api
+Route::get('/products', [ProductController::class, 'getProductsApi']);
+
+// All Categories Api
+Route::get('/categories', [CategoryController::class, 'getCategoriesApi']);
+
+// All Featured Product Api
+Route::get('/products/featured', [ProductController::class,'getFeaturedProductsApi']);

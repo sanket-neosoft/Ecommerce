@@ -123,7 +123,6 @@ class BannerController extends Controller
 
     /**
      * get all banner details (Banner API).
-     *
      * 
      * @return App\Http\Resources\EcommerceResource
      */

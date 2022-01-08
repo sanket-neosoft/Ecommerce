@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EcommerceResource;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
@@ -67,6 +68,9 @@ class ProductController extends Controller
             $product->price = $request->pprice;
             $product->sale_price = $request->psaleprice;
             $product->weight = $request->pweight;
+            if ($request->pfeatured) {
+                $product->featured = $request->pfeatured;
+            }
             if ($product->save()) {
                 $product_id = $product->id;
                 if ($request->hasfile('pimages')) {
@@ -166,6 +170,9 @@ class ProductController extends Controller
             $product->price = $request->pprice;
             $product->sale_price = $request->psaleprice;
             $product->weight = $request->pweight;
+            if ($request->pfeatured) {
+                $product->featured = $request->pfeatured;
+            }
             if ($product->save()) {
                 $product_id = $product->id;
                 if ($request->hasfile('pimages')) {
@@ -200,5 +207,27 @@ class ProductController extends Controller
         $product_image = ProductImage::find($id);
         unlink(public_path('products/' . $product_image->image));
         $product_image->delete();
+    }
+
+    /**
+     * get all Product details (Product API).
+     * 
+     * @return App\Http\Resources\EcommerceResource
+     */
+    public function getProductsApi()
+    {
+        $products = Product::with(['categories', 'images'])->get();
+        return response(['products' => EcommerceResource::collection($products), 'message' => 'All products fetched'], 200);
+    }
+
+    /**
+     * get all featured details (Featured Product API).
+     * 
+     * @return App\Http\Resources\EcommerceResource
+     */
+    public function getFeaturedProductsApi()
+    {
+        $featured_products = Product::where('featured', 1)->with(['categories', 'images'])->get();
+        return response(['featured_products' => EcommerceResource::collection($featured_products), 'message' => 'All featured products fetched'], 200);
     }
 }

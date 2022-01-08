@@ -27,6 +27,16 @@ export function banners() {
     return axios.get(`${MAIN_URL}api/banners`);
 }
 
+// Product api call
+export function products() {
+    return axios.get(`${MAIN_URL}api/products`);
+}
+
+// Category api call
+export function categories() {
+    return axios.get(`${MAIN_URL}api/categories`);
+}
+
 // Contact us api call 
 export function contactUs(data) {
     return axios.post(`${MAIN_URL}api/contactus`, data);
@@ -37,5 +47,7 @@ export default {
     userRegister,
     banners,
     userLogout,
-    contactUs
+    contactUs,
+    products,
+    categories
 };

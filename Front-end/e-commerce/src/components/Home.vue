@@ -3,47 +3,17 @@
     <Carousel />
     <div class="container">
       <div class="row">
-        <Sidebar />
+        <SideBar />
         <div class="col-sm-9 padding-right">
           <div class="features_items">
             <!--features_items-->
             <h2 class="title text-center">Featured Items</h2>
-            <div class="col-sm-4">
-              <div class="product-image-wrapper">
-                <div class="single-products">
-                  <div class="productinfo text-center">
-                    <img src="images/home/product1.jpg" alt="" />
-                    <h2>$56</h2>
-                    <p>Easy Polo Black Edition</p>
-                    <a href="#" class="btn btn-default add-to-cart"
-                      ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                    >
-                  </div>
-                  <div class="product-overlay">
-                    <div class="overlay-content">
-                      <h2>$56</h2>
-                      <p>Easy Polo Black Edition</p>
-                      <a href="#" class="btn btn-default add-to-cart"
-                        ><i class="fa fa-shopping-cart"></i>Add to cart</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="choose">
-                  <ul class="nav nav-pills nav-justified">
-                    <li>
-                      <a href="#"
-                        ><i class="fa fa-plus-square"></i>Add to wishlist</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><i class="fa fa-plus-square"></i>Add to compare</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div
+              class="col-sm-4"
+              v-for="(featured_product, index) in featured_products"
+              v-bind:key="index"
+            >
+              <ProductCard v-bind:product="featured_product" />
             </div>
           </div>
           <!--features_items-->
@@ -55,12 +25,29 @@
 
 <script>
 import Carousel from "./Carousel.vue";
-import Sidebar from "./SideBar.vue";
+import ProductCard from "./product-components/ProductCard.vue";
+import SideBar from "./SideBar.vue";
+import { products } from "../common/Service";
+import { MAIN_URL } from "../common/Url";
 export default {
   name: "Home",
   components: {
     Carousel,
-    Sidebar,
+    ProductCard,
+    SideBar,
+  },
+  data() {
+    return {
+      featured_products: undefined,
+      MAIN_URL: MAIN_URL,
+    };
+  },
+  mounted() {
+    products().then((res) => {
+      this.featured_products = res.data.products.filter(
+        (product) => product.featured === 1
+      );
+    });
   },
 };
 </script>

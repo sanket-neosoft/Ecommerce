@@ -5,10 +5,18 @@ import Login from '../components/Login.vue';
 import Checkout from '../components/Checkout.vue';
 import Cart from '../components/Cart.vue';
 import Home from '../components/Home.vue';
+import Category from '../components/Category.vue';
+import ProductDetails from '../components/ProductDetails.vue';
 
 Vue.use(Router);
 
 export default new Router({
+    scrollBehavior() {
+        return {
+            x: 0,
+            y: 0
+        }
+    },
     mode: 'history',
     routes: [{
         path: '/',
@@ -30,5 +38,13 @@ export default new Router({
         path: '/cart',
         name: 'Cart',
         component: Cart
+    }, {
+        path: '/category/:id',
+        name: 'Category',
+        component: Category,
+    }, {
+        path: '/product/:id',
+        name: 'ProductDetails',
+        component: ProductDetails,
     }]
 });

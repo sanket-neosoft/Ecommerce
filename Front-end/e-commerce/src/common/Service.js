@@ -37,9 +37,19 @@ export function categories() {
     return axios.get(`${MAIN_URL}api/categories`);
 }
 
+// Category products api call
+export function categoryProducts(id) {
+    return axios.get(`${MAIN_URL}api/category/products/${id}`);
+}
+
 // Contact us api call 
 export function contactUs(data) {
     return axios.post(`${MAIN_URL}api/contactus`, data);
+}
+
+// Product details api
+export function productDetails(id) {
+    return axios.get(`${MAIN_URL}api/product/${id}`);
 }
 
 export default {
@@ -49,5 +59,7 @@ export default {
     userLogout,
     contactUs,
     products,
-    categories
+    categories,
+    categoryProducts,
+    productDetails
 };

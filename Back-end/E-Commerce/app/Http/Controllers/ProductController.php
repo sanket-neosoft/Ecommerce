@@ -49,6 +49,7 @@ class ProductController extends Controller
             'psaleprice' => 'numeric',
             'pweight' => 'numeric',
             'pimages' => 'required',
+            'pthumbnail' => 'required|mimes:png,jpg',
             'pimages.*' => 'image|mimes:png,jpg'
         ], [
             'pname.required' => 'Product name is required',
@@ -57,7 +58,9 @@ class ProductController extends Controller
             'pquantity.required' => 'Product quanity is required',
             'pprice.required' => 'Product price is required',
             'pimgaes.required' => 'Product image is required',
-            'pimages.mimes' => 'Only png and jpg files are allowed'
+            'pimages.mimes' => 'Only png and jpg files are allowed',
+            'pthumbnail.required' => 'Product thumbnail is required',
+            'pthumbnail.mimes' => 'Only png and jpg files are allowed',
         ]);
         if ($validator) {
             $product = new Product();
@@ -68,6 +71,9 @@ class ProductController extends Controller
             $product->price = $request->pprice;
             $product->sale_price = $request->psaleprice;
             $product->weight = $request->pweight;
+            $thumbnail = 'products/product-' . time() . rand() . '.' . $request->pthumbnail->extension();
+            $product->thumbnail = $thumbnail;
+            $request->pthumbnail->move(public_path('products'), $thumbnail);
             if ($request->pfeatured) {
                 $product->featured = $request->pfeatured;
             }
@@ -75,7 +81,7 @@ class ProductController extends Controller
                 $product_id = $product->id;
                 if ($request->hasfile('pimages')) {
                     foreach ($request->file('pimages') as $pimage) {
-                        $image = 'product-' . time() . rand() . '.' . $pimage->extension();
+                        $image = 'products/product-' . time() . rand() . '.' . $pimage->extension();
                         $product_image = new ProductImage();
                         $product_image->product_id = $product_id;
                         $product_image->image = $image;
@@ -170,6 +176,9 @@ class ProductController extends Controller
             $product->price = $request->pprice;
             $product->sale_price = $request->psaleprice;
             $product->weight = $request->pweight;
+            if ($request->pthumbnail) {
+                $request->pthumbnail->move(public_path('products'), $product->thumbnail);
+            }
             if ($request->pfeatured) {
                 $product->featured = $request->pfeatured;
             }
@@ -216,7 +225,7 @@ class ProductController extends Controller
      */
     public function getProductsApi()
     {
-        $products = Product::with(['categories', 'images'])->get();
+        $products = Product::all();
         return response(['products' => EcommerceResource::collection($products), 'message' => 'All products fetched'], 200);
     }
 

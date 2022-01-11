@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Product Description (optional)</label>
-                                    <textarea class="form-control" rows="8" placeholder="Enter product description" name="pdescription"></textarea>
+                                    <textarea class="form-control" rows="12" placeholder="Enter product description" name="pdescription"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -89,15 +89,15 @@
                                     </span>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="pprice">Product Price</label>
-                                <input type="number" class="form-control @error('pprice') is-invalid @enderror" name="pprice" id="pprice" placeholder="Enter product price" value="{{ old('pprice') }}">
-                                @error('pprice')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <div class="form-group">
+                                    <label for="pprice">Product Price</label>
+                                    <input type="number" class="form-control @error('pprice') is-invalid @enderror" name="pprice" id="pprice" placeholder="Enter product price" value="{{ old('pprice') }}">
+                                    @error('pprice')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="psaleprice">Product Sale Price (optional)</label>
@@ -114,6 +114,20 @@
                                     <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="pfeatured">
                                     <label class="custom-control-label" for="customSwitch3"></label>
                                 </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="pthumbnail">Product Thumbnail</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input @error('pthumbnail') is-invalid @enderror" id="pthumbnail" name="pthumbnail">
+                                        <label class="custom-file-label" for="pthumbnail">Choose file</label>
+                                    </div>
+                                </div>
+                                @error('pimages')
+                                <span class="text-danger" role="alert">
+                                    <small><strong>{{ $message }}</strong></small>
+                                </span>
+                                @enderror
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="pimages">Product Images</label>
@@ -199,6 +213,7 @@ array_push($categories_list, $item);
             if (exists === true)
                 event.preventDefault();
         });
+
     });
 </script>
 

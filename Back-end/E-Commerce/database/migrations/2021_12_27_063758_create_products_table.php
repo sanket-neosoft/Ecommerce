@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 2);
             $table->decimal('sale_price', 8, 2)->nullable();
             $table->boolean('featured')->default(0);
+            $table->string('thumbnail');
             $table->timestamps();
         });
     }

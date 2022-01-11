@@ -50,18 +50,18 @@ class JWTController extends Controller
             // 'password_confirmation.confirmed' => 'Password does not match',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
-                'firstname' => 'sanket  ',
-                'lastname' => $request->lname,
-                'email' => $request->email,
-                'role_id' => 5,
-                'active' => true,
-                'password' => Hash::make($request->password),
-            ]);
+            'firstname' => 'sanket  ',
+            'lastname' => $request->lname,
+            'email' => $request->email,
+            'role_id' => 5,
+            'active' => true,
+            'password' => Hash::make($request->password),
+        ]);
 
         return response()->json([
             'access_token' => JWTAuth::fromUser($user),
@@ -92,7 +92,6 @@ class JWTController extends Controller
         }
 
         return $this->respondWithToken($token, auth()->guard('api')->user());
-        
     }
 
     /**
@@ -128,6 +127,38 @@ class JWTController extends Controller
     }
 
     /**
+     * update user profile.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateUserProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'fname' => 'required|alpha',
+            'lname' => 'required|alpha',
+            'contact' => 'regex:/^[6-9][0-9]{9}$/'
+        ], [
+            'fname.required' => 'First name is required',
+            'fname.alpha' => 'Only alphabets are allowed.',
+            'lname.required' => 'Last name is required',
+            'lname.alpha' => 'Only alphabets are allowed.',
+            'contact.regex' => 'Invalid contact number.'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        } else {
+            $user = User::find($request->id);
+            $user->firstname = $request->fname;
+            $user->lastname = $request->lname;
+            $user->contact_number = $request->phone;
+            $user->address = $request->address;
+            if ($user->save()) {
+                return response()->json(['message' => 'Your account details updated successfully.']);
+            }
+        }
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param  string $token
@@ -140,7 +171,7 @@ class JWTController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
-            'user' => $user,
+            'user' => $user->firstname,
         ]);
     }
 }

@@ -49,58 +49,34 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="logo pull-left">
-              <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
-            </div>
-            <div class="btn-group pull-right">
-              <div class="btn-group">
-                <button
-                  type="button"
-                  class="btn btn-default dropdown-toggle usa"
-                  data-toggle="dropdown"
-                >
-                  USA
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Canada</a></li>
-                  <li><a href="#">UK</a></li>
-                </ul>
-              </div>
-
-              <div class="btn-group">
-                <button
-                  type="button"
-                  class="btn btn-default dropdown-toggle usa"
-                  data-toggle="dropdown"
-                >
-                  DOLLAR
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Canadian Dollar</a></li>
-                  <li><a href="#">Pound</a></li>
-                </ul>
-              </div>
+              <router-link to="/"
+                ><img v-bind:src="`${publicPath}images/home/logo.png`" alt=""
+              /></router-link>
             </div>
           </div>
           <div class="col-sm-8">
             <div class="shop-menu pull-right">
               <ul class="nav navbar-nav">
                 <li>
-                  <a href="#"><i class="fa fa-user"></i> Account</a>
+                  <router-link to="/account"
+                    ><i class="fa fa-user"></i> Account</router-link
+                  >
                 </li>
-                <li>
-                  <a href="#"><i class="fa fa-star"></i> Wishlist</a>
+                <li v-if="user !== null">
+                  <router-link to="/wishlist"
+                    ><i class="fa fa-star"></i> Wishlist</router-link
+                  >
                 </li>
-                <li>
+                <li v-if="user !== null">
                   <router-link to="/checkout"
                     ><i class="fa fa-crosshairs"></i> Checkout</router-link
                   >
                 </li>
                 <li>
                   <router-link to="cart"
-                    ><i class="fa fa-shopping-cart"></i> Cart</router-link
-                  >
+                    ><i class="fa fa-shopping-cart"></i>
+                    <span>Cart</span>
+                  </router-link>
                 </li>
                 <li v-if="user !== null">
                   <a href="javascript:void(0)" v-on:click="logout()"
@@ -140,13 +116,14 @@
             </div>
             <div class="mainmenu pull-left">
               <ul class="nav navbar-nav collapse navbar-collapse">
-                <li><a href="index.html" class="active">Home</a></li>
+                <li><router-link to="/" class="active">Home</router-link></li>
                 <li class="dropdown">
                   <a href="#">Shop<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">
                     <li><a href="shop.html">Products</a></li>
                     <li><a href="product-details.html">Product Details</a></li>
                     <li><router-link to="/checkout">Checkout</router-link></li>
+
                     <li><router-link to="/cart">Cart</router-link></li>
                     <li>
                       <router-link to="/login">Login</router-link>
@@ -184,25 +161,33 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { userLogout } from '../common/Service';
-import store from '../store';
+import { mapState } from "vuex";
+import { userLogout } from "../common/Service";
+import store from "../store";
 export default {
   name: "Header",
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
+  },
   methods: {
     logout() {
       userLogout().then((res) => {
         console.log(res.data);
       });
       localStorage.removeItem("user");
-      store.dispatch({
-        type: 'user',
-        user: null,
-      })
+      store.dispatch("user", null);
     },
   },
   computed: {
     ...mapState(["user"]),
+    cart() {
+      return this.$store.getters.cart;
+    },
+    cartCount() {
+      return this.cart.length;
+    },
   },
   // email: (state) => state.email,
 };

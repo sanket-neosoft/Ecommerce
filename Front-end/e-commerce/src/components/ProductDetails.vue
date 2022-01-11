@@ -9,10 +9,7 @@
             <!--product-details-->
             <div class="col-sm-5">
               <div class="view-product">
-                <img
-                  v-bind:src="MAIN_URL + product_details.images[0].image"
-                  alt=""
-                />
+                <img v-bind:src="MAIN_URL + product_details.thumbnail" alt="" />
                 <h3>ZOOM</h3>
               </div>
               <div
@@ -24,35 +21,53 @@
                 <div class="carousel-inner">
                   <div class="item active">
                     <a href=""
-                      ><img src="images/product-details/similar1.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar1.jpg`"
+                        alt=""
                     /></a>
                     <a href=""
-                      ><img src="images/product-details/similar2.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar2.jpg`"
+                        alt=""
                     /></a>
                     <a href=""
-                      ><img src="images/product-details/similar3.jpg" alt=""
-                    /></a>
-                  </div>
-                  <div class="item">
-                    <a href=""
-                      ><img src="images/product-details/similar1.jpg" alt=""
-                    /></a>
-                    <a href=""
-                      ><img src="images/product-details/similar2.jpg" alt=""
-                    /></a>
-                    <a href=""
-                      ><img src="images/product-details/similar3.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar3.jpg`"
+                        alt=""
                     /></a>
                   </div>
                   <div class="item">
                     <a href=""
-                      ><img src="images/product-details/similar1.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar1.jpg`"
+                        alt=""
                     /></a>
                     <a href=""
-                      ><img src="images/product-details/similar2.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar2.jpg`"
+                        alt=""
                     /></a>
                     <a href=""
-                      ><img src="images/product-details/similar3.jpg" alt=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar3.jpg`"
+                        alt=""
+                    /></a>
+                  </div>
+                  <div class="item">
+                    <a href=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar1.jpg`"
+                        alt=""
+                    /></a>
+                    <a href=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar2.jpg`"
+                        alt=""
+                    /></a>
+                    <a href=""
+                      ><img
+                        v-bind:src="`${publicPath}images/product-details/similar3.jpg`"
+                        alt=""
                     /></a>
                   </div>
                 </div>
@@ -78,18 +93,25 @@
               <div class="product-information">
                 <!--/product-information-->
                 <img
-                  src="images/product-details/new.jpg"
+                  :src="`${publicPath}images/product-details/new.jpg`"
                   class="newarrival"
                   alt=""
                 />
                 <h2>{{ product_details.brand }} {{ product_details.name }}</h2>
                 <p>Web ID: 1089772</p>
-                <img src="./images/product-details/rating.png" alt="" />
+                <img
+                  :src="`${publicPath}images/product-details/rating.png`"
+                  alt=""
+                />
                 <span>
                   <span>US $59</span>
                   <label>Quantity:</label>
                   <input type="text" value="3" />
-                  <button type="button" class="btn btn-fefault cart">
+                  <button
+                    type="button"
+                    class="btn btn-fefault cart"
+                    v-on:click="addInCart()"
+                  >
                     <i class="fa fa-shopping-cart"></i>
                     Add to cart
                   </button>
@@ -99,7 +121,7 @@
                 <p><b>Brand:</b> E-SHOPPER</p>
                 <a href=""
                   ><img
-                    src="images/product-details/share.png"
+                    v-bind:src="`${publicPath}images/product-details/share.png`"
                     class="share img-responsive"
                     alt=""
                 /></a>
@@ -108,143 +130,6 @@
             </div>
           </div>
           <!--/product-details-->
-
-          <!--/category-tab-->
-
-          <!-- <div class="recommended_items"> -->
-          <!--recommended_items-->
-          <!-- <h2 class="title text-center">recommended items</h2> -->
-
-          <!-- <div
-              id="recommended-item-carousel"
-              class="carousel slide"
-              data-ride="carousel"
-            >
-              <div class="carousel-inner">
-                <div class="item active">
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend1.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend2.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend3.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend1.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend2.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="images/home/recommend3.jpg" alt="" />
-                          <h2>$56</h2>
-                          <p>Easy Polo Black Edition</p>
-                          <button
-                            type="button"
-                            class="btn btn-default add-to-cart"
-                          >
-                            <i class="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <a
-                class="left recommended-item-control"
-                href="#recommended-item-carousel"
-                data-slide="prev"
-              >
-                <i class="fa fa-angle-left"></i>
-              </a>
-              <a
-                class="right recommended-item-control"
-                href="#recommended-item-carousel"
-                data-slide="next"
-              >
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </div>
-          </div> -->
-          <!--/recommended_items-->
         </div>
       </div>
     </div>
@@ -252,7 +137,7 @@
 </template>
 
 <script>
-import { productDetails } from "../common/Service";
+import { productDetails, addToCart } from "../common/Service";
 import SideBar from "./SideBar.vue";
 import { MAIN_URL } from "../common/Url";
 export default {
@@ -261,6 +146,7 @@ export default {
     return {
       product_details: null,
       MAIN_URL: MAIN_URL,
+      publicPath: process.env.BASE_URL,
     };
   },
   components: {
@@ -272,6 +158,11 @@ export default {
     });
     console.log(this.$route.params);
   },
+  methods: {
+    addInCart() {
+      addToCart(this.product_details.id);
+    }
+  }
 };
 </script>
 

@@ -21,85 +21,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="(product, index) in cart" v-bind:key="index">
                 <td class="cart_product">
-                  <a href=""><img src="images/cart/one.png" alt="" /></a>
+                  <a href=""
+                    ><img
+                      class="cart_img"
+                      v-bind:src="MAIN_URL + product.product.thumbnail"
+                      alt=""
+                  /></a>
                 </td>
                 <td class="cart_description">
-                  <h4><a href="">Colorblock Scuba</a></h4>
-                  <p>Web ID: 1089772</p>
+                  <h4>
+                    <router-link to="">{{ product.product.name }} </router-link>
+                  </h4>
+                  <p>{{ product.product.brand }}</p>
                 </td>
                 <td class="cart_price">
-                  <p>$59</p>
-                </td>
-                <td class="cart_quantity">
-                  <div class="cart_quantity_button">
-                    <a class="cart_quantity_up" href=""> + </a>
-                    <input
-                      class="cart_quantity_input"
-                      type="text"
-                      name="quantity"
-                      value="1"
-                      autocomplete="off"
-                      size="2"
-                    />
-                    <a class="cart_quantity_down" href=""> - </a>
-                  </div>
-                </td>
-                <td class="cart_total">
-                  <p class="cart_total_price">$59</p>
-                </td>
-                <td class="cart_delete">
-                  <a class="cart_quantity_delete" href=""
-                    ><i class="fa fa-times"></i
-                  ></a>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="cart_product">
-                  <a href=""><img src="images/cart/two.png" alt="" /></a>
-                </td>
-                <td class="cart_description">
-                  <h4><a href="">Colorblock Scuba</a></h4>
-                  <p>Web ID: 1089772</p>
-                </td>
-                <td class="cart_price">
-                  <p>$59</p>
-                </td>
-                <td class="cart_quantity">
-                  <div class="cart_quantity_button">
-                    <a class="cart_quantity_up" href=""> + </a>
-                    <input
-                      class="cart_quantity_input"
-                      type="text"
-                      name="quantity"
-                      value="1"
-                      autocomplete="off"
-                      size="2"
-                    />
-                    <a class="cart_quantity_down" href=""> - </a>
-                  </div>
-                </td>
-                <td class="cart_total">
-                  <p class="cart_total_price">$59</p>
-                </td>
-                <td class="cart_delete">
-                  <a class="cart_quantity_delete" href=""
-                    ><i class="fa fa-times"></i
-                  ></a>
-                </td>
-              </tr>
-              <tr>
-                <td class="cart_product">
-                  <a href=""><img src="images/cart/three.png" alt="" /></a>
-                </td>
-                <td class="cart_description">
-                  <h4><a href="">Colorblock Scuba</a></h4>
-                  <p>Web ID: 1089772</p>
-                </td>
-                <td class="cart_price">
-                  <p>$59</p>
+                  <p v-if="product.product.sale_price !== null">
+                    {{ product.product.sale_price }}
+                  </p>
+                  <p v-else>{{ product.product.price }}</p>
                 </td>
                 <td class="cart_quantity">
                   <div class="cart_quantity_button">
@@ -213,10 +154,33 @@
 </template>
 
 <script>
+import { productDetails } from "../common/Service";
+import { MAIN_URL } from "../common/Url";
+// import { productDetails } from "../common/Service";
 export default {
-    name: 'Cart',
+  name: "Cart",
+  data() {
+    return {
+      cart: [],
+      MAIN_URL: MAIN_URL,
+    };
+  },
+  mounted() {
+    this.$store.getters.cart.map((value) => {
+      productDetails(value).then((res) => {
+        this.cart.push(res.data);
+      });
+    });
+    console.log(this.cart);
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.cart_img {
+  height: 10rem;
+  width: auto;
+  object-fit: cover;
+  object-position: center;
+}
 </style>

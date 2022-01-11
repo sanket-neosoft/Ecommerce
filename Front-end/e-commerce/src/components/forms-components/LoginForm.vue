@@ -86,10 +86,7 @@ export default {
         };
         userLogin(formData).then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
-          store.dispatch({
-            type: "user",
-            user: res.data,
-          });
+          store.dispatch("user", res.data);
           router.push({ name: "Home" });
         });
       }

@@ -7,6 +7,7 @@ import Cart from '../components/Cart.vue';
 import Home from '../components/Home.vue';
 import Category from '../components/Category.vue';
 import ProductDetails from '../components/ProductDetails.vue';
+import Account from '../components/Account.vue';
 
 Vue.use(Router);
 
@@ -46,5 +47,9 @@ export default new Router({
         path: '/product/:id',
         name: 'ProductDetails',
         component: ProductDetails,
+    }, {
+        path: '/account',
+        name: 'Account',
+        component: Account
     }]
 });

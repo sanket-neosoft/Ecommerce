@@ -1,7 +1,10 @@
 import axios from 'axios';
+import toastr from "toastr";
+import store from '../store';
 import {
     MAIN_URL
 } from '@/common/Url';
+
 
 // Login api call 
 export function userLogin(data) {
@@ -52,6 +55,45 @@ export function productDetails(id) {
     return axios.get(`${MAIN_URL}api/product/${id}`);
 }
 
+// Account details api 
+export function accountDetails() {
+    return axios.get(`${MAIN_URL}api/profile`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+// Update accounts detail api
+export function updateAccountDetails(data) {
+    return axios.post(`${MAIN_URL}api/profile/update`, data, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    })
+}
+
+// Add to Cart Logic
+export function addToCart(id) {
+    let products_id = [];
+    if (localStorage.getItem("cart") != undefined) {
+        products_id = JSON.parse(localStorage.getItem("cart"));
+        if (products_id.includes(id)) {
+            toastr.error("Product already added to cart");
+        } else {
+            products_id.push(id);
+            localStorage.setItem("cart", JSON.stringify(products_id));
+            toastr.success("Product added to cart.");
+        }
+    } else {
+        products_id.push(id);
+        localStorage.setItem("cart", JSON.stringify(products_id));
+        toastr.success("Product added to cart.");
+    }
+    store.dispatch("addToCart", products_id);
+}
+
+
 export default {
     userLogin,
     userRegister,
@@ -61,5 +103,8 @@ export default {
     products,
     categories,
     categoryProducts,
-    productDetails
+    productDetails,
+    accountDetails,
+    updateAccountDetails,
+    addToCart,
 };

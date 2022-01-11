@@ -25,7 +25,7 @@
 
       <div class="shipping text-center">
         <!--shipping-->
-        <img src="images/home/shipping.jpg" alt="" />
+        <img v-bind:src="`${publicPath}images/home/shipping.jpg`" alt="" />
       </div>
       <!--/shipping-->
     </div>
@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       categories: undefined,
+      publicPath: process.env.BASE_URL,
     };
   },
   mounted() {

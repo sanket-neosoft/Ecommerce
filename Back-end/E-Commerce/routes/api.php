@@ -44,5 +44,8 @@ Route::get('/products', [ProductController::class, 'getProductsApi']);
 // All Categories Api
 Route::get('/categories', [CategoryController::class, 'getCategoriesApi']);
 
-// All Featured Product Api
-Route::get('/products/featured', [ProductController::class,'getFeaturedProductsApi']);
+// Product Detail Api
+Route::get('/product/{id}', [ProductController::class,'getProductApi']);
+
+// Category all Products Api
+Route::get('/category/products/{id}', [CategoryController::class, 'getCategoryProductsApi']);

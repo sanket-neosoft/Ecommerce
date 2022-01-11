@@ -180,7 +180,7 @@ class ProductController extends Controller
                         $image = 'product-' . time() . rand() . '.' . $pimage->extension();
                         $product_image = new ProductImage();
                         $product_image->product_id = $product_id;
-                        $product_image->image = $image;
+                        $product_image->image = 'products/' . $image;
                         $product_image->save();
                         $pimage->move(public_path('products'), $image);
                     }
@@ -225,9 +225,9 @@ class ProductController extends Controller
      * 
      * @return App\Http\Resources\EcommerceResource
      */
-    public function getFeaturedProductsApi()
+    public function getProductApi($id)
     {
-        $featured_products = Product::where('featured', 1)->with(['categories', 'images'])->get();
-        return response(['featured_products' => EcommerceResource::collection($featured_products), 'message' => 'All featured products fetched'], 200);
+        $product = Product::with(['images'])->find($id);
+        return response()->json(['product' => $product, 'message' => 'Products details is fetched'], 200);
     }
 }

@@ -96,7 +96,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * get all banner details (Banner API).
+     * get all Categories details (Banner API).
      * 
      * @return App\Http\Resources\EcommerceResource
      */
@@ -104,5 +104,16 @@ class CategoryController extends Controller
     {
         $category = Category::with(['products'])->get();
         return response(['categories' => EcommerceResource::collection($category), 'message' => 'All categories fetched'], 200);
+    }
+
+    /**
+     * get particular Category Products details (Banner API).
+     * 
+     * @return App\Http\Resources\EcommerceResource
+     */
+    public function getCategoryProductsApi($id)
+    {
+        $category_products = Category::with(['products'])->find($id);
+        return response()->json(['category' => $category_products, 'message' => 'Products of Category ' . $category_products->name . ' fetched'], 200);
     }
 }

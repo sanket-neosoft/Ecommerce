@@ -73,26 +73,60 @@ export function updateAccountDetails(data) {
     })
 }
 
+// Update user password api
+export function changePassword(password) {
+    return axios.post(`${MAIN_URL}api/profile/changepassword`, password, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    })
+}
+
+
 // Add to Cart Logic
 export function addToCart(id) {
     let products_id = [];
     if (localStorage.getItem("cart") != undefined) {
         products_id = JSON.parse(localStorage.getItem("cart"));
-        if (products_id.includes(id)) {
+        if (products_id.find(product => product.id === id)) {
             toastr.error("Product already added to cart");
         } else {
-            products_id.push(id);
+            let product = {
+                id: id,
+                quantity: 1
+            }
+            products_id.push(product);
             localStorage.setItem("cart", JSON.stringify(products_id));
             toastr.success("Product added to cart.");
         }
     } else {
-        products_id.push(id);
+        let product = {
+            id: id,
+            quantity: 1
+        }
+        products_id.push(product);
         localStorage.setItem("cart", JSON.stringify(products_id));
         toastr.success("Product added to cart.");
     }
     store.dispatch("addToCart", products_id);
 }
 
+// Add product to wishlist 
+export function addToWishList(data) {
+    return axios.post(`${MAIN_URL}api/profile/addwishlist`, data, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+export function userWishlist(user_id) {
+    return axios.get(`${MAIN_URL}api/profile/wishlist/${user_id}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
 
 export default {
     userLogin,
@@ -107,4 +141,6 @@ export default {
     accountDetails,
     updateAccountDetails,
     addToCart,
+    userWishlist,
+    changePassword
 };

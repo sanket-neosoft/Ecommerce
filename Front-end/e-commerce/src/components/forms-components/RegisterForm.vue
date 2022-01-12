@@ -174,10 +174,7 @@ export default {
         };
         userRegister(formData).then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
-          store.dispatch({
-            type: "user",
-            uesr: res.data,
-          });
+          store.dispatch('user', res.data);
           router.push({ name: "Home" });
         });
       }

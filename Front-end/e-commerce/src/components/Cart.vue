@@ -21,46 +21,72 @@
               </tr>
             </thead>
             <tbody>
+              <tr v-if="!cart || cart.length === 0">
+                <td colspan="6" style="text-align: center">
+                  <h4>Your Cart is Empty</h4>
+                </td>
+              </tr>
               <tr v-for="(product, index) in cart" v-bind:key="index">
                 <td class="cart_product">
-                  <a href=""
+                  <router-link
+                    v-bind:to="{
+                      name: 'ProductDetails',
+                      params: { id: product.id },
+                    }"
                     ><img
                       class="cart_img"
-                      v-bind:src="MAIN_URL + product.product.thumbnail"
+                      v-bind:src="MAIN_URL + product.thumbnail"
                       alt=""
-                  /></a>
+                  /></router-link>
                 </td>
                 <td class="cart_description">
                   <h4>
-                    <router-link to="">{{ product.product.name }} </router-link>
+                    <router-link to="">{{ product.name }} </router-link>
                   </h4>
-                  <p>{{ product.product.brand }}</p>
+                  <p>{{ product.brand }}</p>
                 </td>
                 <td class="cart_price">
-                  <p v-if="product.product.sale_price !== null">
-                    {{ product.product.sale_price }}
+                  <p v-if="product.sale_price !== null">
+                    {{ product.sale_price }}
                   </p>
-                  <p v-else>{{ product.product.price }}</p>
+                  <p v-else>{{ product.price }}</p>
                 </td>
                 <td class="cart_quantity">
                   <div class="cart_quantity_button">
-                    <a class="cart_quantity_up" href=""> + </a>
+                    <a
+                      class="cart_quantity_up"
+                      v-on:click="increment(product.id)"
+                      href="javascript:void(0)"
+                    >
+                      +
+                    </a>
                     <input
                       class="cart_quantity_input"
                       type="text"
                       name="quantity"
-                      value="1"
+                      v-bind:value="products[index].quantity"
                       autocomplete="off"
                       size="2"
                     />
-                    <a class="cart_quantity_down" href=""> - </a>
+                    <a
+                      class="cart_quantity_down"
+                      v-on:click="decrement(product.id)"
+                      href="javascript:void(0)"
+                    >
+                      -
+                    </a>
                   </div>
                 </td>
                 <td class="cart_total">
-                  <p class="cart_total_price">$59</p>
+                  <p class="cart_total_price">
+                    {{ products[index].quantity * product.price }}
+                  </p>
                 </td>
                 <td class="cart_delete">
-                  <a class="cart_quantity_delete" href=""
+                  <a
+                    class="cart_quantity_delete"
+                    href="javascript:void(0)"
+                    v-on:click="deleteFromCart(product.id)"
                     ><i class="fa fa-times"></i
                   ></a>
                 </td>
@@ -137,7 +163,7 @@
           <div class="col-sm-6">
             <div class="total_area">
               <ul>
-                <li>Cart Sub Total <span>$59</span></li>
+                <li>Cart Sub Total <span>{{subTotal}}</span></li>
                 <li>Eco Tax <span>$2</span></li>
                 <li>Shipping Cost <span>Free</span></li>
                 <li>Total <span>$61</span></li>
@@ -165,13 +191,42 @@ export default {
       MAIN_URL: MAIN_URL,
     };
   },
+  computed: {
+    subTotal: function() {
+      let sum = 0
+      for(let index in this.cart) {
+        sum +=  this.products[index].quantity * this.cart[index].price
+      }
+      console.log(sum)
+      return sum
+    },
+  },
   mounted() {
-    this.$store.getters.cart.map((value) => {
-      productDetails(value).then((res) => {
-        this.cart.push(res.data);
+    this.products = this.$store.getters.cart;
+    this.products.map((value) => {
+      productDetails(value.id).then((res) => {
+        this.cart.push(res.data.product);
       });
     });
-    console.log(this.cart);
+  },
+  methods: {
+    deleteFromCart(id) {
+      this.products = this.products.filter((value) => value.id != id);
+      localStorage.setItem("cart", JSON.stringify(this.products));
+      this.$store.dispatch("addToCart", this.products);
+    },
+    increment(id) {
+      this.products.find((product) => product.id === id).quantity += 1;
+      localStorage.setItem("cart", JSON.stringify(this.products));
+      // this.$store.dispatch("addToCart", this.products)
+    },
+    decrement(id) {
+      let count = this.products.find((product) => product.id === id).quantity;
+      if (count > 1) {
+        this.products.find((product) => product.id === id).quantity -= 1;
+        localStorage.setItem("cart", JSON.stringify(this.products));
+      }
+    },
   },
 };
 </script>

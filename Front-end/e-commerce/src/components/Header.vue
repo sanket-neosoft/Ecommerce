@@ -58,7 +58,7 @@
             <div class="shop-menu pull-right">
               <ul class="nav navbar-nav">
                 <li>
-                  <router-link to="/account"
+                  <router-link to="/account" v-if="user !== null"
                     ><i class="fa fa-user"></i> Account</router-link
                   >
                 </li>

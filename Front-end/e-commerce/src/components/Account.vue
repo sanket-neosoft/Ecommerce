@@ -2,10 +2,15 @@
   <section id="form">
     <!--form-->
     <div class="container">
-      <AccountDetails />
+      <div class="row">
+        <div class="col-md-6">
+          <AccountDetails />
+        </div>
+        <div class="col-md-6">
+          <ChangePassword />
+        </div>
+      </div>
       <!--/Accont details form-->
-      <hr />
-      <ChangePassword />
     </div>
   </section>
 </template>

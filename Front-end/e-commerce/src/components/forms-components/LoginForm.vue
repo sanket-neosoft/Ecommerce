@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { userLogin } from "../../common/Service";
+import { userLogin, userWishlist } from "../../common/Service";
 import store from "../../store";
 import router from "../../router";
 import Vue from "vue";
@@ -87,6 +87,12 @@ export default {
         userLogin(formData).then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
           store.dispatch("user", res.data);
+          userWishlist(store.getters.user.user_id).then((res) => {
+            let wishlist = [];
+            res.data.map((product) => wishlist.push(product.product_id));
+            store.dispatch("wishlist", wishlist);
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+          });
           router.push({ name: "Home" });
         });
       }

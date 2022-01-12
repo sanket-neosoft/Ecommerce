@@ -156,12 +156,11 @@ export default {
     productDetails(this.$route.params.id).then((res) => {
       this.product_details = res.data.product;
     });
-    console.log(this.$route.params);
   },
   methods: {
     addInCart() {
       addToCart(this.product_details.id);
-    }
+    },
   }
 };
 </script>

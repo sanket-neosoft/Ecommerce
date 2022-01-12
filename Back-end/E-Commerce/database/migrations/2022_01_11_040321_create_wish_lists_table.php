@@ -15,10 +15,11 @@ class CreateWishListsTable extends Migration
     {
         Schema::create('wish_lists', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('product_id');
             $table->string('product_name');
             $table->string('product_image');
             $table->decimal('product_price', 8, 2);
-            $table->integer('product_quantity');
             $table->timestamps();
         });
     }

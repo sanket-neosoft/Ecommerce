@@ -98,6 +98,83 @@
                 <img src="https://uilogos.co/img/logomark/towers.png" alt="Logo" class="brand-image" style="filter: invert(85%)">
                 <span class="brand-text font-weight-light">E-Commerce</span>
             </a>
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="{{url('/user-management')}}" class="nav-link">
+                                <i class="nav-icon far fa-users"></i>
+                                <p>
+                                    Users Management
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/user-management/add-user')}}" class="nav-link">
+                                <i class="nav-icon far fa-user-plus"></i>
+                                <p>
+                                    Add User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/banner-management')}}" class="nav-link">
+                                <i class="nav-icon fas fa-images"></i>
+                                <p>
+                                    Banner Management
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/banner-management/add-banner')}}" class="nav-link">
+                                <i class="nav-icon fas fa-images"></i>
+                                <p>
+                                    Add Banner
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/category-management')}}" class="nav-link">
+                                <i class="nav-icon fas fa-object-group"></i>
+                                <p>
+                                    Category Management
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/category-management/add-category')}}" class="nav-link">
+                                <i class="nav-icon fas fa-object-group"></i>
+                                <p>
+                                    Add Category
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/product-management')}}" class="nav-link">
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    Product Management
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('/product-management/add-product')}}" class="nav-link">
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    Add Product
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
         </aside>
         @endguest
         <main class="content-wrapper">
@@ -124,7 +201,7 @@
 
     <!-- toastr Js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
     <!-- Tokenfield Js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js" integrity="sha512-lUZZrGg8oiRBygP81yUZ4XkAbmeJn7u7HW5nq7npQ+ZXTRvj3ErL6y1XXDq6fujbiJlu6gHsgNUZLKE6eSDm8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 

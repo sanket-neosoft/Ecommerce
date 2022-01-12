@@ -80,7 +80,7 @@ class UserController extends Controller
             $user->firstname = $request->fname;
             $user->lastname = $request->lname;
             $user->role_id = $request->role;
-            $user->password = $request->password;
+            $user->password = Hash::make($request->password);
             if ($request->active === 'active') {
                 $user->active = true;
             } else {

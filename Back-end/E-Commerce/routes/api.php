@@ -31,6 +31,10 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::post('/refresh', [JWTController::class, 'refresh']);
     Route::get('/profile', [JWTController::class, 'profile']);
     Route::post('/profile/update', [JWTController::class, 'updateUserProfile']);
+    Route::post('/profile/changepassword', [JWTController::class, 'changePassword']);
+    Route::post('/profile/addwishlist', [JWTController::class, 'addToWishlist']);
+    Route::get('/profile/wishlist/{user_id}', [JWTController::class, 'userWishlist']);
+    Route::delete('/profile/deletewishlist/{id}', [JWTController::class, 'deleteWishlist']);
 });
 
 // All Banners Api

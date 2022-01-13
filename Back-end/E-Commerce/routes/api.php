@@ -35,6 +35,7 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::post('/profile/addwishlist', [JWTController::class, 'addToWishlist']);
     Route::get('/profile/wishlist/{user_id}', [JWTController::class, 'userWishlist']);
     Route::delete('/profile/deletewishlist/{id}', [JWTController::class, 'deleteWishlist']);
+    Route::post('/placeorder', [JWTController::class, 'placeOrder']);
 });
 
 // All Banners Api

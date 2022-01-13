@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\User;
+use App\Models\UserOrder;
 use App\Models\WishList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -257,5 +258,47 @@ class JWTController extends Controller
         $product = Wishlist::find($id);
         $product->delete();
         return response()->json(['message' => 'Wishlist product deleted successfully.'], 200);
+    }
+    /**
+     * 
+     * @param  Illuminate\Http\Request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function placeOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'product_id' => 'required',
+            'product' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'email' => 'required|email',
+            'contact' => 'required|regex:/^[6-9][0-9]{9}$/',
+            'address' => 'required',
+            'price' => 'numeric',
+            'quantity' => 'numeric',
+            'payment_method' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        } else {
+            $order = new UserOrder();
+            $order->order_id = substr(time(), 0, 4) . "-" . substr(rand(), 0, 4) . "-" . substr(rand(), 0, 4);
+            $order->user_id = $request->user_id;
+            $order->product_id = $request->product_id;
+            $order->user_name = $request->fname . " " . $request->lname;
+            $order->status = "Yet to be Dispatched.";
+            $order->product = $request->product;
+            $order->user_email = $request->email;
+            $order->user_contact = $request->contact;
+            $order->user_address = $request->address;
+            $order->order_price = $request->price;
+            $order->order_quantity = $request->quantity;
+            $order->coupon = $request->coupon;
+            $order->payment_method = $request->payment_method;
+            $order->save();
+            return response()->json(['message' => 'Order registered'], 201);
+        }
     }
 }

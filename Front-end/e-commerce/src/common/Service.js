@@ -120,8 +120,17 @@ export function addToWishList(data) {
     });
 }
 
+// user wishlist api 
 export function userWishlist(user_id) {
     return axios.get(`${MAIN_URL}api/profile/wishlist/${user_id}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+export function placeOrder(data) {
+    return axios.post(`${MAIN_URL}api/placeorder`,data, {
         headers: {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
         }
@@ -142,5 +151,6 @@ export default {
     updateAccountDetails,
     addToCart,
     userWishlist,
-    changePassword
+    changePassword,
+    placeOrder,
 };

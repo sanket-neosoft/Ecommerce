@@ -14,17 +14,6 @@ export default new Vuex.Store({
         user: state => state.user,
         wishlist: state => state.wishlist
     },
-    actions: {
-        user(context, payload) {
-            context.commit('setUser', payload);
-        },
-        addToCart(context, payload) {
-            context.commit('setCart', payload);
-        },
-        addToWishlist(context, payload) {
-            context.commit('setWishlist', payload);
-        }
-    },
     mutations: {
         setUser(state, payload) {
             return state.user = payload;
@@ -36,4 +25,16 @@ export default new Vuex.Store({
             return state.wishlist = payload;
         }
     },
+    actions: {
+        user(context, payload) {
+            context.commit('setUser', payload);
+        },
+        addToCart(context, payload) {
+            context.commit('setCart', payload);
+        },
+        addToWishlist(context, payload) {
+            context.commit('setWishlist', payload);
+        }
+    },
+
 });

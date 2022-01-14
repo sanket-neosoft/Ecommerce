@@ -143,11 +143,11 @@
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <a href="#">Order<i class="fa fa-angle-down"></i></a>
+                  <a href="javascript:void(0)">Orders<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">
                     <li><router-link to="/myorders">My Orders</router-link></li>
                     <li>
-                      <router-link to="/trackorder">Track Orders</router-link>
+                      <router-link to="/trackorders">Track Orders</router-link>
                     </li>
                   </ul>
                 </li>

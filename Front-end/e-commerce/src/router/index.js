@@ -10,6 +10,7 @@ import ProductDetails from '../components/ProductDetails.vue';
 import Account from '../components/Account.vue';
 import Wishlist from '../components/Wishlist.vue';
 import Order from '../components/Order.vue';
+import Track from '../components/Track.vue';
 
 Vue.use(Router);
 
@@ -61,5 +62,9 @@ export default new Router({
         path: '/myorders',
         name: 'Order',
         component: Order
+    }, {
+        path:'/trackorders',
+        name:'Track',
+        component: Track
     }]
 });

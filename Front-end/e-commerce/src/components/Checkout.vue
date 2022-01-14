@@ -19,21 +19,76 @@
                   placeholder="First Name"
                   v-model="checkout.fname"
                 />
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.fname.required && $v.checkout.fname.$dirty"
+                >
+                  First name is required!
+                </span>
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.fname.alpha && $v.checkout.fname.$dirty"
+                >
+                  Only alphabets are allowed!
+                </span>
                 <input
                   type="text"
                   placeholder="Last Name"
                   v-model="checkout.lname"
                 />
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.lname.required && $v.checkout.lname.$dirty"
+                >
+                  Last name is required!
+                </span>
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.lname.alpha && $v.checkout.lname.$dirty"
+                >
+                  Only alphabets are allowed!
+                </span>
                 <input
                   type="text"
                   placeholder="Email"
                   v-model="checkout.email"
                 />
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.email.required && $v.checkout.email.$dirty"
+                >
+                  Email is required!
+                </span>
+                <span
+                  class="text-danger"
+                  v-if="!$v.checkout.email.email && $v.checkout.email.$dirty"
+                >
+                  Invalid Email!
+                </span>
                 <input
                   type="tel"
                   placeholder="Contact Number"
                   v-model="checkout.contact"
                 />
+                <span
+                  class="text-danger"
+                  v-if="
+                    !$v.checkout.contact.required && $v.checkout.contact.$dirty
+                  "
+                >
+                  Contact is required!
+                </span>
+                <span
+                  class="text-danger"
+                  v-if="
+                    (!$v.checkout.contact.numeric ||
+                      !$v.checkout.contact.minLength ||
+                      !$v.checkout.contact.maxLength) &&
+                    $v.checkout.contact.$dirty
+                  "
+                >
+                  Invalid Contact Number!
+                </span>
               </form>
             </div>
           </div>
@@ -45,8 +100,18 @@
                   <input
                     type="text"
                     placeholder="Address 1 *"
-                    v-model="checkout.addres1"
+                    v-model="checkout.address1"
                   />
+                  <span
+                    class="text-danger"
+                    v-if="
+                      !$v.checkout.address1.required &&
+                      $v.checkout.address1.$dirty
+                    "
+                  >
+                    Address is required!
+                  </span>
+
                   <input
                     type="text"
                     placeholder="Address 2"
@@ -57,11 +122,27 @@
                     placeholder="City *"
                     v-model="checkout.city"
                   />
+                  <span
+                    class="text-danger"
+                    v-if="!$v.checkout.city.required && $v.checkout.city.$dirty"
+                  >
+                    City is required!
+                  </span>
+
                   <input
                     type="text"
                     placeholder="District *"
                     v-model="checkout.district"
                   />
+                  <span
+                    class="text-danger"
+                    v-if="
+                      !$v.checkout.district.required &&
+                      $v.checkout.district.$dirty
+                    "
+                  >
+                    District is required!
+                  </span>
                 </form>
               </div>
               <div class="form-two">
@@ -71,11 +152,28 @@
                     placeholder="State *"
                     v-model="checkout.state"
                   />
+                  <span
+                    class="text-danger"
+                    v-if="
+                      !$v.checkout.state.required && $v.checkout.state.$dirty
+                    "
+                  >
+                    State is required!
+                  </span>
                   <input
                     type="text"
-                    placeholder="Zip / Postal Code *"
+                    placeholder="Pincode *"
                     v-model="checkout.zipcode"
                   />
+                  <span
+                    class="text-danger"
+                    v-if="
+                      !$v.checkout.zipcode.required &&
+                      $v.checkout.zipcode.$dirty
+                    "
+                  >
+                    Pincode is required!
+                  </span>
                 </form>
               </div>
             </div>
@@ -124,9 +222,6 @@
                 <p>{{ product.brand }}</p>
               </td>
               <td class="cart_price">
-                <!-- <p v-if="product.sale_price !== null">
-                    {{ product.sale_price }}
-                  </p> -->
                 <p>{{ product.price }}</p>
               </td>
               <td class="cart_quantity">
@@ -170,7 +265,27 @@
               </td>
             </tr>
             <tr v-if="cart.length !== 0">
-              <td colspan="4">
+              <td colspan="2">
+                <div class="payment shopper-info">
+                  <h4>Apply Coupon</h4>
+                  <div class="login-form">
+                    <form v-on:submit.prevent="checkCoupon()">
+                      <input
+                        type="text"
+                        placeholder="Enter Coupon Code"
+                        v-model="checkout.coupon"
+                      />
+                      <span v-if="coupon_error !== ''" class="text-danger">{{
+                        coupon_error
+                      }}</span>
+                      <button class="btn btn-default">Apply</button>
+                    </form>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="cart.length !== 0">
+              <td colspan="2">
                 <div class="payment shopper-info">
                   <h4>Payment Method</h4>
                   <button
@@ -185,54 +300,82 @@
                   >
                     PayPal
                   </button>
-                  <form>
-                    <div class="cash" v-if="online">
-                      <h4>Card Details</h4>
-                      <div class="form-group">
+                  <div class="login-form">
+                    <form>
+                      <div class="" v-if="online">
+                        <h4>Card Details</h4>
                         <div class="form-group">
-                          <input
-                            type="text"
-                            placeholder="Card Holder"
-                            v-model="checkout.card_holder"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <input
-                            type="text"
-                            placeholder="Card Number"
-                            v-model="checkout.card_number"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <input
-                            type="month"
-                            placeholder="Expiry Date"
-                            v-model="checkout.card_expiry"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <input
-                            type="number"
-                            placeholder="CVV"
-                            v-model="checkout.card_cvv"
-                          />
+                          <div class="form-group">
+                            <input
+                              type="text"
+                              placeholder="Card Holder"
+                              v-model="checkout.card_holder"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <input
+                              type="text"
+                              placeholder="Card Number"
+                              v-model="checkout.card_number"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <input
+                              type="month"
+                              placeholder="Expiry Date"
+                              v-model="checkout.card_expiry"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <input
+                              type="number"
+                              placeholder="CVV"
+                              v-model="checkout.card_cvv"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <p class="cash" v-else>
-                      Payment method is select as Cash on Delivery
-                    </p>
-                  </form>
-                  <button
-                    v-on:click="checkoutform"
-                    class="btn btn-default update"
-                  >
-                    Checkout
-                  </button>
+                      <p class="cash" v-else>
+                        Payment method is select as Cash on Delivery
+                      </p>
+                      <button
+                        type="button"
+                        v-on:click="checkoutform()"
+                        class="btn btn-default"
+                      >
+                        Checkout
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </td>
-              <td colspan="2">
-                <table class="table table-condensed total-result">
+              <td colspan="2"></td>
+              <td colspan="2" class="">
+                <section id="" v-if="cart.length !== 0">
+                  <div class="total_area">
+                    <ul>
+                      <li>
+                        Cart Sub Total <span>{{ subTotal }}</span>
+                      </li>
+                      <li>
+                        Shipping Cost
+                        <span v-if="subTotal < 500">{{ shipping_cost }}</span
+                        ><span v-else>Free</span>
+                      </li>
+                      <li>
+                        Discount <span>{{ discount }}</span>
+                      </li>
+                      <li class="text-orange">
+                        Total
+                        <span v-if="subTotal < 500">{{
+                          subTotal + shipping_cost - discount
+                        }}</span
+                        ><span v-else>{{ subTotal - discount }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+                <!-- <table class="table table-condensed total-result">
                   <tr>
                     <td>Cart Sub Total</td>
                     <td>{{ subTotal }}</td>
@@ -251,7 +394,7 @@
                       ><span v-else>{{ subTotal }}</span>
                     </td>
                   </tr>
-                </table>
+                </table> -->
               </td>
             </tr>
           </tbody>
@@ -263,17 +406,41 @@
 </template>
 
 <script>
-import { productDetails, accountDetails, placeOrder } from "../common/Service";
+import {
+  productDetails,
+  accountDetails,
+  placeOrder,
+  getCoupon,
+  usedCoupon,
+  couponCount,
+} from "../common/Service";
 import { MAIN_URL } from "../common/Url";
 import toastr from "toastr";
-// import { mapState } from "vuex";
+import Vue from "vue";
+import Vuelidate from "vuelidate";
+import {
+  required,
+  alpha,
+  email,
+  numeric,
+  minLength,
+  maxLength,
+} from "vuelidate/lib/validators";
+
+Vue.use(Vuelidate);
+
 export default {
   name: "Checkout",
   data() {
     return {
       MAIN_URL: MAIN_URL,
       cart: [],
+      coupon_error: "",
+      coupon_status: false,
       products: [],
+      coupon_details: {
+        percent: 0,
+      },
       shipping_cost: 50,
       online: false,
       checkout: {
@@ -295,6 +462,24 @@ export default {
       },
     };
   },
+  validations: {
+    checkout: {
+      fname: { required, alpha },
+      lname: { required, alpha },
+      email: { required, email },
+      contact: {
+        required,
+        numeric,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
+      address1: { required },
+      city: { required },
+      district: { required },
+      state: { required },
+      zipcode: { required },
+    },
+  },
   mounted() {
     this.products = this.$store.getters.cart;
     this.products.map((value) => {
@@ -306,7 +491,6 @@ export default {
       this.checkout.fname = res.data.firstname;
       this.checkout.lname = res.data.lastname;
       this.checkout.email = res.data.email;
-      console.log(res.data);
     });
   },
   computed: {
@@ -317,24 +501,77 @@ export default {
       }
       return sum;
     },
+    discount: function () {
+      let discount = 0;
+      if (this.coupon_details.percent !== null) {
+        if (this.subTotal > 500) {
+          discount = this.subTotal * (this.coupon_details.percent / 100);
+        } else {
+          discount =
+            (this.subTotal + this.shipping_cost) *
+            (this.coupon_details.percent / 100);
+        }
+        if (discount > this.coupon_details.limit) {
+          discount = this.coupon_details.limit;
+        }
+      } else {
+        return 0;
+      }
+      if (Number.isNaN(discount)) {
+        return 0;
+      } else if (this.subTotal < this.coupon_details.minvalue) {
+        return 0;
+      } else if (!this.coupon_status) {
+        return 0;
+      } else {
+        return discount;
+      }
+    },
   },
   methods: {
     deleteFromCart(id) {
       this.products = this.products.filter((value) => value.id != id);
       localStorage.setItem("cart", JSON.stringify(this.products));
+      this.cart = this.cart.filter((value) => value.id != id);
       this.$store.dispatch("addToCart", this.products);
+      console.log(this.products);
     },
     increment(id) {
       this.products.find((product) => product.id === id).quantity += 1;
       localStorage.setItem("cart", JSON.stringify(this.products));
-      // this.$store.dispatch("addToCart", this.products)
+      this.$store.dispatch("addToCart", this.products);
     },
     decrement(id) {
       let count = this.products.find((product) => product.id === id).quantity;
       if (count > 1) {
         this.products.find((product) => product.id === id).quantity -= 1;
         localStorage.setItem("cart", JSON.stringify(this.products));
+        this.$store.dispatch("addToCart", this.products);
       }
+    },
+    checkCoupon() {
+      getCoupon(this.checkout.coupon).then((res) => {
+        this.coupon_details = res.data.coupon;
+        if (this.coupon_details !== null) {
+          usedCoupon(this.$store.getters.user.user_id).then((res) => {
+            console.log(res.data);
+            console.log(res.data.used_coupons.includes("WELCOME100"));
+            if (
+              res.data.used_coupons.includes(this.checkout.coupon.toUpperCase())
+            ) {
+              this.coupon_error = "You already used this coupon!";
+              console.log(res.data.used_coupons);
+            } else if (this.subTotal < this.coupon_details.minvalue) {
+              this.coupon_error = `Cannot apply this coupon Sub total must be more than ${this.coupon_details.minvalue}`;
+            } else {
+              this.coupon_error = "Coupon applied Successfully.";
+              this.coupon_status = true;
+            }
+          });
+        } else {
+          this.coupon_error = "Invalid coupon!";
+        }
+      });
     },
     paymentOnline() {
       this.online = true;
@@ -343,34 +580,45 @@ export default {
       this.online = false;
     },
     checkoutform() {
-      let data = {
-        user_id: this.$store.getters.user.user_id,
-        fname: this.checkout.fname,
-        lname: this.checkout.lname,
-        email: this.checkout.email,
-        contact: this.checkout.contact,
-        address: `${this.checkout.address1}, ${this.checkout.address2}, ${this.checkout.city}, ${this.checkout.city}, ${this.checkout.district}, ${this.checkout.zipcode}, ${this.checkout.state}`,
-        coupon: this.checkout.coupon,
-      };
-      let index = 0;
-      for (let product of this.cart) {
-        data["product_id"] = product.id;
-        data["product"] = `${product.name}-(${product.brand})`;
-        data["price"] = product.price;
-        data["quantity"] = this.$store.getters.cart[index].quantity;
-        index += 1;
-        if (this.checkout.card_holder !== null) {
-          data["payment_method"] = "PayPal";
-        } else {
-          data["payment_method"] = "COD";
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let coupon = null;
+        if (this.coupon_status) {
+          coupon = this.checkout.coupon;
         }
-        placeOrder(data).then((res) => {
-          if (res.data.message === "Order registered") {
-            localStorage.setItem("cart", JSON.stringify([]));
-            this.$store.dispatch("cart", []);
-            toastr.success("Your order placed successfully.");
+        let data = {
+          user_id: this.$store.getters.user.user_id,
+          fname: this.checkout.fname,
+          lname: this.checkout.lname,
+          email: this.checkout.email,
+          contact: this.checkout.contact,
+          address: `${this.checkout.address1}, ${this.checkout.address2}, ${this.checkout.city}, ${this.checkout.city}, ${this.checkout.district}, ${this.checkout.zipcode}, ${this.checkout.state}`,
+          coupon: coupon,
+        };
+        let index = 0;
+        for (let product of this.cart) {
+          data["product_id"] = product.id;
+          data["product"] = `${product.name}-(${product.brand})`;
+          data["price"] = product.price;
+          data["quantity"] = this.$store.getters.cart[index].quantity;
+          index += 1;
+          if (this.checkout.card_holder !== null) {
+            data["payment_method"] = "PayPal";
+          } else {
+            data["payment_method"] = "COD";
           }
-        });
+          console.log(data);
+          placeOrder(data).then((res) => {
+            console.log(res.data);
+            if (res.data.message === "Order registered") {
+              this.cart = this.cart.filter((value) => value.id != product.id);
+              toastr.success("Your order placed successfully.");
+            }
+          });
+        }
+        this.$store.dispatch("addToCart", []);
+        localStorage.setItem("cart", JSON.stringify(this.products));
+        couponCount(this.coupon_details.id);
       }
     },
   },

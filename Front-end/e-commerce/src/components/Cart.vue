@@ -174,13 +174,14 @@ export default {
     increment(id) {
       this.products.find((product) => product.id === id).quantity += 1;
       localStorage.setItem("cart", JSON.stringify(this.products));
-      this.$store.dispatch("addToCart", this.products)
+      this.$store.dispatch("addToCart", this.products);
     },
     decrement(id) {
       let count = this.products.find((product) => product.id === id).quantity;
       if (count > 1) {
         this.products.find((product) => product.id === id).quantity -= 1;
         localStorage.setItem("cart", JSON.stringify(this.products));
+        this.$store.dispatch("addToCart", this.products);
       }
     },
   },

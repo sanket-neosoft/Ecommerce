@@ -7,6 +7,7 @@
           <li class="active">My Orders</li>
         </ol>
       </div>
+      <h2 class="heading">Order History</h2>
       <div class="table-responsive">
         <table class="table table-condensed">
           <tbody>
@@ -61,3 +62,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.heading {
+  color: #696763;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+</style>

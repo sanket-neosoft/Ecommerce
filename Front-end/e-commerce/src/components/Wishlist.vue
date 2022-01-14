@@ -4,7 +4,7 @@
       <div class="container">
         <div class="breadcrumbs">
           <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
+            <li><router-link to="/">Home</router-link></li>
             <li class="active">Shopping Cart</li>
           </ol>
         </div>
@@ -74,14 +74,13 @@ export default {
   name: "Wishlist",
   data() {
     return {
-      wishlist: null,
+      wishlist: [],
       MAIN_URL: MAIN_URL,
     };
   },
   mounted() {
     userWishlist(this.$store.getters.user.user_id).then((res) => {
       this.wishlist = res.data.product;
-      console.log(this.wishlist);
     });
   },
   methods: {
@@ -92,10 +91,11 @@ export default {
       let store_wishlist = this.$store.getters.wishlist.filter(
         (value) => value != product_id
       );
-      localStorage.setItem("wishlist", store_wishlist);
+      console.log(store_wishlist);
+
+      localStorage.setItem("wishlist", JSON.stringify(store_wishlist));
       this.$store.dispatch("addToWishlist", store_wishlist);
       deleteFromWishlist(id);
-      console.log(id);
     },
   },
 };

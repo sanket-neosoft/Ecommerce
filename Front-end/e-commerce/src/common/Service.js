@@ -156,6 +156,31 @@ export function myOrders(id) {
     });
 }
 
+// get coupon details
+export function getCoupon(coupon) {
+    return axios.get(`${MAIN_URL}api/getcoupon/${coupon}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+// get used coupons list 
+export function usedCoupon(id) {
+    return axios.get(`${MAIN_URL}api/profile/usedcoupons/${id}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+export function couponCount(id) {
+    return axios.get(`${MAIN_URL}api/couponcount/${id}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
 export default {
     userLogin,
     userRegister,
@@ -174,4 +199,7 @@ export default {
     changePassword,
     placeOrder,
     myOrders,
+    getCoupon,
+    usedCoupon,
+    couponCount
 };

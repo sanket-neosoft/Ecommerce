@@ -39,7 +39,7 @@
           </div>
           <div class="col-sm-8 clearfix">
             <div class="bill-to">
-              <p>Address</p>
+              <p>Billing Address</p>
               <div class="form-one">
                 <form>
                   <input
@@ -169,7 +169,7 @@
                 ></a>
               </td>
             </tr>
-            <tr>
+            <tr v-if="cart.length !== 0">
               <td colspan="4">
                 <div class="payment shopper-info">
                   <h4>Payment Method</h4>
@@ -265,6 +265,7 @@
 <script>
 import { productDetails, accountDetails, placeOrder } from "../common/Service";
 import { MAIN_URL } from "../common/Url";
+import toastr from "toastr";
 // import { mapState } from "vuex";
 export default {
   name: "Checkout",
@@ -363,16 +364,14 @@ export default {
         } else {
           data["payment_method"] = "COD";
         }
-        placeOrder(data)
-          .then((res) => {
-            console.log(res.data.message);
-          })
-          .catch((res) => {
-            console.log(res.data);
-          });
-        console.log(data);
+        placeOrder(data).then((res) => {
+          if (res.data.message === "Order registered") {
+            localStorage.setItem("cart", JSON.stringify([]));
+            this.$store.dispatch("cart", []);
+            toastr.success("Your order placed successfully.");
+          }
+        });
       }
-      // placeOrder()
     },
   },
 };

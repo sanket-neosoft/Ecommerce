@@ -142,7 +142,15 @@
                     </li>
                   </ul>
                 </li>
-                <li><a href="404.html">404</a></li>
+                <li class="dropdown">
+                  <a href="#">Order<i class="fa fa-angle-down"></i></a>
+                  <ul role="menu" class="sub-menu">
+                    <li><router-link to="/myorders">My Orders</router-link></li>
+                    <li>
+                      <router-link to="/trackorder">Track Orders</router-link>
+                    </li>
+                  </ul>
+                </li>
                 <li><router-link to="/contact">Contact</router-link></li>
               </ul>
             </div>

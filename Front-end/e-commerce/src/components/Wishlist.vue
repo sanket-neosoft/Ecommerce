@@ -50,7 +50,9 @@
                   <a
                     class="cart_quantity_delete"
                     href="javascript:void(0)"
-                    v-on:click="deleteFromWishlist(product.id)"
+                    v-on:click="
+                      deleteFromWishlist(product.id, product.product_id)
+                    "
                     ><i class="fa fa-times"></i
                   ></a>
                 </td>
@@ -66,7 +68,7 @@
 </template>
 
 <script>
-import { userWishlist } from "../common/Service";
+import { userWishlist, deleteFromWishlist } from "../common/Service";
 import MAIN_URL from "../common/Url";
 export default {
   name: "Wishlist",
@@ -79,10 +81,20 @@ export default {
   mounted() {
     userWishlist(this.$store.getters.user.user_id).then((res) => {
       this.wishlist = res.data.product;
+      console.log(this.wishlist);
     });
   },
   methods: {
-    deleteFromWishlist(id) {
+    deleteFromWishlist(id, product_id) {
+      this.wishlist = this.wishlist.filter(
+        (value) => value.product_id != product_id
+      );
+      let store_wishlist = this.$store.getters.wishlist.filter(
+        (value) => value != product_id
+      );
+      localStorage.setItem("wishlist", store_wishlist);
+      this.$store.dispatch("addToWishlist", store_wishlist);
+      deleteFromWishlist(id);
       console.log(id);
     },
   },

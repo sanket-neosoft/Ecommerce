@@ -9,6 +9,7 @@ import Category from '../components/Category.vue';
 import ProductDetails from '../components/ProductDetails.vue';
 import Account from '../components/Account.vue';
 import Wishlist from '../components/Wishlist.vue';
+import Order from '../components/Order.vue';
 
 Vue.use(Router);
 
@@ -56,5 +57,9 @@ export default new Router({
         path: '/wishlist',
         name: 'Wishlist',
         component: Wishlist
+    }, {
+        path: '/myorders',
+        name: 'Order',
+        component: Order
     }]
 });

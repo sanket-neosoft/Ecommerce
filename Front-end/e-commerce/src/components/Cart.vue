@@ -4,7 +4,7 @@
       <div class="container">
         <div class="breadcrumbs">
           <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
+            <li><router-link to="/">Home</router-link></li>
             <li class="active">Shopping Cart</li>
           </ol>
         </div>

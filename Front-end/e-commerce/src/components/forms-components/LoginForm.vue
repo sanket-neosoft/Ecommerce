@@ -89,7 +89,8 @@ export default {
           store.dispatch("user", res.data);
           userWishlist(store.getters.user.user_id).then((res) => {
             let wishlist = [];
-            res.data.map((product) => wishlist.push(product.product_id));
+            console.log(res.data.product)
+            res.data.product.map((product) => wishlist.push(product.product_id));
             store.dispatch("wishlist", wishlist);
             localStorage.setItem("wishlist", JSON.stringify(wishlist));
           });

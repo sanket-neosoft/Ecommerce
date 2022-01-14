@@ -120,6 +120,15 @@ export function addToWishList(data) {
     });
 }
 
+// Delete product from wishlist 
+export function deleteFromWishlist(id) {
+    return axios.delete(`${MAIN_URL}api/profile/deletewishlist/${id}`, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
 // user wishlist api 
 export function userWishlist(user_id) {
     return axios.get(`${MAIN_URL}api/profile/wishlist/${user_id}`, {
@@ -129,8 +138,18 @@ export function userWishlist(user_id) {
     });
 }
 
+// placeorder api 
 export function placeOrder(data) {
-    return axios.post(`${MAIN_URL}api/placeorder`,data, {
+    return axios.post(`${MAIN_URL}api/placeorder`, data, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
+// myorder api
+export function myOrders(id) {
+    return axios.get(`${MAIN_URL}api/myorders/${id}`, {
         headers: {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
         }
@@ -151,6 +170,8 @@ export default {
     updateAccountDetails,
     addToCart,
     userWishlist,
+    deleteFromWishlist,
     changePassword,
     placeOrder,
+    myOrders,
 };

@@ -23,7 +23,7 @@ class CategoryController extends Controller
     /**
      * Render the All Users data.
      *
-     * @return void
+     * @return view
      */
     public function addCategoryForm()
     {
@@ -33,7 +33,7 @@ class CategoryController extends Controller
     /**
      * Add Category.
      *
-     * @return void
+     * @return flash Session
      */
     public function addCategory(Request $request)
     {

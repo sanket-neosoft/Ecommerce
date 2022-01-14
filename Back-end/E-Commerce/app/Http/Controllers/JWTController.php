@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use Auth;
 use App\Models\User;
 use App\Models\UserOrder;
@@ -215,7 +216,7 @@ class JWTController extends Controller
     }
 
     /**
-     * .
+     * Add to wishlist table
      *
      * @param  Illuminate\Http\Request
      *
@@ -232,6 +233,23 @@ class JWTController extends Controller
         // $wishlist_product->product_brand = $request->product_brand;
         $wishlist_product->save();
         return response()->json(['message' => ' added to wishlist'], 200);
+    }
+
+    /**
+     * Delete from wishlist table
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteFromWishlist($id)
+    {
+        $product = Wishlist::find($id);
+        if ($product->delete()) {
+            return response()->json(['message' => 'Deleted from wishlist'], 200);
+        } else {
+            return response()->json(['message' => 'Error while deleting from wishlist'], 400);
+        }
     }
 
     /**
@@ -295,10 +313,65 @@ class JWTController extends Controller
             $order->user_address = $request->address;
             $order->order_price = $request->price;
             $order->order_quantity = $request->quantity;
-            $order->coupon = $request->coupon;
+            $order->coupon = strtoupper($request->coupon);
             $order->payment_method = $request->payment_method;
             $order->save();
             return response()->json(['message' => 'Order registered'], 201);
         }
+    }
+
+    /**
+     * 
+     * @param  $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userOrders($id)
+    {
+        $orders = UserOrder::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        return response()->json(['orders' => $orders, 'message' => 'user details with orders'], 200);
+    }
+
+    /**
+     * 
+     * @param  $code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCoupon($code)
+    {
+        $coupon = Coupon::where('code', strtoupper($code))->first();
+        return response()->json(['coupon' => $coupon, 'message' => 'coupon details'], 200);
+    }
+
+    /**
+     * 
+     * @param  $code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function usedCoupon($id)
+    {
+        $orders = UserOrder::where('user_id', $id)->get();
+        $coupons = [];
+        foreach ($orders as $order) {
+            if (!in_array($order->coupon, $coupons)) {
+                array_push($coupons, $order->coupon);
+            }
+        }
+        return response()->json(['used_coupons' => $coupons, 'message' => 'fetched used coupon'], 200);
+    }
+
+    /**
+     * 
+     * @param  $code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function couponCount($id)
+    {
+        $coupon = Coupon::find($id);
+        $coupon->quantity -= 1;
+        $coupon->save();
     }
 }

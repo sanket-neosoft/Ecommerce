@@ -57,6 +57,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     *  User has many to orders relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_order()
+    {
+        return $this->hasMany(UserOrder::class, 'user_id', 'id');
+    }
+
+    /**
      *  User belongs to role relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

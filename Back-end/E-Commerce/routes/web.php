@@ -3,6 +3,7 @@
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -63,4 +64,12 @@ Route::middleware('auth')->group(function() {
     // Configuration Controller 
     Route::get('/configuration-management', [ConfigController::class, 'getConfig'])->name('configuration-management');
     Route::post('/configuration-management/edit', [ConfigController::class, 'editConfig']);
+
+    // Coupon Controller
+    Route::get('/coupon-management', [CouponController::class, 'getCoupons'])->name('coupon-management');
+    Route::get('/coupon-management/add-coupon', [CouponController::class, 'addCouponForm'])->name('add-coupon');
+    Route::post('/coupon-management/add', [CouponController::class, 'addCoupon']);
+    Route::delete('/coupon-management/delete/{id}', [CouponController::class, 'deleteCoupon']);
+    Route::get('/coupon-management/coupon/{id}', [CouponController::class, 'getCoupon']);
+    Route::post('/coupon-management/edit/{id}', [CouponController::class, 'editCoupon']);
 });

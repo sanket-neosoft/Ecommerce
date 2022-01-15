@@ -13,7 +13,7 @@
           <div class="login-form">
             <!--Track order form-->
             <h2>Track Order</h2>
-            <form v-on:submit.prevent="login()">
+            <form v-on:submit.prevent="trackorder()">
               <div class="form-group">
                 <input type="email" v-model="track.email" placeholder="Email" />
                 <!-- <span
@@ -34,10 +34,11 @@
               <div class="form-group">
                 <input
                   type="text"
-                  v-model="track.order_id"
+                  v-model="track.tracking_id"
                   placeholder="Order Id"
                 />
               </div>
+              <span class="text-danger">{{ error }}</span>
               <button type="submit" class="btn btn-default">
                 Check Status
               </button>
@@ -47,19 +48,16 @@
         </div>
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
-            <table>
-                <tr class="color-border">
-                    <td>Yet to be dispatched.</td>
-                </tr>
-                <tr><td></td></tr>
-                <tr>
-                    <td>Dispathed.</td>
-                </tr>
-                <tr><td></td></tr>
-                <tr>
-                    <td></td>
-                </tr>
-            </table>
+          <ul>
+            <ol>
+              {{status}}
+            </ol>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <ol>
+              Dispatched
+            </ol>
+          </ul>
         </div>
       </div>
     </div>
@@ -67,6 +65,13 @@
 </template>
 
 <script>
+import { trackOrder } from "../common/Service";
+import Vue from "vue";
+import Vuelidate from "vuelidate";
+import { required, email } from "vuelidate/lib/validators";
+
+Vue.use(Vuelidate);
+
 export default {
   name: "Track",
   data() {
@@ -75,7 +80,29 @@ export default {
         email: null,
         order_id: null,
       },
+      error: null,
+      status: null,
     };
+  },
+  validations: {
+    track: {
+      email: { required, email },
+      tracking_id: { required },
+    },
+  },
+  methods: {
+    trackorder() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        trackOrder(this.track).then((res) => {
+          if (res.data.error) {
+            this.error = res.data.error;
+          } else {
+            this.status = res.data.status;
+          }
+        });
+      }
+    },
   },
 };
 </script>
@@ -84,8 +111,9 @@ export default {
 .col-sm-offset-1 {
   margin: 0px;
   margin-bottom: 75px;
-};
-.color-border {
-    border-left: 1px #FE980F solid;
+}
+p {
+  border-left: 1px #fe980f solid;
+  margin: 0px;
 }
 </style>

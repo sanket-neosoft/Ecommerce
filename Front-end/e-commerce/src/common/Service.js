@@ -147,6 +147,15 @@ export function placeOrder(data) {
     });
 }
 
+// register order api
+export function orderDetail(data) {
+    return axios.post(`${MAIN_URL}api/registerorder`, data, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
 // myorder api
 export function myOrders(id) {
     return axios.get(`${MAIN_URL}api/myorders/${id}`, {
@@ -174,6 +183,7 @@ export function usedCoupon(id) {
     });
 }
 
+// coupon count api 
 export function couponCount(id) {
     return axios.get(`${MAIN_URL}api/couponcount/${id}`, {
         headers: {
@@ -181,6 +191,16 @@ export function couponCount(id) {
         }
     });
 }
+
+// track order api 
+export function trackOrder(data) {
+    return axios.post(`${MAIN_URL}api/trackorder`, data, {
+        headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`
+        }
+    });
+}
+
 export default {
     userLogin,
     userRegister,
@@ -198,8 +218,10 @@ export default {
     deleteFromWishlist,
     changePassword,
     placeOrder,
+    orderDetail,
     myOrders,
     getCoupon,
     usedCoupon,
-    couponCount
+    couponCount,
+    trackOrder
 };

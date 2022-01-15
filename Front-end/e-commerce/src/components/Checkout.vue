@@ -412,6 +412,7 @@ import {
   placeOrder,
   getCoupon,
   usedCoupon,
+  orderDetail,
   couponCount,
 } from "../common/Service";
 import { MAIN_URL } from "../common/Url";
@@ -445,11 +446,12 @@ export default {
       online: false,
       checkout: {
         fname: null,
+        id: null,
         lname: null,
         email: null,
         contact: null,
         address1: null,
-        address2: null,
+        address2: "",
         city: null,
         district: null,
         state: null,
@@ -491,6 +493,7 @@ export default {
       this.checkout.fname = res.data.firstname;
       this.checkout.lname = res.data.lastname;
       this.checkout.email = res.data.email;
+      this.checkout.id = res.data.id;
     });
   },
   computed: {
@@ -551,16 +554,11 @@ export default {
     },
     checkCoupon() {
       getCoupon(this.checkout.coupon).then((res) => {
-        this.coupon_details = res.data.coupon;
-        if (this.coupon_details !== null) {
-          usedCoupon(this.$store.getters.user.user_id).then((res) => {
-            console.log(res.data);
-            console.log(res.data.used_coupons.includes("WELCOME100"));
-            if (
-              res.data.used_coupons.includes(this.checkout.coupon.toUpperCase())
-            ) {
+        if (res.data.coupon != null) {
+          this.coupon_details = res.data.coupon;
+          usedCoupon(this.checkout.id).then((res) => {
+            if (res.data.coupon_used.includes(this.coupon_details.id)) {
               this.coupon_error = "You already used this coupon!";
-              console.log(res.data.used_coupons);
             } else if (this.subTotal < this.coupon_details.minvalue) {
               this.coupon_error = `Cannot apply this coupon Sub total must be more than ${this.coupon_details.minvalue}`;
             } else {
@@ -569,7 +567,8 @@ export default {
             }
           });
         } else {
-          this.coupon_error = "Invalid coupon!";
+          this.coupon_details.percent = 0;
+          this.coupon_error = "Invalid Coupon Code!";
         }
       });
     },
@@ -586,39 +585,77 @@ export default {
         if (this.coupon_status) {
           coupon = this.checkout.coupon;
         }
+        let grand_total = 0;
+        if (this.subTotal < 500) {
+          grand_total = this.subTotal + this.shipping_cost - this.discount;
+        } else {
+          grand_total = this.subTotal - this.discount;
+        }
         let data = {
-          user_id: this.$store.getters.user.user_id,
+          user_id: this.checkout.id,
           fname: this.checkout.fname,
           lname: this.checkout.lname,
           email: this.checkout.email,
           contact: this.checkout.contact,
-          address: `${this.checkout.address1}, ${this.checkout.address2}, ${this.checkout.city}, ${this.checkout.city}, ${this.checkout.district}, ${this.checkout.zipcode}, ${this.checkout.state}`,
+          address: `${this.checkout.address1}, ${this.checkout.address2}, ${this.checkout.city}, ${this.checkout.district}, ${this.checkout.zipcode}, ${this.checkout.state}`,
           coupon: coupon,
+          discount: this.discount,
+          grand_total: grand_total,
         };
-        let index = 0;
-        for (let product of this.cart) {
-          data["product_id"] = product.id;
-          data["product"] = `${product.name}-(${product.brand})`;
-          data["price"] = product.price;
-          data["quantity"] = this.$store.getters.cart[index].quantity;
-          index += 1;
-          if (this.checkout.card_holder !== null) {
-            data["payment_method"] = "PayPal";
-          } else {
-            data["payment_method"] = "COD";
-          }
-          console.log(data);
-          placeOrder(data).then((res) => {
-            console.log(res.data);
-            if (res.data.message === "Order registered") {
-              this.cart = this.cart.filter((value) => value.id != product.id);
-              toastr.success("Your order placed successfully.");
-            }
-          });
+        if (this.coupon_details.id) {
+          data["coupon_id"] = this.coupon_details.id;
         }
-        this.$store.dispatch("addToCart", []);
-        localStorage.setItem("cart", JSON.stringify(this.products));
-        couponCount(this.coupon_details.id);
+        if (this.checkout.card_holder !== null) {
+          data["payment_method"] = "PayPal";
+        } else {
+          data["payment_method"] = "COD";
+        }
+        placeOrder(data).then((res) => {
+          let order_details = {
+            user_order_id: res.data.id,
+          };
+          let index = 0;
+          for (let product of this.cart) {
+            order_details["product_id"] = product.id;
+            order_details["quantity"] =
+              this.$store.getters.cart[index].quantity;
+            index += 1;
+            orderDetail(order_details).then((res) => {
+              console.log(res.data);
+            });
+          }
+          this.cart = [];
+          this.$store.dispatch("addToCart", []);
+          localStorage.setItem("cart", JSON.stringify([]));
+          if (this.coupon_status) {
+            couponCount(this.coupon_details.id);
+          }
+          toastr.success("Your order placed successfully.");
+        });
+        // let index = 0;
+        // for (let product of this.cart) {
+        //   data["product_id"] = product.id;
+        //   data["product"] = `${product.name}-(${product.brand})`;
+        //   data["price"] = product.price;
+        //   data["quantity"] = this.$store.getters.cart[index].quantity;
+        //   index += 1;
+        //   if (this.checkout.card_holder !== null) {
+        //     data["payment_method"] = "PayPal";
+        //   } else {
+        //     data["payment_method"] = "COD";
+        //   }
+        //   console.log(data);
+        //   placeOrder(data).then((res) => {
+        //     console.log(res.data);
+        //     if (res.data.message === "Order registered") {
+        //       this.cart = this.cart.filter((value) => value.id != product.id);
+        //       toastr.success("Your order placed successfully.");
+        //     }
+        //   });
+        // }
+        // this.$store.dispatch("addToCart", []);
+        // localStorage.setItem("cart", JSON.stringify([]));
+        // couponCount(this.coupon_details.id);
       }
     },
   },

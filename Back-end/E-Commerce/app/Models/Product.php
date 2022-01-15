@@ -20,13 +20,23 @@ class Product extends Model
     }
 
     /**
-     * Product has to Many Relationship
+     * Product hasMany images Relationship
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function images()
     {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
+
+    /**
+     * Product hasMany OrderDetail Relationship
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function order_detail()
+    {
+        return $this->hasMany(OrderDetail::class, 'product_id', 'id');
     }
 
     /**

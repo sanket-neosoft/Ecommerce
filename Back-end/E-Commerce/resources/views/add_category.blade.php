@@ -40,7 +40,7 @@
                             <div class="form-group">
                                 <label for="cname">Category Name</label>
                                 <input type="text" class="form-control @error('cname') is-invalid @enderror" name="cname" id="cname" placeholder="Enter category name" autofocus value="{{ old('cname') }}">
-                                @error('bname')
+                                @error('cname')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="cdescription">Category Description (Optional)</label>
-                                <textarea class="form-control @error('cname') is-invalid @enderror" rows="6" placeholder="Enter description" id="cdescription" name="cdescription"></textarea>
+                                <textarea class="form-control @error('cdescription') is-invalid @enderror" rows="6" placeholder="Enter description" id="cdescription" name="cdescription"></textarea>
                                 @error('cdescription')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

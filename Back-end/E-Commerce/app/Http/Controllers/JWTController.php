@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\CouponUsed;
+use App\Models\OrderDetail;
 use Auth;
 use App\Models\User;
 use App\Models\UserOrder;
 use App\Models\WishList;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -277,6 +280,7 @@ class JWTController extends Controller
         $product->delete();
         return response()->json(['message' => 'Wishlist product deleted successfully.'], 200);
     }
+
     /**
      * 
      * @param  Illuminate\Http\Request
@@ -287,36 +291,55 @@ class JWTController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'product_id' => 'required',
-            'product' => 'required',
             'fname' => 'required',
             'lname' => 'required',
             'email' => 'required|email',
             'contact' => 'required|regex:/^[6-9][0-9]{9}$/',
             'address' => 'required',
-            'price' => 'numeric',
-            'quantity' => 'numeric',
             'payment_method' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         } else {
             $order = new UserOrder();
-            $order->order_id = substr(time(), 0, 4) . "-" . substr(rand(), 0, 4) . "-" . substr(rand(), 0, 4);
             $order->user_id = $request->user_id;
-            $order->product_id = $request->product_id;
             $order->user_name = $request->fname . " " . $request->lname;
-            $order->status = "Yet to be Dispatched.";
-            $order->product = $request->product;
             $order->user_email = $request->email;
             $order->user_contact = $request->contact;
             $order->user_address = $request->address;
-            $order->order_price = $request->price;
-            $order->order_quantity = $request->quantity;
             $order->coupon = strtoupper($request->coupon);
             $order->payment_method = $request->payment_method;
+            $order->discount = $request->discount;
+            $order->grand_total = $request->grand_total;
+            if ($order->coupon) {
+                $coupon = new CouponUsed();
+                $coupon->user_id = $request->user_id;
+                $coupon->coupon_id = $request->coupon_id;
+                $coupon->save();
+            }
             $order->save();
-            return response()->json(['message' => 'Order registered'], 201);
+            return response()->json(['id' => $order->id], 201);
+        }
+    }
+
+    /**
+     * 
+     * @param  Illuminate\Http\Request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function orderDetails(Request $request)
+    {
+        $order_detail = new OrderDetail();
+        $order_detail->user_order_id = $request->user_order_id;
+        $order_detail->product_id = $request->product_id;
+        $order_detail->tracking_id = substr(time(), 0, 4) . '-' . substr(rand(), 0, 4) . '-' . substr(rand(), 4, 4) . '-' . substr(time(), 2, 4);
+        $order_detail->status = 'Yet to be Dispatched.';
+        $order_detail->quantity = $request->quantity;
+        if ($order_detail->save()) {
+            return response()->json(['message' => 'Order registerd'], 200);
+        } else {
+            return response()->json(['message' => 'Order failed to registerd'], 400);
         }
     }
 
@@ -328,7 +351,7 @@ class JWTController extends Controller
      */
     public function userOrders($id)
     {
-        $orders = UserOrder::where('user_id', $id)->orderBy('created_at', 'DESC')->get();
+        $orders = UserOrder::with(['order_detail', 'order_detail.product'])->where('user_id', $id)->orderBy('created_at', 'DESC')->get();
         return response()->json(['orders' => $orders, 'message' => 'user details with orders'], 200);
     }
 
@@ -340,8 +363,16 @@ class JWTController extends Controller
      */
     public function getCoupon($code)
     {
-        $coupon = Coupon::where('code', strtoupper($code))->first();
-        return response()->json(['coupon' => $coupon, 'message' => 'coupon details'], 200);
+        try {
+            $coupon = Coupon::where('code', strtoupper($code))->first();
+            if ($coupon->quantity > 0) {
+                return response()->json(['coupon' => $coupon, 'message' => 'coupon details'], 200);
+            } else {
+                return response()->json(['coupon' => null, 'message' => 'coupon finished'], 200);
+            }
+        } catch (ErrorException $exception) {
+            return response()->json(['coupon' => null, 'message' => 'invalid coupon'], 200);
+        }
     }
 
     /**
@@ -352,14 +383,21 @@ class JWTController extends Controller
      */
     public function usedCoupon($id)
     {
-        $orders = UserOrder::where('user_id', $id)->get();
-        $coupons = [];
-        foreach ($orders as $order) {
-            if (!in_array($order->coupon, $coupons)) {
-                array_push($coupons, $order->coupon);
-            }
+        // $orders = UserOrder::where('user_id', $id)->get();
+        // $coupons = [];
+        // foreach ($orders as $order) {
+        //     if (!in_array($order->coupon, $coupons)) {
+        //         array_push($coupons, $order->coupon);
+        //     }
+        // }
+        // return response()->json(['used_coupons' => $coupons, 'message' => 'fetched used coupon'], 200);
+
+        $coupon_used = User::find($id);
+        $coupon_id = [];
+        foreach ($coupon_used->coupons as $coupon) {
+            array_push($coupon_id, $coupon->id);
         }
-        return response()->json(['used_coupons' => $coupons, 'message' => 'fetched used coupon'], 200);
+        return response()->json(['coupon_used' => $coupon_id], 200);
     }
 
     /**
@@ -372,6 +410,27 @@ class JWTController extends Controller
     {
         $coupon = Coupon::find($id);
         $coupon->quantity -= 1;
+        $coupon->used += 1;
         $coupon->save();
+    }
+
+    /**
+     * 
+     * @param  $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function trackOrder(Request $request)
+    {
+        try {
+            $order = OrderDetail::where('tracking_id', $request->tracking_id)->first();
+            if ($request->email === $order->user_order->user_email) {
+                return response()->json(['status' => $order->status, 'error' => false], 200);
+            } else {
+                return response()->json(['status' => 'Invalid Email or Tracking Id', 'error' => true], 200);
+            }
+        } catch (ErrorException $exception) {
+            return response()->json(['status' => 'Invalid Email or Tracking Id', 'error' => true], 200);
+        }
     }
 }

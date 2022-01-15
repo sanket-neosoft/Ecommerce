@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Coupon Management</h1>
+                <h1>CMS Management</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Coupon Management</li>
+                    <li class="breadcrumb-item active">CMS Management</li>
                 </ol>
             </div>
         </div>
@@ -25,32 +25,30 @@
             <div class="col-12">
                 <div class="card card-outline card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Coupons</h3>
+                        <h3 class="card-title">CMS</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="coupon" class="table table-hover">
+                        <table id="CMS" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Coupon Code</th>
-                                    <th>Minimum Value</th>
-                                    <th>Coupon Percentage</th>
-                                    <th>Limit Value</th>
-                                    <th>Quantity</th>
+                                    <th>Image</th>
+                                    <th>CMS Title</th>
+                                    <th>CMS Description</th>
+                                    <th>CMS Slug</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($coupons as $coupon)
+                                @foreach ($cmss as $cms)
                                 <tr>
-                                    <td>{{ $coupon->code }}</td>
-                                    <td>&#8377; {{ $coupon->minvalue }}</td>
-                                    <td>{{ $coupon->percent }}%</td>
-                                    <td>&#8377; {{ $coupon->limit }}</td>
-                                    <td>{{ $coupon->quantity }}</td>
+                                    <td><img src="{{ url($cms->image) }}" style="height: 5rem; object-fit: cover; object-position: center"></td>
+                                    <td>{{ $cms->title }}</td>
+                                    <td>{{ $cms->description }}</td>
+                                    <td>{{ $cms->slug }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning edit" data-id="{{ $coupon->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
-                                        <button class="btn btn-danger delete" data-id="{{ $coupon->id }}" data-toggle="modal" data-target="#modal-delete"><i class="fas fa-trash-alt"></i></button>
+                                        <button class="btn btn-warning edit" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
+                                        <button class="btn btn-danger delete" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-delete"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -64,10 +62,10 @@
 </section>
 <!-- /.content -->
 <!-- /.content-wrapper -->
-< x-delete-alert data="Do you really want to delete this Coupon?" />
+< x-delete-alert data="Do you really want to delete this CMS?" />
 <!-- Edit modal -->
 <div class="modal fade" id="modal-edit" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content card card-warning card-outline">
             <div class="modal-header">
                 <h4 class="modal-title">Edit</h4>
@@ -81,54 +79,49 @@
                     <input type="hidden" id="id">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="ccode">Coupon Code</label>
-                                <input type="text" class="form-control @error('ccode') is-invalid @enderror" name="ccode" disabled id="ccode" placeholder="Enter coupon code" autofocus value="{{ old('ccode') }}">
-                                @error('ccode')
+                            <div class="form-group ">
+                                <label for="ctitle">CMS Title</label>
+                                <input type="text" class="form-control @error('ctitle') is-invalid @enderror" name="ctitle" id="ctitle" placeholder="Enter cms title" value="{{ old('ctitle') }}">
+                                @error('ctitle')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cmin">Coupon Minimum Value</label>
-                                <input type="number" class="form-control @error('cmin') is-invalid @enderror" name="cmin" id="cmin" placeholder="Enter minimum amount" value="{{ old('cmin') }}">
-                                @error('cmin')
+                                <label for="cslug">CMS Slug</label>
+                                <input type="text" class="form-control @error('cslug') is-invalid @enderror" name="cslug" id="cslug" placeholder="Enter cms slug" value="{{ old('cslug') }}">
+                                @error('cslug')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cpercent">Coupon Percentage</label>
-                                <input type="number" class="form-control @error('cpercent') is-invalid @enderror" name="cpercent" id="cpercent" placeholder="Enter percentage" value="{{ old('cpercent') }}">
-                                @error('cpercent')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <label for="banner-image">CMS Image</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input @error('cimage') is-invalid @enderror" id="banner-image" name="cimage" onchange="showPreview(event)">
+                                        <label class="custom-file-label" for="banner-image">Choose file</label>
+                                    </div>
+                                </div>
+                                @error('cimage')
+                                <span class="text-danger" role="alert">
+                                    <small><strong>{{ $message }}</strong></small>
                                 </span>
                                 @enderror
+                            </div>
+                            <div class="">
+                                <div class="border rounded preview">
+                                    <img id="preview" src="" style="width: 100%; height: 14rem; object-fit: cover; object-position: center" alt="">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="climit">Coupon Limit</label>
-                                <input type="number" class="form-control @error('climit') is-invalid @enderror" name="climit" id="climit" placeholder="Enter coupon limit" value="{{ old('climit') }}">
-                                @error('climit')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="cquantity">Coupon Quantity</label>
-                                <input type="number" class="form-control @error('ccode') is-invalid @enderror" name="cquantity" id="cquantity" placeholder="Enter coupon quantity" value="{{ old('cquantity') }}">
-                                @error('cquantity')
+                                <label for="cdescription">CMS Description</label>
+                                <textarea class="form-control @error('cdescription') is-invalid @enderror" rows="18" placeholder="Enter description" id="cdescription" name="cdescription">{{ old('cdescription') }}</textarea>
+                                @error('cdescription')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -151,24 +144,35 @@
 
 @endsection
 @section('script')
+<!-- Preview image JS  -->
+<script>
+    function showPreview(event) {
+        if (event.target.files.length > 0) {
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("preview");
+            preview.src = src;
+            preview.style.display = "block";
+        }
+    }
+</script>
 
 <script>
     $(document).ready(function() {
-        $('#coupon').DataTable();
+        $('#CMS').DataTable();
 
         $(".delete").on("click", function() {
             let element = this;
             let id = $(this).data("id");
             $("#d").on("click", function() {
                 $.ajax({
-                    url: `/coupon-management/delete/${id}`,
+                    url: `/cms-management/delete/${id}`,
                     method: "delete",
                     data: {
                         _token: "{{ csrf_token() }}",
                     },
                     success: function(response) {
                         $(element).closest("tr").fadeOut();
-                        toastr.success(`Coupon deleted successfully.`);
+                        toastr.success(`CMS deleted successfully.`);
                     }
                 });
             });
@@ -177,16 +181,15 @@
         $(".edit").on("click", function() {
             let id = $(this).data("id");
             $.ajax({
-                url: `/coupon-management/coupon/${id}`,
+                url: `/cms-management/cms/${id}`,
                 method: 'get',
                 success: function(response) {
                     console.log(response);
+                    $("#ctitle").val(response.title);
+                    $("#cdescription").val(response.description);
                     $("#id").val(response.id);
-                    $("#ccode").val(response.code);
-                    $("#cmin").val(response.minvalue);
-                    $("#cpercent").val(response.percent);
-                    $("#climit").val(response.limit);
-                    $("#cquantity").val(response.quantity);
+                    $("#cslug").val(response.slug);
+                    $("#preview").attr("src", `http://127.0.0.1:8000/${response.image}`);
                 }
             });
         });
@@ -196,13 +199,13 @@
             let id = $("#id").val();
             let formData = new FormData(this);
             $.ajax({
-                url: `/coupon-management/edit/${id}`,
+                url: `/cms-management/edit/${id}`,
                 type: "post",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
+                    location.reload();
                 },
             });
         });

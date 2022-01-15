@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Product Description (optional)</label>
-                                    <textarea class="form-control" rows="12" placeholder="Enter product description" name="pdescription"></textarea>
+                                    <textarea class="form-control" rows="8" placeholder="Enter product description" name="pdescription"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -80,15 +80,7 @@
                                     </span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="pweight">Product Weight (optional)</label>
-                                    <input type="number" min="0" class="form-control @error('pweight') is-invalid @enderror" name="pweight" id="pweight" placeholder="Enter product weight" value="{{ old('pweight') }}">
-                                    @error('pweight')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                                
                                 <div class="form-group">
                                     <label for="pprice">Product Price</label>
                                     <input type="number" class="form-control @error('pprice') is-invalid @enderror" name="pprice" id="pprice" placeholder="Enter product price" value="{{ old('pprice') }}">
@@ -97,22 +89,6 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="psaleprice">Product Sale Price (optional)</label>
-                                <input type="number" class="form-control @error('psaleprice') is-invalid @enderror" name="psaleprice" id="psaleprice" placeholder="Enter product sale price" value="{{ old('psaleprice') }}">
-                                @error('psaleprice')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="customSwitch3">Featured</label>
-                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="pfeatured">
-                                    <label class="custom-control-label" for="customSwitch3"></label>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -142,6 +118,13 @@
                                     <small><strong>{{ $message }}</strong></small>
                                 </span>
                                 @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customSwitch3">Featured</label>
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="pfeatured">
+                                    <label class="custom-control-label" for="customSwitch3"></label>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->

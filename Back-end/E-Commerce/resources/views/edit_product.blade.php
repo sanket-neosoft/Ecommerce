@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Product Description (optional)</label>
-                                    <textarea class="form-control" rows="12" placeholder="Enter product description" name="pdescription">{{ $product->descrption }}</textarea>
+                                    <textarea class="form-control" rows="8" placeholder="Enter product description" name="pdescription">{{ $product->description }}</textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -82,15 +82,6 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="pweight">Product Weight (optional)</label>
-                                    <input type="number" min="0" class="form-control @error('pweight') is-invalid @enderror" name="pweight" id="pweight" placeholder="Enter product weight" value="{{ $product->weight }}">
-                                    @error('pweight')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
                                     <label for="pprice">Product Price</label>
                                     <input type="number" class="form-control @error('pprice') is-invalid @enderror" name="pprice" id="pprice" placeholder="Enter product price" value="{{ $product->price }}">
                                     @error('pprice')
@@ -98,22 +89,6 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="psaleprice">Product Sale Price (optional)</label>
-                                <input type="number" class="form-control @error('psaleprice') is-invalid @enderror" name="psaleprice" id="psaleprice" placeholder="Enter product sale price" value="{{ $product->sale_price }}">
-                                @error('psaleprice')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="customSwitch3">Featured</label>
-                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="pfeatured">
-                                    <label class="custom-control-label" for="customSwitch3"></label>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -143,6 +118,13 @@
                                     <small><strong>{{ $message }}</strong></small>
                                 </span>
                                 @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="customSwitch3">Featured</label>
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="pfeatured">
+                                    <label class="custom-control-label" for="customSwitch3"></label>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -184,14 +166,14 @@ array_push($existing_list, $item);
 
 <!-- toastr success -->
 <script>
-    toastr.success("Product Added Successfully");
+    toastr.success("Product Updated Successfully");
 </script>
 
 @elseif (session('status') === "failed")
 
 <!-- toastr danger  -->
 <script>
-    toastr.error("Failed to add product.");
+    toastr.error("Failed to update product.");
 </script>
 @endif
 

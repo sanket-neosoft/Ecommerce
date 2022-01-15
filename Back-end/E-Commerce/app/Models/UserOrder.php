@@ -10,7 +10,7 @@ class UserOrder extends Model
     use HasFactory;
 
     /**
-     *  UserOrder belongs to users relationship.
+     *  UserOrder belongs to User relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -19,4 +19,13 @@ class UserOrder extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
+     /**
+     *  UserOrder has many to order details relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function order_detail()
+    {
+        return $this->hasMany(OrderDetail::class, 'user_order_id', 'id');
+    }
 }

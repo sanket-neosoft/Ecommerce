@@ -46,8 +46,6 @@ class ProductController extends Controller
             'pcategory' => 'required',
             'pquantity' => 'required|numeric',
             'pprice' => 'required|numeric',
-            'psaleprice' => 'numeric',
-            'pweight' => 'numeric',
             'pimages' => 'required',
             'pthumbnail' => 'required|mimes:png,jpg',
             'pimages.*' => 'image|mimes:png,jpg'
@@ -69,8 +67,6 @@ class ProductController extends Controller
             $product->description = $request->pdescription;
             $product->quantity = $request->pquantity;
             $product->price = $request->pprice;
-            $product->sale_price = $request->psaleprice;
-            $product->weight = $request->pweight;
             $thumbnail = 'products/product-' . time() . rand() . '.' . $request->pthumbnail->extension();
             $product->thumbnail = $thumbnail;
             $request->pthumbnail->move(public_path('products'), $thumbnail);
@@ -156,8 +152,6 @@ class ProductController extends Controller
             'pcategory' => 'required',
             'pquantity' => 'required|numeric',
             'pprice' => 'required|numeric',
-            'psaleprice' => 'numeric',
-            'pweight' => 'numeric',
             'pimages.*' => 'image|mimes:png,jpg'
         ], [
             'pname.required' => 'Product name is required',
@@ -174,8 +168,6 @@ class ProductController extends Controller
             $product->description = $request->pdescription;
             $product->quantity = $request->pquantity;
             $product->price = $request->pprice;
-            $product->sale_price = $request->psaleprice;
-            $product->weight = $request->pweight;
             if ($request->pthumbnail) {
                 $request->pthumbnail->move(public_path('products'), $product->thumbnail);
             }

@@ -15,18 +15,15 @@ class CreateUserOrdersTable extends Migration
     public function up()
     {
         Schema::create('user_orders', function (Blueprint $table) {
-            $table->string('order_id')->primary();
-            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->id();
+            $table->foreignId('user_id')->constrained('users', 'id');
             $table->string('user_name');
-            $table->string('status');
-            $table->string('product');
-            $table->string('order_quantity');
             $table->string('user_email');
             $table->string('user_contact');
             $table->string('user_address');
-            $table->BigInteger('order_price');
-            $table->string('coupon')->nullable();
+            $table->string('coupon');
+            $table->integer('discount');
+            $table->integer('grand_total');
             $table->string('payment_method');
             $table->timestamps();
         });

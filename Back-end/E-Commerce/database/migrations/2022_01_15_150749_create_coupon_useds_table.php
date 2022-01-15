@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBannersTable extends Migration
+class CreateCouponUsedsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateBannersTable extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('coupon_useds', function (Blueprint $table) {
             $table->id();
-            $table->string('caption');
-            $table->string('link')->nullable();
-            $table->string('image');
-            $table->string('description')->nullable();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('coupon_id')->constrained('coupons', 'id')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -30,6 +27,6 @@ class CreateBannersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banners');
+        Schema::dropIfExists('coupon_useds');
     }
 }

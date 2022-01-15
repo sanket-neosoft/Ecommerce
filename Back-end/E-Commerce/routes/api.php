@@ -36,10 +36,12 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::get('/profile/wishlist/{user_id}', [JWTController::class, 'userWishlist']);
     Route::delete('/profile/deletewishlist/{id}', [JWTController::class, 'deleteFromWishlist']);
     Route::post('/placeorder', [JWTController::class, 'placeOrder']);
+    Route::post('/registerorder', [JWTController::class, 'orderDetails']);
     Route::get('/myorders/{id}', [JWTController::class, 'userOrders']);
     Route::get('/getcoupon/{code}', [JWTController::class, 'getCoupon']);
     Route::get('/profile/usedcoupons/{id}', [JWTController::class, 'usedCoupon']);
     Route::get('/couponcount/{id}', [JWTController::class, 'couponCount']);
+    Route::post('/trackorder', [JWTController::class, 'trackOrder']);
 });
 
 // All Banners Api

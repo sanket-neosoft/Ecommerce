@@ -19,9 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('brand');
             $table->text('description')->nullable();
             $table->unsignedInteger('quantity');
-            $table->decimal('weight', 8, 2)->nullable();
             $table->decimal('price', 8, 2);
-            $table->decimal('sale_price', 8, 2)->nullable();
             $table->boolean('featured')->default(0);
             $table->string('thumbnail');
             $table->timestamps();

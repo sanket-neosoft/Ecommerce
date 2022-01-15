@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CMSController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserOrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
 
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -35,8 +37,8 @@ Route::middleware('auth')->group(function() {
     Route::delete('/user-management/delete/{id}', [UserController::class, 'deleteUser']);
 
     // Banner Controller 
-    Route::get('/banner-management', [BannerController::class, 'getBanners'])->name('banner-management'); 
-    Route::get('/banner-management/add-banner',[BannerController::class, 'addBannerForm'])->name('add-banner');
+    Route::get('/banner-management', [BannerController::class, 'getBanners'])->name('banner-management');
+    Route::get('/banner-management/add-banner', [BannerController::class, 'addBannerForm'])->name('add-banner');
     Route::post('/banner-management/add', [BannerController::class, 'addBanner']);
     Route::delete('/banner-management/delete/{id}', [BannerController::class, 'deleteBanner']);
     Route::get('/banner-management/banner/{id}', [BannerController::class, 'getBanner']);
@@ -44,7 +46,7 @@ Route::middleware('auth')->group(function() {
 
     // Category Controller
     Route::get('/category-management', [CategoryController::class, 'getCategories'])->name('category-management');
-    Route::get('/category-management/add-category',[CategoryController::class, 'addCategoryForm'])->name('add-category');
+    Route::get('/category-management/add-category', [CategoryController::class, 'addCategoryForm'])->name('add-category');
     Route::delete('/category-management/delete/{id}', [CategoryController::class, 'deleteCategory']);
     Route::post('category-management/add', [CategoryController::class, 'addCategory']);
     Route::get('/category-management/category/{id}', [BannerController::class, 'getCategory']);
@@ -72,4 +74,17 @@ Route::middleware('auth')->group(function() {
     Route::delete('/coupon-management/delete/{id}', [CouponController::class, 'deleteCoupon']);
     Route::get('/coupon-management/coupon/{id}', [CouponController::class, 'getCoupon']);
     Route::post('/coupon-management/edit/{id}', [CouponController::class, 'editCoupon']);
+
+    // UserOrder controller
+    Route::get('/order-management', [UserOrderController::class, 'getOrders'])->name('order-management');
+    Route::get('/order-management/order/{id}', [UserOrderController::class, 'getOrder']);
+    Route::post('/order-management/edit/{id}', [UserOrderController::class, 'editOrder']);
+
+    // CMS Controller
+    Route::get('/cms-management', [CMSController::class, 'getCMSs'])->name('cms-management');
+    Route::get('/cms-management/add-cms', [CMSController::class, 'addCMSForm'])->name('add-cms');
+    Route::post('cms-management/add', [CMSController::class, 'addCMS']);
+    Route::delete('/cms-management/delete/{id}', [CMSController::class, 'deleteCMS']);
+    Route::get('/cms-management/cms/{id}', [CMSController::class, 'getCMS']);
+    Route::post('/cms-management/edit/{id}', [CMSController::class, 'editCMS']);
 });

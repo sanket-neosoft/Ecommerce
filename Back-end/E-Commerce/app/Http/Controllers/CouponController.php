@@ -61,6 +61,7 @@ class CouponController extends Controller
             $coupon->percent  = $request->cpercent;
             $coupon->limit = $request->climit;
             $coupon->quantity = $request->cquantity;
+            $coupon->used = 0;
             if ($coupon->save()) {
                 return back()->with('status', 'success');
             } else {

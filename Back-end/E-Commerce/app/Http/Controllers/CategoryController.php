@@ -21,7 +21,7 @@ class CategoryController extends Controller
 
 
     /**
-     * Render the All Users data.
+     * Render the Add Category form.
      *
      * @return view
      */

@@ -57,6 +57,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     *  User belongs to many coupons relationship.
+     *
+     * @return Illuminate\Database\Eloquent\Concerns\HasRelationships::belongsToMany
+     */
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'coupon_useds', 'coupon_id', 'user_id');
+    }
+
+    /**
      *  User has many to orders relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

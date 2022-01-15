@@ -36,9 +36,8 @@
                                     <th>Brand</th>
                                     <th>Description</th>
                                     <th>Quantity</th>
-                                    <th>Weight</th>
                                     <th>Price</th>
-                                    <th>Sale Price</th>
+                                    <th>Featured</th>
                                     <th>Categories</th>
                                     <th></th>
                                 </tr>
@@ -48,11 +47,16 @@
                                 <tr>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->brand }}</td>
-                                    <td><div class="overflow-auto" style="max-height: 5rem; ">{{ $product->description }}</div></td>
+                                    <td>
+                                        <div class="overflow-auto" style="max-height: 5rem; ">{{ $product->description }}</div>
+                                    </td>
                                     <td>{{ $product->quantity }}</td>
-                                    <td>{{ $product->weight }}</td>
                                     <td>{{ $product->price }}</td>
-                                    <td>{{ $product->sale_price }}</td>
+                                    @if ($product->featured)
+                                    <td>Yes</td>
+                                    @else
+                                    <td>No</td>
+                                    @endif
                                     <td>
                                         @foreach ($product->categories as $category)
                                         <h5><span class="badge badge-primary">{{ $category->name }}</span></h5>

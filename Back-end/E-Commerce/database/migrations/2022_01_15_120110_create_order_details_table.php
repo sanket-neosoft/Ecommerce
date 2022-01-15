@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCouponsTable extends Migration
+class CreateOrderDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateCouponsTable extends Migration
      */
     public function up()
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->integer('minvalue');
-            $table->integer('percent');
-            $table->integer('limit');
+            $table->foreignId('user_order_id')->constrained('user_orders', 'id')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('tracking_id')->unique();
+            $table->foreignId('product_id')->constrained('products', 'id');
+            $table->string('status');
             $table->integer('quantity');
-            $table->integer('used');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateCouponsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('order_details');
     }
 }

@@ -189,8 +189,7 @@
                     $("#bcaption").val(response.caption);
                     $("#blink").val(response.link);
                     $("#id").val(response.id);
-                    $("#preview").attr("src", response.image);
-                    location.reload();
+                    $("#preview").attr("src", `http://127.0.0.1:8000/${response.image}`);
                 }
             });
         });
@@ -207,6 +206,7 @@
                 contentType: false,
                 success: function(response) {
                     console.log(response);
+                    location.reload();
                 },
             });
         });

@@ -64,7 +64,8 @@
                 </li>
                 <li v-if="user !== null">
                   <router-link to="/wishlist"
-                    ><i class="fa fa-star"></i> Wishlist</router-link
+                    ><i class="fa fa-star"></i> Wishlist
+                    <span class="badge">{{ wishCount }}</span></router-link
                   >
                 </li>
                 <li v-if="user !== null">
@@ -75,7 +76,9 @@
                 <li>
                   <router-link to="cart"
                     ><i class="fa fa-shopping-cart"></i>
-                    <span>Cart</span>
+                    <span
+                      >Cart <span class="badge">{{ cartCount }}</span></span
+                    >
                   </router-link>
                 </li>
                 <li v-if="user !== null">
@@ -118,32 +121,37 @@
               <ul class="nav navbar-nav collapse navbar-collapse">
                 <li><router-link to="/" class="active">Home</router-link></li>
                 <li class="dropdown">
-                  <a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                  <a href="#">Categories<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">
-                    <li><a href="shop.html">Products</a></li>
-                    <li><a href="product-details.html">Product Details</a></li>
-                    <li><router-link to="/checkout">Checkout</router-link></li>
-
-                    <li><router-link to="/cart">Cart</router-link></li>
-                    <li>
-                      <router-link to="/login">Login</router-link>
-                    </li>
-                    <li>
-                      <router-link to="/login">Logout</router-link>
+                    <li v-for="(category, index) in categories" v-bind:key="index">
+                      <router-link
+                        v-bind:to="{
+                          name: 'Category',
+                          params: { id: category.id },
+                        }"
+                        >{{ category.name }}</router-link
+                      >
                     </li>
                   </ul>
                 </li>
                 <li class="dropdown">
                   <a href="#">Blog<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">
-                    <li><a href="blog.html">Blog List</a></li>
-                    <li>
-                      <a href="blog-single.html"></a>
+                    <li v-for="(blog, index) in cms" v-bind:key="index">
+                      <router-link
+                        v-bind:to="{
+                          name: 'CMS',
+                          params: { slug: blog.slug },
+                        }"
+                        >{{ blog.title }}</router-link
+                      >
                     </li>
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <a href="javascript:void(0)">Orders<i class="fa fa-angle-down"></i></a>
+                  <a href="javascript:void(0)"
+                    >Orders<i class="fa fa-angle-down"></i
+                  ></a>
                   <ul role="menu" class="sub-menu">
                     <li><router-link to="/myorders">My Orders</router-link></li>
                     <li>
@@ -169,14 +177,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { userLogout } from "../common/Service";
+// import { mapState } from "vuex";
+import { categories, cmss, userLogout } from "../common/Service";
 import store from "../store";
 export default {
   name: "Header",
   data() {
     return {
       publicPath: process.env.BASE_URL,
+      categories: [],
+      cms: [],
     };
   },
   methods: {
@@ -186,15 +196,40 @@ export default {
       });
       localStorage.removeItem("user");
       store.dispatch("user", null);
+      this.$router.push("/login");
     },
   },
+  mounted() {
+    cmss().then((res) => {
+      this.cms = res.data.cms;
+    });
+    categories().then((res) => {
+      this.categories = res.data.categories;
+    });
+  },
   computed: {
-    ...mapState(["user"]),
+    user() {
+      return this.$store.getters.user;
+    },
     cart() {
       return this.$store.getters.cart;
     },
     cartCount() {
-      return this.cart.length;
+      if (this.$store.getters.cart.length === 0) {
+        return null;
+      } else {
+        return this.$store.getters.cart.length;
+      }
+    },
+    wishCount() {
+      if (
+        this.$store.getters.wishlist.length === 0 ||
+        this.$store.getters.wishlist === null
+      ) {
+        return null;
+      } else {
+        return this.$store.getters.wishlist.length;
+      }
     },
   },
   // email: (state) => state.email,
@@ -202,4 +237,7 @@ export default {
 </script>
 
 <style>
+.badge {
+  background-color: #fe980f;
+}
 </style>

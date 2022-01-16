@@ -6,8 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         user: JSON.parse(localStorage.getItem('user')),
-        cart: JSON.parse(localStorage.getItem('cart')),
-        wishlist: JSON.parse(localStorage.getItem('wishlist')),
+        cart: JSON.parse(localStorage.getItem('cart')) !== null ? JSON.parse(localStorage.getItem('cart')) : [],
+        wishlist: JSON.parse(localStorage.getItem('wishlist')) === null ? [] : JSON.parse(localStorage.getItem('wishlist')),
     },
     getters: {
         cart: state => state.cart,

@@ -201,6 +201,17 @@ export function trackOrder(data) {
     });
 }
 
+// all cms api 
+export function cmss() {
+    return axios.get(`${MAIN_URL}api/cms`);
+}
+
+// single cms api 
+export function cms(slug) {
+    return axios.get(`${MAIN_URL}api/cms/${slug}`);
+}
+
+
 export default {
     userLogin,
     userRegister,
@@ -223,5 +234,7 @@ export default {
     getCoupon,
     usedCoupon,
     couponCount,
-    trackOrder
+    trackOrder,
+    cmss,
+    cms
 };

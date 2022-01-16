@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import toastr from 'toastr';
+import store from '../store';
+
 import Contact from '../components/Contact.vue';
 import Login from '../components/Login.vue';
 import Checkout from '../components/Checkout.vue';
@@ -11,10 +14,11 @@ import Account from '../components/Account.vue';
 import Wishlist from '../components/Wishlist.vue';
 import Order from '../components/Order.vue';
 import Track from '../components/Track.vue';
+import CMS from '../components/CMS';
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
     scrollBehavior() {
         return {
             x: 0,
@@ -47,6 +51,10 @@ export default new Router({
         name: 'Category',
         component: Category,
     }, {
+        path: '/cms/:slug',
+        name: 'CMS',
+        component: CMS
+    }, {
         path: '/product/:id',
         name: 'ProductDetails',
         component: ProductDetails,
@@ -63,8 +71,25 @@ export default new Router({
         name: 'Order',
         component: Order
     }, {
-        path:'/trackorders',
-        name:'Track',
+        path: '/trackorders',
+        name: 'Track',
         component: Track
     }]
 });
+
+let closeRoute = ['Account', 'Wishlist', 'Checkout', 'Order'];
+router.beforeEach((to, from, next) => {
+    // if ()
+    if (closeRoute.includes(to.name)) {
+        if (store.getters.user === null) {
+            toastr.error('You need to login or register.');
+            next('/login')
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+
+})
+export default router;

@@ -42,9 +42,10 @@
                   <h4>
                     <router-link to="">{{ product.product_name }} </router-link>
                   </h4>
+                  <p>{{ product.product_brand }}</p>
                 </td>
                 <td class="cart_price">
-                  <p>{{ product.product_price }}</p>
+                  <p>{{ product.product_price | rupee }}</p>
                 </td>
                 <td class="cart_delete">
                   <a
@@ -70,6 +71,7 @@
 <script>
 import { userWishlist, deleteFromWishlist } from "../common/Service";
 import MAIN_URL from "../common/Url";
+import { rupee } from "../common/Filter";
 export default {
   name: "Wishlist",
   data() {
@@ -77,6 +79,9 @@ export default {
       wishlist: [],
       MAIN_URL: MAIN_URL,
     };
+  },
+  filters: {
+    rupee,
   },
   mounted() {
     userWishlist(this.$store.getters.user.user_id).then((res) => {
@@ -91,8 +96,6 @@ export default {
       let store_wishlist = this.$store.getters.wishlist.filter(
         (value) => value != product_id
       );
-      console.log(store_wishlist);
-
       localStorage.setItem("wishlist", JSON.stringify(store_wishlist));
       this.$store.dispatch("addToWishlist", store_wishlist);
       deleteFromWishlist(id);

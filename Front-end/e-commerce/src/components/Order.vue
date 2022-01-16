@@ -45,8 +45,8 @@
         </div>
         <div class="col-md-4 margin text-center border-left">
           <p>Payment Method: {{ user_orders.payment_method }}</p>
-          <p>Coupon: {{ user_orders.coupon }}</p>
-          <p>Discount: {{ user_orders.discount | rupee }}</p>
+          <p v-if="user_orders.coupon">Coupon: {{ user_orders.coupon }}</p>
+          <p v-if="user_orders.discount !== 0">Discount: {{ user_orders.discount | rupee }}</p>
           <p>Grand Total: {{ user_orders.grand_total }}</p>
         </div>
         <hr />
@@ -99,9 +99,9 @@ export default {
   /* margin-bottom: auto */
 }
 .border {
-  border-top: solid 1px #696763;
+  border-top: solid 1px #69676315;
 }
 .text-center {
-  border-left: solid 1px #696763;
+  border-left: solid 1px #FE980F;
 }
 </style>

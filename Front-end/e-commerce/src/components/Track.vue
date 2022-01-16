@@ -16,27 +16,31 @@
             <form v-on:submit.prevent="trackorder()">
               <div class="form-group">
                 <input type="email" v-model="track.email" placeholder="Email" />
-                <!-- <span
+                <span
                   class="text-danger"
-                  v-if="
-                    !$v.loginForm.email.required && $v.loginForm.email.$dirty
-                  "
+                  v-if="!$v.track.email.required && $v.track.email.$dirty"
                 >
                   Email is required!
                 </span>
                 <span
                   class="text-danger"
-                  v-if="!$v.loginForm.email.email && $v.loginForm.email.$dirty"
+                  v-if="!$v.track.email.email && $v.track.email.$dirty"
                 >
                   Invalid Email!
-                </span> -->
+                </span>
               </div>
               <div class="form-group">
                 <input
                   type="text"
                   v-model="track.tracking_id"
-                  placeholder="Order Id"
+                  placeholder="Tracking Id"
                 />
+                <span
+                  class="text-danger"
+                  v-if="!$v.track.tracking_id.required && $v.track.tracking_id.$dirty"
+                >
+                  Tracking Id is required!
+                </span>
               </div>
               <span class="text-danger">{{ error }}</span>
               <button type="submit" class="btn btn-default">
@@ -47,17 +51,45 @@
           <!--/login form-->
         </div>
         <div class="col-sm-1"></div>
-        <div class="col-sm-5">
-          <ul>
-            <ol>
-              {{status}}
-            </ol>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <ol>
-              Dispatched
-            </ol>
-          </ul>
+        <div class="col-sm-5 pb" v-if="status === 'Yet to be Dispatched'">
+          <h2>Status</h2>
+          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+        </div>
+        <div class="col-sm-5 pb" v-if="status === 'Dispatched'">
+          <h2>Status</h2>
+          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Dispatched</p>
+        </div>
+        <div class="col-sm-5 pb" v-if="status === 'Shipped'">
+          <h2>Status</h2>
+          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Shipped</p>
+        </div>
+        <div class="col-sm-5 pb" v-if="status === 'Arriving Today'">
+          <h2>Status</h2>
+          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Shipped</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Arriving Today</p>
+        </div>
+        <div class="col-sm-5 pb" v-if="status === 'Delivered'">
+          <h2>Status</h2>
+          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Dispatched</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Shipped</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Arriving Today</p>
+          <div class="line"></div>
+          <p class="status"><span>&bull;</span> Delivered</p>
         </div>
       </div>
     </div>
@@ -96,7 +128,7 @@ export default {
       if (!this.$v.$invalid) {
         trackOrder(this.track).then((res) => {
           if (res.data.error) {
-            this.error = res.data.error;
+            this.error = "Invalid Order Details";
           } else {
             this.status = res.data.status;
           }
@@ -112,8 +144,27 @@ export default {
   margin: 0px;
   margin-bottom: 75px;
 }
-p {
-  border-left: 1px #fe980f solid;
-  margin: 0px;
+.line {
+  height: 50px;
+  border-left: 2px #fe980f solid;
+}
+.status {
+  margin-bottom: 0px;
+}
+.status span {
+  color: #fe980f;
+}
+.pb {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+
+.pb h2 {
+  color: #696763;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 30px;
 }
 </style>

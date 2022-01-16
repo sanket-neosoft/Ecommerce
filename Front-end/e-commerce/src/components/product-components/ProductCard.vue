@@ -6,14 +6,14 @@
       >
         <div class="productinfo text-center">
           <img v-bind:src="MAIN_URL + product.thumbnail" alt="" />
-          <h2>&#8377;{{ product.price }}</h2>
+          <h2>{{ product.price |rupee }}</h2>
           <h4 class="text-muted">{{ product.brand }} {{ product.name }}</h4>
         </div>
       </router-link>
     </div>
     <div class="choose">
       <ul class="nav nav-pills nav-justified">
-        <li>
+        <li v-if="user !== null">
           <a href="javascript:void(0)" v-on:click="addInWishList(product.id)"
             ><i class="fa fa-star"></i>Add to wishlist</a
           >
@@ -32,6 +32,8 @@
 import { MAIN_URL } from "../../common/Url";
 import { addToCart, addToWishList, productDetails } from "../../common/Service";
 import toastr from "toastr";
+import { mapState } from 'vuex';
+import {rupee} from '../../common/Filter'
 export default {
   name: "ProductCard.vue",
   props: ["product"],
@@ -44,8 +46,15 @@ export default {
         product_id: null,
         product_image: null,
         product_price: null,
+        product_brand: null,
       },
     };
+  },
+  filters :{
+    rupee
+  },
+  computed: {
+    ...mapState(['user']),
   },
   methods: {
     addInCart(id) {
@@ -58,6 +67,7 @@ export default {
         this.data.product_name = res.data.product.name;
         this.data.product_image = res.data.product.thumbnail;
         this.data.product_price = res.data.product.price;
+        this.data.product_brand = res.data.product.brand;
         let wishlist = [];
         wishlist = JSON.parse(localStorage.getItem("wishlist"));
         if (wishlist.includes(id)) {

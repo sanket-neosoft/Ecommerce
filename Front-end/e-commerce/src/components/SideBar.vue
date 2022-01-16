@@ -34,7 +34,6 @@
 
 <script>
 import { categories } from "../common/Service";
-// import router from "../router";
 export default {
   name: "SideBar",
   data() {

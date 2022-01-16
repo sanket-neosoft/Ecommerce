@@ -49,7 +49,7 @@
                   <!-- <p v-if="product.sale_price !== null">
                     {{ product.sale_price }}
                   </p> -->
-                  <p>{{ product.price }}</p>
+                  <p>{{ product.price | rupee }}</p>
                 </td>
                 <td class="cart_quantity">
                   <div class="cart_quantity_button">
@@ -79,7 +79,7 @@
                 </td>
                 <td class="cart_total">
                   <p class="cart_total_price">
-                    {{ products[index].quantity * product.price }}
+                    {{ products[index].quantity * product.price | rupee }}
                   </p>
                 </td>
                 <td class="cart_delete">
@@ -136,7 +136,7 @@
 <script>
 import { productDetails } from "../common/Service";
 import { MAIN_URL } from "../common/Url";
-// import { productDetails } from "../common/Service";
+import { rupee } from "../common/Filter";
 export default {
   name: "Cart",
   data() {
@@ -145,6 +145,9 @@ export default {
       MAIN_URL: MAIN_URL,
       shipping_cost: 50,
     };
+  },
+  filters: {
+    rupee,
   },
   computed: {
     subTotal: function () {

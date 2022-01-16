@@ -42,14 +42,6 @@
                 >
                   Name is required!
                 </div>
-                <div
-                  class="text-danger"
-                  v-if="
-                    !$v.contactForm.name.alpha && $v.contactForm.name.$dirty
-                  "
-                >
-                  Only alphabets are allowed!
-                </div>
               </div>
               <div class="form-group col-md-6">
                 <input
@@ -188,7 +180,6 @@ import toastr from "toastr";
 import {
   required,
   email,
-  alpha,
   numeric,
   maxLength,
   minLength,
@@ -213,7 +204,6 @@ export default {
       contactForm: {
         name: {
           required,
-          alpha,
         },
         email: {
           required,

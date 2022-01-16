@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 2);
             $table->boolean('featured')->default(0);
             $table->string('thumbnail');
+            $table->integer('sold');
             $table->timestamps();
         });
     }

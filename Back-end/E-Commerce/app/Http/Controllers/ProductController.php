@@ -69,6 +69,7 @@ class ProductController extends Controller
             $product->price = $request->pprice;
             $thumbnail = 'products/product-' . time() . rand() . '.' . $request->pthumbnail->extension();
             $product->thumbnail = $thumbnail;
+            $product->sold = 0;
             $request->pthumbnail->move(public_path('products'), $thumbnail);
             if ($request->pfeatured) {
                 $product->featured = $request->pfeatured;
@@ -231,4 +232,5 @@ class ProductController extends Controller
         $product = Product::with(['images'])->find($id);
         return response()->json(['product' => $product, 'message' => 'Products details is fetched'], 200);
     }
+
 }

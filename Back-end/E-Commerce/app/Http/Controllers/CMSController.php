@@ -120,4 +120,24 @@ class CMSController extends Controller
             $cms->delete();
         }
     }
+
+    /**
+     * All CMS Api
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCMSsApi()
+    {
+        return response()->json(['cms' => Cms::all(), 'message' => 'all cms fetched'], 200);
+    }
+
+    /**
+     * CMS Api
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCMSApi($slug)
+    {
+        return response()->json(['cms' => Cms::where('slug', $slug)->first(), 'message' => 'all cms fetched'], 200);
+    }
 }

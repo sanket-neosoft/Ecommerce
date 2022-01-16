@@ -4,7 +4,9 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CMSController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserOrderController;
@@ -87,4 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cms-management/delete/{id}', [CMSController::class, 'deleteCMS']);
     Route::get('/cms-management/cms/{id}', [CMSController::class, 'getCMS']);
     Route::post('/cms-management/edit/{id}', [CMSController::class, 'editCMS']);
+
+    //PDFController
+    Route::get('/download-products-pdf', [PDFController::class, 'downloadProducts']);
+    Route::get('/download-users-pdf', [PDFController::class, 'downloadUsers']);
+    Route::get('/download-coupons-pdf', [PDFController::class, 'downloadCoupons']);
+
+    //ContactUsController
+    Route::get('/inbox', [ContactUsController::class, 'getInbox']);
+    Route::get('/inbox/{id}', [ContactUsController::class, 'readInbox']);
+    Route::post('/send-reply', [ContactUsController::class, 'sendReply']);
+
 });

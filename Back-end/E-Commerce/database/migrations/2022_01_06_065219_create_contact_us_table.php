@@ -19,6 +19,7 @@ class CreateContactUsTable extends Migration
             $table->string('email');
             $table->string('contact_number');
             $table->text('message');
+            $table->boolean('reply')->default(0);
             $table->timestamps();
         });
     }

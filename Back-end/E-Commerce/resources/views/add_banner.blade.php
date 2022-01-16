@@ -47,20 +47,6 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="banner-image">Banner Image</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input @error('bimage') is-invalid @enderror" id="banner-image" name="bimage" onchange="showPreview(event)">
-                                        <label class="custom-file-label" for="banner-image">Choose file</label>
-                                    </div>
-                                </div>
-                                @error('bimage')
-                                <span class="text-danger" role="alert">
-                                    <small><strong>{{ $message }}</strong></small>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
                                 <label for="fname">Banner link</label>
                                 <input type="text" class="form-control @error('blink') is-invalid @enderror" name="blink" id="blink" placeholder="Enter banner link" autofocus value="{{ old('blink') }}">
                                 @error('blink')
@@ -69,7 +55,25 @@
                                 </span>
                                 @enderror
                             </div>
+                            <div class="form-group col-md-6">
+                                <label>Banner Description (optional)</label>
+                                <textarea class="form-control" rows="11" placeholder="Enter banner description" name="bdescription"></textarea>
+                            </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="banner-image">Banner Image</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input @error('bimage') is-invalid @enderror" id="banner-image" name="bimage" onchange="showPreview(event)">
+                                            <label class="custom-file-label" for="banner-image">Choose file</label>
+                                        </div>
+                                    </div>
+                                    @error('bimage')
+                                    <span class="text-danger" role="alert">
+                                        <small><strong>{{ $message }}</strong></small>
+                                    </span>
+                                    @enderror
+                                </div>
                                 <div class="border rounded preview">
                                     <img id="preview" src="https://www.cellmax.eu/wp-content/uploads/2020/01/Hero-Banner-Placeholder-Dark-1024x480-1.png" style="width: 100%; height: 14rem; object-fit: cover; object-position: center" alt="">
                                 </div>

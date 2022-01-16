@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CMSController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JWTController;
 use App\Http\Controllers\ProductController;
@@ -61,3 +62,9 @@ Route::get('/product/{id}', [ProductController::class,'getProductApi']);
 
 // Category all Products Api
 Route::get('/category/products/{id}', [CategoryController::class, 'getCategoryProductsApi']);
+
+// all CMS Api
+Route::get('/cms', [CMSController::class, 'getCMSsApi']);
+
+// Single Cms api
+Route::get('/cms/{slug}', [CMSController::class, 'getCMSApi']);

@@ -20,7 +20,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-
     <!-- Bootstrap 4.6 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
@@ -38,6 +37,9 @@
 
     <!-- toastr css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <link rel="icon" href="https://uilogos.co/img/logomark/towers.png">
 
@@ -76,6 +78,12 @@
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/inbox') }}" aria-expanded="false">
+                        <i class="far fa-envelope"></i>
+                        <span class="badge badge-danger navbar-badge">{{ session()->has('mail_count') }}</span>
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-user-cog mr-1"></i>
@@ -94,7 +102,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="../../index3.html" class="brand-link">
+            <a href="{{ url('/') }}" class="brand-link">
                 <img src="https://uilogos.co/img/logomark/towers.png" alt="Logo" class="brand-image" style="filter: invert(85%)">
                 <span class="brand-text font-weight-light">E-Commerce</span>
             </a>
@@ -107,66 +115,110 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{{url('/user-management')}}" class="nav-link">
+                            <a href="{{url('/')}}" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon far fa-users"></i>
                                 <p>
-                                    Users Management
+                                    User
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/user-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Users</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/user-management/add-user') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add User</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/user-management/add-user')}}" class="nav-link">
-                                <i class="nav-icon far fa-user-plus"></i>
-                                <p>
-                                    Add User
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{url('/banner-management')}}" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-images"></i>
                                 <p>
-                                    Banner Management
+                                    Banner
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/banner-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Banners</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/banner-management/add-banner') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Banner</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/banner-management/add-banner')}}" class="nav-link">
-                                <i class="nav-icon fas fa-images"></i>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon  fas fa-object-group"></i>
                                 <p>
-                                    Add Banner
+                                    Category
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/category-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Categories</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/category-management/add-category') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Category</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/category-management')}}" class="nav-link">
-                                <i class="nav-icon fas fa-object-group"></i>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-window-restore"></i>
                                 <p>
-                                    Category Management
+                                    Coupon Management
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/coupon-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Coupons</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/coupon-management/add-coupon') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Coupon</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('/category-management/add-category')}}" class="nav-link">
-                                <i class="nav-icon fas fa-object-group"></i>
+                            <a href="{{url('/order-management')}}" class="nav-link">
+                                <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>
-                                    Add Category
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{url('/product-management')}}" class="nav-link">
-                                <i class="nav-icon fas fa-shopping-bag"></i>
-                                <p>
-                                    Product Management
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{url('/product-management/add-product')}}" class="nav-link">
-                                <i class="nav-icon fas fa-shopping-bag"></i>
-                                <p>
-                                    Add Product
+                                    Orders
                                 </p>
                             </a>
                         </li>
@@ -186,11 +238,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 
-    <!-- AdminLTE JS -->
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
-
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- AdminLTE JS -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
 
     <!-- JQuery-UI Js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

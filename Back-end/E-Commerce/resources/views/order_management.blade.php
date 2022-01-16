@@ -119,11 +119,11 @@
                         <div class="form-group col-md-6">
                             <label>Status</label>
                             <select class="form-control" id="status" name="status">
-                                <option>Yet to be Dispatched</option>
-                                <option>Dispatched</option>
-                                <option>Shipped</option>
-                                <option>Arriving Today</option>
-                                <option>Delivered</option>
+                                <option id="step1">Yet to be Dispatched</option>
+                                <option id="step2">Dispatched</option>
+                                <option id="step3">Shipped</option>
+                                <option id="step4">Arriving Today</option>
+                                <option id="step5">Delivered</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -132,11 +132,12 @@
                         </div>
                     </div>
                     <input type="hidden" id="id">
+                    <input type="hidden" name="quantity" id="quantity">
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-warning"><i class="fas fa-pen"></i> Edit</button>
                     </div>
-
+                </div>
             </form>
         </div>
         <!-- /.modal-content -->
@@ -159,6 +160,7 @@
                 success: function(response) {
                     console.log(response);
                     $("#id").val(response.order.id);
+                    $("#quantity").val(response.order.quantity);
                     $("#order-id").text(response.order.tracking_id);
                     $("#product-id").text(`Product Id: ${response.order.product_id}`);
                     $("#product-name").text(`Product Name: ${response.order.product.name}`);
@@ -169,6 +171,38 @@
                     $("#user-address").text(`Address: ${response.order.user_order.user_address}`);
                     $("#user-contact").text(`Contact No: ${response.order.user_order.user_contact}`);
                     $("#current-status").val(response.order.status);
+                    switch (response.order.status) {
+                        case "Yet to be Dispatched":
+                            $("#step1").prop('disabled', true);
+                            $("#step1").prop('selected', true);
+                            break;
+                        case "Dispatched":
+                            $("#step1").prop('disabled', true);
+                            $("#step2").prop('disabled', true);
+                            $("#step2").prop('selected', true);
+                            break;
+                        case "Shipped":
+                            $("#step1").prop('disabled', true);
+                            $("#step2").prop('disabled', true);
+                            $("#step3").prop('disabled', true);
+                            $("#step3").prop('selected', true);
+                            break;
+                        case "Arriving Today":
+                            $("#step1").prop('disabled', true);
+                            $("#step2").prop('disabled', true);
+                            $("#step3").prop('disabled', true);
+                            $("#step4").prop('disabled', true);
+                            $("#step4").prop('selected', true);
+
+                            break;
+                        default:
+                            $("#step1").prop('disabled', true);
+                            $("#step2").prop('disabled', true);
+                            $("#step3").prop('disabled', true);
+                            $("#step4").prop('disabled', true);
+                            $("#step5").prop('disabled', true);
+                            $("#step5").prop('selected', true);
+                    }
                 }
             });
         });
@@ -186,6 +220,7 @@
                 success: function(response) {
                     if (response === 'success') {
                         location.reload();
+                        toastr.success('Status updated sucessfully.');
                     } else {
                         toastr.error('Status update failed');
                     }

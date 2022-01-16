@@ -18,6 +18,7 @@ class CreateWishListsTable extends Migration
             $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('product_id');
             $table->string('product_name');
+            $table->string('product_brand');
             $table->string('product_image');
             $table->decimal('product_price', 8, 2);
             $table->timestamps();

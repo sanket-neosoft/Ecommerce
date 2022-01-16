@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('/cms-management') }}">Category Management</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/cms-management') }}">CMS Management</a></li>
                     <li class="breadcrumb-item active">Add CMS</li>
                 </ol>
             </div>

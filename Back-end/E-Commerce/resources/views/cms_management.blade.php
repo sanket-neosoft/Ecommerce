@@ -44,11 +44,13 @@
                                 <tr>
                                     <td><img src="{{ url($cms->image) }}" style="height: 5rem; object-fit: cover; object-position: center"></td>
                                     <td>{{ $cms->title }}</td>
-                                    <td>{{ $cms->description }}</td>
+                                    <td>
+                                        <div class="overflow-auto" style="max-height: 5rem; ">{{ $cms->description }}</div>
+                                    </td>
                                     <td>{{ $cms->slug }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-warning edit" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
-                                        <button class="btn btn-danger delete" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-delete"><i class="fas fa-trash-alt"></i></button>
+                                        <button class="btn btn-warning edit my-1" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
+                                        <button class="btn btn-danger delete my-1" data-id="{{ $cms->id }}" data-toggle="modal" data-target="#modal-delete"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -34,6 +34,7 @@
                                 <tr>
                                     <th>Image</th>
                                     <th>Banner Caption</th>
+                                    <th>Banner Description</th>
                                     <th>Banner Link</th>
                                     <th></th>
                                 </tr>
@@ -43,6 +44,9 @@
                                 <tr>
                                     <td><img src="{{ url($banner->image) }}" alt="{{ $banner->banner_image }}" style="height: 5rem; object-fit: cover; object-position: center"></td>
                                     <td>{{ $banner->caption }}</td>
+                                    <td>
+                                        <div class="overflow-auto" style="max-height: 5rem; ">{{ $banner->description }}</div>
+                                    </td>
                                     <td>{{ $banner->link }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-warning edit my-1" data-id="{{ $banner->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
@@ -77,32 +81,27 @@
                     @csrf
                     <input type="hidden" id="id">
                     <div class="card-body row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="bcaption">Banner Caption</label>
-                                <input type="text" class="form-control @error('bcaption') is-invalid @enderror" name="bcaption" id="bcaption" placeholder="Enter banner caption" autofocus value="">
-                                @error('bcaption')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="fname">Banner link (optional)</label>
-                                <input type="text" class="form-control @error('blink') is-invalid @enderror" name="blink" id="blink" placeholder="Enter banner link" autofocus value="{{ old('blink') }}">
-                                @error('blink')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <ul>
-                                    <li>Use effective size dimensions for banners 728&times;90 pixels.</li>
-                                    <li>rule 2</li>
-                                    <li>rule 3</li>
-                                </ul>
-                            </div>
+                        <div class="form-group col-md-6">
+                            <label for="bcaption">Banner Caption</label>
+                            <input type="text" class="form-control @error('bcaption') is-invalid @enderror" name="bcaption" id="bcaption" placeholder="Enter banner caption" autofocus value="">
+                            @error('bcaption')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="fname">Banner link (optional)</label>
+                            <input type="text" class="form-control @error('blink') is-invalid @enderror" name="blink" id="blink" placeholder="Enter banner link">
+                            @error('blink')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Banner Description (optional)</label>
+                            <textarea class="form-control" rows="11" placeholder="Enter banner description" name="bdescription" id="bdescription"></textarea>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
@@ -189,6 +188,7 @@
                     $("#bcaption").val(response.caption);
                     $("#blink").val(response.link);
                     $("#id").val(response.id);
+                    $("#bdescription").val(response.description);
                     $("#preview").attr("src", `http://127.0.0.1:8000/${response.image}`);
                 }
             });

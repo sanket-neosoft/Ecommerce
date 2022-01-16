@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\Coupon;
 use App\Models\CouponUsed;
 use App\Models\OrderDetail;
@@ -12,8 +13,10 @@ use App\Models\WishList;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Newsletter;
 
 class JWTController extends Controller
 {
@@ -60,24 +63,36 @@ class JWTController extends Controller
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
+        } else {
+
+            if (!Newsletter::isSubscribed($request->email)) {
+                Newsletter::subscribe($request->email, ['FNAME' => $request->fname, 'LNAME' => $request->lname]);
+            }
+
+            $user = User::create([
+                'firstname' => $request->fname,
+                'lastname' => $request->lname,
+                'email' => $request->email,
+                'role_id' => 5,
+                'active' => true,
+                'password' => Hash::make($request->password),
+            ]);
+
+            $data = ['msg' => 'Thank you for registering. Find awesome deals on E-Shopping'];
+            $user['to'] = $request->email;
+            Mail::send('mail.message', $data, function ($message) use ($user) {
+                $message->to($user['to']);
+                $message->subject('Welcome to E-Commerce');
+            });
+
+            return response()->json([
+                'access_token' => JWTAuth::fromUser($user),
+                'token_type' => 'bearer',
+                'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
+                'user' => $user->firstname,
+                'user_id' => $user->id,
+            ], 201);
         }
-
-        $user = User::create([
-            'firstname' => 'sanket  ',
-            'lastname' => $request->lname,
-            'email' => $request->email,
-            'role_id' => 5,
-            'active' => true,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json([
-            'access_token' => JWTAuth::fromUser($user),
-            'token_type' => 'bearer',
-            'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
-            'user' => $user->firstname,
-            'user_id' => $user->id,
-        ], 201);
     }
 
     /**
@@ -101,6 +116,9 @@ class JWTController extends Controller
         if (!$token = auth()->guard('api')->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        $message_count = ContactUs::where('reply', 0)->count();
+        $request->session()->push('mail_count', $message_count);
 
         return $this->respondWithToken($token, auth()->guard('api')->user());
     }
@@ -233,7 +251,7 @@ class JWTController extends Controller
         $wishlist_product->product_image = $request->product_image;
         $wishlist_product->product_price = $request->product_price;
         $wishlist_product->product_id = $request->product_id;
-        // $wishlist_product->product_brand = $request->product_brand;
+        $wishlist_product->product_brand = $request->product_brand;
         $wishlist_product->save();
         return response()->json(['message' => ' added to wishlist'], 200);
     }
@@ -333,10 +351,22 @@ class JWTController extends Controller
         $order_detail = new OrderDetail();
         $order_detail->user_order_id = $request->user_order_id;
         $order_detail->product_id = $request->product_id;
-        $order_detail->tracking_id = substr(time(), 0, 4) . '-' . substr(rand(), 0, 4) . '-' . substr(rand(), 4, 4) . '-' . substr(time(), 2, 4);
-        $order_detail->status = 'Yet to be Dispatched.';
+        $order_detail->tracking_id = substr(time(), 0, 4) . '-' . substr(rand(), 0, 4) . '-' . substr(rand(), 4, 4) . '-' . substr(rand(), 2, 4);
+        $order_detail->status = 'Yet to be Dispatched';
         $order_detail->quantity = $request->quantity;
         if ($order_detail->save()) {
+            $order = OrderDetail::with(['user_order', 'product'])->find($order_detail->id);
+            $data = ['order_detail' => $order];
+            $user['to'] = $order->user_order->user_email;
+            Mail::send('mail.order_placed', $data, function ($message) use ($user) {
+                $message->to($user['to']);
+                $message->subject('Your order placed Successfully');
+            });
+            $admin = User::where('role_id', 1)->first();
+            Mail::send('mail.order_placed', $data, function ($message) use ($admin) {
+                $message->to($admin->config->notification_email);
+                $message->subject('New Order');
+            });
             return response()->json(['message' => 'Order registerd'], 200);
         } else {
             return response()->json(['message' => 'Order failed to registerd'], 400);
@@ -383,15 +413,6 @@ class JWTController extends Controller
      */
     public function usedCoupon($id)
     {
-        // $orders = UserOrder::where('user_id', $id)->get();
-        // $coupons = [];
-        // foreach ($orders as $order) {
-        //     if (!in_array($order->coupon, $coupons)) {
-        //         array_push($coupons, $order->coupon);
-        //     }
-        // }
-        // return response()->json(['used_coupons' => $coupons, 'message' => 'fetched used coupon'], 200);
-
         $coupon_used = User::find($id);
         $coupon_id = [];
         foreach ($coupon_used->coupons as $coupon) {

@@ -50,6 +50,7 @@ class BannerController extends Controller
             $banner = new Banner();
             $banner->caption = $request->bcaption;
             $banner->link = $request->blink;
+            $banner->description = $request->bdescription;
             $banner->image = 'banners/' . $imageName;
             if ($banner->save()) {
                 if ($request->bimage->move(public_path('banners'), $imageName)) {
@@ -97,6 +98,7 @@ class BannerController extends Controller
             $banner = Banner::find($id);
             $banner->caption = $request->bcaption;
             $banner->link = $request->blink;
+            $banner->description = $request->bdescription;
             if ($request->bimage) {
                 $request->bimage->move(public_path('banners'), $banner->image);
             }

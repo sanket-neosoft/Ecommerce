@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Models\UserOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserOrderController extends Controller
 {
@@ -36,9 +38,22 @@ class UserOrderController extends Controller
      */
     public function editOrder(Request $request, $id)
     {
-        $order = OrderDetail::find($id);
+        $order = OrderDetail::with(['user_order', 'product'])->find($id);
         $order->status = $request->status;
         if ($order->save()) {
+            if ($request->status === 'Dispatched') {
+                $product = Product::find($order->product_id);
+                $product->quantity -= $request->quantity;
+                $product->sold += $request->quantity;
+                $product->save();
+            }
+            $user['to'] = $order->user_order->user_email;
+            $user['subject'] = $request->status;
+            $data = ['order_detail' => $order];
+            Mail::send('mail.update_status', $data, function ($message) use ($user) {
+                $message->to($user['to']);
+                $message->subject('Your order ' . $user['subject']);
+            });
             return response()->json('success');
         } else {
             return response()->json('failed');

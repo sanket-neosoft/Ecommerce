@@ -294,15 +294,12 @@
                   >
                     Cash on delivery
                   </button>
-                  <button
-                    class="btn btn-default check_out"
-                    v-on:click="paymentOnline"
-                  >
-                    PayPal
-                  </button>
+                  <div ref="paypal"></div>
+
                   <div class="login-form">
                     <form>
-                      <div class="" v-if="online">
+                      <!-- <div v-if="!paidFor"></div> -->
+                      <!-- <div class="" v-if="online">
                         <h4>Card Details</h4>
                         <div class="form-group">
                           <div class="form-group">
@@ -334,8 +331,8 @@
                             />
                           </div>
                         </div>
-                      </div>
-                      <p class="cash" v-else>
+                      </div> -->
+                      <p class="cash">
                         Payment method is select as Cash on Delivery
                       </p>
                       <button
@@ -367,10 +364,7 @@
                       </li>
                       <li class="text-orange">
                         Total
-                        <span v-if="subTotal < 500">{{
-                          subTotal + shipping_cost - discount
-                        }}</span
-                        ><span v-else>{{ subTotal - discount }}</span>
+                        <span>{{ subTotal + shipping_cost - discount }}</span>
                       </li>
                     </ul>
                   </div>
@@ -434,6 +428,8 @@ export default {
   name: "Checkout",
   data() {
     return {
+      loaded: false,
+      paidFor: false,
       MAIN_URL: MAIN_URL,
       cart: [],
       coupon_error: "",
@@ -442,7 +438,6 @@ export default {
       coupon_details: {
         percent: 0,
       },
-      shipping_cost: 50,
       online: false,
       checkout: {
         fname: null,
@@ -495,6 +490,11 @@ export default {
       this.checkout.email = res.data.email;
       this.checkout.id = res.data.id;
     });
+    const script = document.createElement("script");
+    script.src =
+      "https://www.paypal.com/sdk/js?client-id=AYPNNxeIUYmqVJ0-1F5GryeB2Y_AZAY2lgXAVB40YhvdiPO5RN1U9cR-ksoCTADmsACKdVls8NQ1CxMq";
+    script.addEventListener("load", this.setLoaded);
+    document.body.appendChild(script);
   },
   computed: {
     subTotal: function () {
@@ -530,8 +530,36 @@ export default {
         return discount;
       }
     },
+    shipping_cost: function () {
+      if (this.subTotal < 500) {
+        return 50;
+      } else {
+        return 0;
+      }
+    },
   },
   methods: {
+    setLoaded: function () {
+      this.loaded = true;
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: "Your Grand total",
+                  amount: {
+                    currency_code: "USD",
+                    value: this.subTotal + this.shipping_cost + this.discount,
+                  },
+                },
+              ],
+            });
+          },
+        })
+        .render(this.$refs.paypal);
+    },
+
     deleteFromCart(id) {
       this.products = this.products.filter((value) => value.id != id);
       localStorage.setItem("cart", JSON.stringify(this.products));
@@ -632,30 +660,6 @@ export default {
           }
           toastr.success("Your order placed successfully.");
         });
-        // let index = 0;
-        // for (let product of this.cart) {
-        //   data["product_id"] = product.id;
-        //   data["product"] = `${product.name}-(${product.brand})`;
-        //   data["price"] = product.price;
-        //   data["quantity"] = this.$store.getters.cart[index].quantity;
-        //   index += 1;
-        //   if (this.checkout.card_holder !== null) {
-        //     data["payment_method"] = "PayPal";
-        //   } else {
-        //     data["payment_method"] = "COD";
-        //   }
-        //   console.log(data);
-        //   placeOrder(data).then((res) => {
-        //     console.log(res.data);
-        //     if (res.data.message === "Order registered") {
-        //       this.cart = this.cart.filter((value) => value.id != product.id);
-        //       toastr.success("Your order placed successfully.");
-        //     }
-        //   });
-        // }
-        // this.$store.dispatch("addToCart", []);
-        // localStorage.setItem("cart", JSON.stringify([]));
-        // couponCount(this.coupon_details.id);
       }
     },
   },

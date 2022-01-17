@@ -37,8 +37,9 @@
               <p>{{ order.created_at | formatTime }}</p>
               <p>Tracking Id: {{ order.tracking_id }}</p>
               <p>
-                SubTotal: {{ order.product.price }} * {{ order.quantity }} =
-                {{ order.product.price * order.quantity }}
+                SubTotal: {{ order.product.price | rupee }} *
+                {{ order.quantity }} =
+                {{ order.product.price * order.quantity | rupee }}
               </p>
             </div>
           </div>
@@ -46,8 +47,10 @@
         <div class="col-md-4 margin text-center border-left">
           <p>Payment Method: {{ user_orders.payment_method }}</p>
           <p v-if="user_orders.coupon">Coupon: {{ user_orders.coupon }}</p>
-          <p v-if="user_orders.discount !== 0">Discount: {{ user_orders.discount | rupee }}</p>
-          <p>Grand Total: {{ user_orders.grand_total }}</p>
+          <p v-if="user_orders.discount !== 0">
+            Discount: {{ user_orders.discount | rupee }}
+          </p>
+          <p>Grand Total: {{ user_orders.grand_total | rupee }}</p>
         </div>
         <hr />
       </div>
@@ -102,6 +105,6 @@ export default {
   border-top: solid 1px #69676315;
 }
 .text-center {
-  border-left: solid 1px #FE980F;
+  border-left: solid 1px #fe980f;
 }
 </style>

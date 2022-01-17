@@ -3,6 +3,7 @@
     <div class="login-form">
       <!--login form-->
       <h2>Login to your account</h2>
+      <span class="text-danger">{{ error }}</span>
       <form v-on:submit.prevent="login()">
         <div class="form-group">
           <input type="email" v-model="loginForm.email" placeholder="Email" />
@@ -34,11 +35,19 @@
             Password is required!
           </span>
         </div>
-        <span>
+        <!-- <span>
           <input type="checkbox" class="checkbox" />
           Keep me signed in
-        </span>
+        </span> -->
         <button type="submit" class="btn btn-default">Login</button>
+        <!-- <facebook-login
+          class="button"
+          appId="2927155020864450"
+          @login="getUserData"
+          @logout="onLogout"
+          @get-initial-status="getUserData"
+        >
+        </facebook-login> -->
       </form>
     </div>
     <!--/login form-->
@@ -52,6 +61,7 @@ import router from "../../router";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
+// import facebookLogin from 'facebook-login-vuejs';
 
 Vue.use(Vuelidate);
 
@@ -63,7 +73,11 @@ export default {
         email: null,
         password: null,
       },
+      error: "",
     };
+  },
+  components: {
+    // facebookLogin,
   },
   validations: {
     loginForm: {
@@ -84,18 +98,26 @@ export default {
           email: this.loginForm.email,
           password: this.loginForm.password,
         };
-        userLogin(formData).then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data));
-          store.dispatch("user", res.data);
-          userWishlist(store.getters.user.user_id).then((res) => {
-            let wishlist = [];
-            console.log(store.getters.user)
-            res.data.product.map((product) => wishlist.push(product.product_id));
-            store.dispatch("addToWishlist", wishlist);
-            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        userLogin(formData)
+          .then((res) => {
+            localStorage.setItem("user", JSON.stringify(res.data));
+            store.dispatch("user", res.data);
+            userWishlist(store.getters.user.user_id).then((res) => {
+              let wishlist = [];
+              console.log(store.getters.user);
+              res.data.product.map((product) =>
+                wishlist.push(product.product_id)
+              );
+              store.dispatch("addToWishlist", wishlist);
+              localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            });
+            router.push({ name: "Home" });
+          })
+          .catch((err) => {
+            if (err.response.status === 401) {
+              this.error = "Invalid Credentails";
+            }
           });
-          router.push({ name: "Home" });
-        });
       }
     },
   },

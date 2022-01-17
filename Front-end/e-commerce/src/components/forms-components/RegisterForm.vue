@@ -60,6 +60,7 @@
             v-if="!$v.registerForm.email.email && $v.registerForm.email.$dirty"
             >Invalid email!</span
           >
+          <span class="text-danger">{{email_err}}</span>
         </div>
         <div class="form-group">
           <input
@@ -135,6 +136,7 @@ export default {
         password: null,
         cnf_password: null,
       },
+      email_err: "",
     };
   },
   validations: {
@@ -174,8 +176,12 @@ export default {
         };
         userRegister(formData).then((res) => {
           localStorage.setItem("user", JSON.stringify(res.data));
-          store.dispatch('user', res.data);
+          store.dispatch("user", res.data);
           router.push({ name: "Home" });
+        }).catch(err => {
+          if (err.response.status === 400) {
+            this.email_err = err.response.data.email[0]
+          }
         });
       }
     },

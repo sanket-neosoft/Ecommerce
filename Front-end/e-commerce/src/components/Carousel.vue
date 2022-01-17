@@ -23,19 +23,21 @@
               <div class="item active">
                 <div class="col-sm-6">
                   <h1><span>E</span>-SHOPPER</h1>
-                  <h2>Free E-Commerce Template</h2>
+                  <h2>{{ default_banner.caption }}</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    {{ default_banner.description }}
                   </p>
-                  <button type="button" class="btn btn-default get">
+                  <router-link
+                    v:bind-to="default_banner.link"
+                    v-if="default_banner.link !== null"
+                    class="btn btn-default get"
+                  >
                     Get it now
-                  </button>
+                  </router-link>
                 </div>
                 <div class="col-sm-6">
                   <img
-                    v-bind:src="MAIN_URL + defalult_banner.image"
+                    v-bind:src="MAIN_URL + default_banner.image"
                     class="girl img-responsive"
                     alt=""
                   />
@@ -48,15 +50,17 @@
               >
                 <div class="col-sm-6">
                   <h1><span>E</span>-SHOPPER</h1>
-                  <h2>100% Responsive Design</h2>
+                  <h2>{{ banner.caption }}</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    {{ banner.description }}
                   </p>
-                  <button type="button" class="btn btn-default get">
+                  <router-link
+                    v:bind-to="default_banner.link"
+                    v-if="banner.link !== null"
+                    class="btn btn-default get"
+                  >
                     Get it now
-                  </button>
+                  </router-link>
                 </div>
                 <div class="col-sm-6">
                   <img
@@ -105,13 +109,13 @@ export default {
     return {
       banners: "",
       MAIN_URL: MAIN_URL,
-      defalult_banner: "",
+      default_banner: "",
     };
   },
   mounted() {
     banners().then((res) => {
       this.banners = res.data.banners.slice(1);
-      this.defalult_banner = res.data.banners[0];
+      this.default_banner = res.data.banners[0];
     });
   },
 };

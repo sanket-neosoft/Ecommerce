@@ -108,7 +108,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         foreach ($product->images as $image) {
-            unlink(public_path('products/' . $image->image));
+            unlink(public_path($image->image));
         }
         $product->delete();
     }
@@ -188,7 +188,7 @@ class ProductController extends Controller
                     }
                 }
                 $product->categories()->sync(explode(', ', $request->pcategory));
-                return back()->with('status', 'success');
+                return redirect('/product-management')->with('status', 'success');
             } else {
                 return back()->with('status', 'failed');
             }
@@ -207,7 +207,7 @@ class ProductController extends Controller
     public function deleteProductImage($id)
     {
         $product_image = ProductImage::find($id);
-        unlink(public_path('products/' . $product_image->image));
+        unlink(public_path($product_image->image));
         $product_image->delete();
     }
 

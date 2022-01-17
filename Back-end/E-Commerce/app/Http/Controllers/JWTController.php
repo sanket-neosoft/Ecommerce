@@ -117,9 +117,6 @@ class JWTController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $message_count = ContactUs::where('reply', 0)->count();
-        $request->session()->push('mail_count', $message_count);
-
         return $this->respondWithToken($token, auth()->guard('api')->user());
     }
 

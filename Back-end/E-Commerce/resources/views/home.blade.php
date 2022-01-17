@@ -34,7 +34,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="{{ url('/download-users-pdf') }}" class="small-box-footer">Download User List <i class="fas fa-arrow-circle-down"></i></a>
+                    <a href="{{ url('/download-users-pdf') }}" class="small-box-footer">Download Users List <i class="fas fa-arrow-circle-down"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -49,7 +49,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ url('/download-products-pdf') }}" class="small-box-footer">Download Product List <i class="fas fa-arrow-circle-down"></i></a>
+                    <a href="{{ url('/download-products-pdf') }}" class="small-box-footer">Download Products List <i class="fas fa-arrow-circle-down"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -58,12 +58,12 @@
                     <div class="inner">
                         <h3>{{ $coupon_used }}</h3>
 
-                        <p>Coupon Used</p>
+                        <p>Coupons Used</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{ url('/download-coupons-pdf') }}" class="small-box-footer">Download Coupon List <i class="fas fa-arrow-circle-down"></i></a>
+                    <a href="{{ url('/download-coupons-pdf') }}" class="small-box-footer">Download Coupons List <i class="fas fa-arrow-circle-down"></i></a>
                 </div>
             </div>
         </div>

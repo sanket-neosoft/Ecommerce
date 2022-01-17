@@ -175,17 +175,23 @@
                         case "Yet to be Dispatched":
                             $("#step1").prop('disabled', true);
                             $("#step1").prop('selected', true);
+                            $("#step3").prop('disabled', true);
+                            $("#step4").prop('disabled', true);
+                            $("#step5").prop('disabled', true);
                             break;
                         case "Dispatched":
                             $("#step1").prop('disabled', true);
                             $("#step2").prop('disabled', true);
                             $("#step2").prop('selected', true);
+                            $("#step4").prop('disabled', true);
+                            $("#step5").prop('disabled', true);
                             break;
                         case "Shipped":
                             $("#step1").prop('disabled', true);
                             $("#step2").prop('disabled', true);
                             $("#step3").prop('disabled', true);
                             $("#step3").prop('selected', true);
+                            $("#step5").prop('disabled', true);
                             break;
                         case "Arriving Today":
                             $("#step1").prop('disabled', true);
@@ -193,7 +199,6 @@
                             $("#step3").prop('disabled', true);
                             $("#step4").prop('disabled', true);
                             $("#step4").prop('selected', true);
-
                             break;
                         default:
                             $("#step1").prop('disabled', true);
@@ -201,7 +206,6 @@
                             $("#step3").prop('disabled', true);
                             $("#step4").prop('disabled', true);
                             $("#step5").prop('disabled', true);
-                            $("#step5").prop('selected', true);
                     }
                 }
             });

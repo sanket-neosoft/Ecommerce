@@ -193,6 +193,29 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
+                                <i class="nav-icon  fas fa-shopping-bag"></i>
+                                <p>
+                                    Product
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/product-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Products</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/product-management/add-product') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Product</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon far fa-window-restore"></i>
                                 <p>
                                     Coupon Management

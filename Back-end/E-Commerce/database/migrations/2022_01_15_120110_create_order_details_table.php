@@ -17,7 +17,7 @@ class CreateOrderDetailsTable extends Migration
             $table->id();
             $table->foreignId('user_order_id')->constrained('user_orders', 'id')->onDelete('cascade')->onUpdate('cascade');
             $table->string('tracking_id')->unique();
-            $table->foreignId('product_id')->constrained('products', 'id');
+            $table->foreignId('product_id')->constrained('products', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('status');
             $table->integer('quantity');
             $table->timestamps();

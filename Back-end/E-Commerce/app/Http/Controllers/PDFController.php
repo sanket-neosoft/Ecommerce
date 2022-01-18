@@ -60,7 +60,7 @@ class PDFController extends Controller
      * @return view
      */
     public function downloadUsers() {
-        $users = User::all();
+        $users = User::where('role_id', 5)->get();
         $pdf = PDF::loadview('pdf.users', ['users'=> $users]);
         return $pdf->download('users.pdf');
     }

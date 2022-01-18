@@ -410,7 +410,7 @@ class JWTController extends Controller
      */
     public function usedCoupon($id)
     {
-        $coupon_used = User::find($id);
+        $coupon_used = User::with('coupons')->find($id);
         $coupon_id = [];
         foreach ($coupon_used->coupons as $coupon) {
             array_push($coupon_id, $coupon->id);

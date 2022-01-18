@@ -37,6 +37,7 @@
                                     <th>Status</th>
                                     <th>Payment Method</th>
                                     <th>Quantity</th>
+                                    <th>Ordered on</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -48,9 +49,11 @@
                                     <td>{{ $order->status }}</td>
                                     <td>{{ $order->user_order->payment_method }}</td>
                                     <td>{{ $order->quantity }}</td>
+                                    <td>
+                                        {{ $order->created_at }}
+                                    </td>
                                     <td class="text-center">
                                         <button class="btn btn-warning edit" data-id="{{ $order->id }}" data-toggle="modal" data-target="#modal-edit"><i class="fas fa-pen"></i></button>
-
                                     </td>
                                 </tr>
                                 @endforeach
@@ -117,18 +120,9 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label>Status</label>
+                            <label>Change Status</label>
                             <select class="form-control" id="status" name="status">
-                                <option id="step1">Yet to be Dispatched</option>
-                                <option id="step2">Dispatched</option>
-                                <option id="step3">Shipped</option>
-                                <option id="step4">Arriving Today</option>
-                                <option id="step5">Delivered</option>
                             </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="current-status">Current Status</label>
-                            <input type="text" class="form-control" id="current-status" disabled>
                         </div>
                     </div>
                     <input type="hidden" id="id">
@@ -171,41 +165,47 @@
                     $("#user-address").text(`Address: ${response.order.user_order.user_address}`);
                     $("#user-contact").text(`Contact No: ${response.order.user_order.user_contact}`);
                     $("#current-status").val(response.order.status);
-                    switch (response.order.status) {
+                    let status = response.order.status;
+                    switch (status) {
                         case "Yet to be Dispatched":
-                            $("#step1").prop('disabled', true);
-                            $("#step1").prop('selected', true);
-                            $("#step3").prop('disabled', true);
-                            $("#step4").prop('disabled', true);
-                            $("#step5").prop('disabled', true);
+                            $('#status')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option selected disabled>Yet to be Dispatched</option>')
+                                .append('<option value="Dispatched">Dispatched</option>')
                             break;
                         case "Dispatched":
-                            $("#step1").prop('disabled', true);
-                            $("#step2").prop('disabled', true);
-                            $("#step2").prop('selected', true);
-                            $("#step4").prop('disabled', true);
-                            $("#step5").prop('disabled', true);
+                            $('#status')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option selected disabled>Dispatched</option>')
+                                .append('<option value="Shipped">Shipped</option>')
                             break;
                         case "Shipped":
-                            $("#step1").prop('disabled', true);
-                            $("#step2").prop('disabled', true);
-                            $("#step3").prop('disabled', true);
-                            $("#step3").prop('selected', true);
-                            $("#step5").prop('disabled', true);
+                            $('#status')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option selected disabled>Shipped</option>')
+                                .append('<option value="Arriving Today">Arriving Today</option>')
                             break;
                         case "Arriving Today":
-                            $("#step1").prop('disabled', true);
-                            $("#step2").prop('disabled', true);
-                            $("#step3").prop('disabled', true);
-                            $("#step4").prop('disabled', true);
-                            $("#step4").prop('selected', true);
+                            $('#status')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option selected disabled>Arriving Today</option>')
+                                .append('<option value="Delivered">Delivered</option>')
                             break;
                         default:
-                            $("#step1").prop('disabled', true);
-                            $("#step2").prop('disabled', true);
-                            $("#step3").prop('disabled', true);
-                            $("#step4").prop('disabled', true);
-                            $("#step5").prop('disabled', true);
+                            $('#status')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append('<option selected disabled>Delivered</option>')
+                            break
                     }
                 }
             });

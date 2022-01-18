@@ -119,7 +119,7 @@
             </div>
             <div class="mainmenu pull-left">
               <ul class="nav navbar-nav collapse navbar-collapse">
-                <li><router-link to="/" class="active">Home</router-link></li>
+                <li><router-link to="/" class="">Home</router-link></li>
                 <li class="dropdown">
                   <a href="#">Categories<i class="fa fa-angle-down"></i></a>
                   <ul role="menu" class="sub-menu">

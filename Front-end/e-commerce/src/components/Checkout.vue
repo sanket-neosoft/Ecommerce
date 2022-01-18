@@ -294,47 +294,23 @@
                   >
                     Cash on delivery
                   </button>
-                  <div ref="paypal"></div>
+                  <button
+                    class="btn btn-default update"
+                    v-on:click="paymentOnline"
+                  >
+                    Paypal
+                  </button>
 
                   <div class="login-form">
                     <form>
-                      <!-- <div v-if="!paidFor"></div> -->
-                      <!-- <div class="" v-if="online">
-                        <h4>Card Details</h4>
-                        <div class="form-group">
-                          <div class="form-group">
-                            <input
-                              type="text"
-                              placeholder="Card Holder"
-                              v-model="checkout.card_holder"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <input
-                              type="text"
-                              placeholder="Card Number"
-                              v-model="checkout.card_number"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <input
-                              type="month"
-                              placeholder="Expiry Date"
-                              v-model="checkout.card_expiry"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <input
-                              type="number"
-                              placeholder="CVV"
-                              v-model="checkout.card_cvv"
-                            />
-                          </div>
-                        </div>
-                      </div> -->
-                      <p class="cash">
-                        Payment method is select as Cash on Delivery
-                      </p>
+                      <div class="" v-if="online">
+                        <Paypal />
+                      </div>
+                      <div v-else>
+                        <p class="cash">
+                          Payment method is select as Cash on Delivery
+                        </p>
+                      </div>
                       <button
                         type="button"
                         v-on:click="checkoutform()"
@@ -342,6 +318,7 @@
                       >
                         Checkout
                       </button>
+                      <!-- </div> -->
                     </form>
                   </div>
                 </div>
@@ -400,6 +377,7 @@
 </template>
 
 <script>
+import Paypal from "./Paypal.vue";
 import {
   productDetails,
   accountDetails,
@@ -409,6 +387,7 @@ import {
   orderDetail,
   couponCount,
 } from "../common/Service";
+import { rupee } from "../common/Filter";
 import { MAIN_URL } from "../common/Url";
 import toastr from "toastr";
 import Vue from "vue";
@@ -426,6 +405,12 @@ Vue.use(Vuelidate);
 
 export default {
   name: "Checkout",
+  components: {
+    Paypal,
+  },
+  filters: {
+    rupee,
+  },
   data() {
     return {
       loaded: false,
@@ -477,7 +462,7 @@ export default {
       zipcode: { required },
     },
   },
-  mounted() {
+  created() {
     this.products = this.$store.getters.cart;
     this.products.map((value) => {
       productDetails(value.id).then((res) => {
@@ -490,6 +475,8 @@ export default {
       this.checkout.email = res.data.email;
       this.checkout.id = res.data.id;
     });
+  },
+  mounted() {
     const script = document.createElement("script");
     script.src =
       "https://www.paypal.com/sdk/js?client-id=AYPNNxeIUYmqVJ0-1F5GryeB2Y_AZAY2lgXAVB40YhvdiPO5RN1U9cR-ksoCTADmsACKdVls8NQ1CxMq";
@@ -539,27 +526,6 @@ export default {
     },
   },
   methods: {
-    setLoaded: function () {
-      this.loaded = true;
-      window.paypal
-        .Buttons({
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  description: "Your Grand total",
-                  amount: {
-                    currency_code: "USD",
-                    value: this.subTotal + this.shipping_cost + this.discount,
-                  },
-                },
-              ],
-            });
-          },
-        })
-        .render(this.$refs.paypal);
-    },
-
     deleteFromCart(id) {
       this.products = this.products.filter((value) => value.id != id);
       localStorage.setItem("cart", JSON.stringify(this.products));
@@ -585,6 +551,7 @@ export default {
         if (res.data.coupon != null) {
           this.coupon_details = res.data.coupon;
           usedCoupon(this.checkout.id).then((res) => {
+            console.log(res.data.coupon_used)
             if (res.data.coupon_used.includes(this.coupon_details.id)) {
               this.coupon_error = "You already used this coupon!";
             } else if (this.subTotal < this.coupon_details.minvalue) {
@@ -633,7 +600,7 @@ export default {
         if (this.coupon_details.id) {
           data["coupon_id"] = this.coupon_details.id;
         }
-        if (this.checkout.card_holder !== null) {
+        if (this.online) {
           data["payment_method"] = "PayPal";
         } else {
           data["payment_method"] = "COD";
@@ -659,6 +626,7 @@ export default {
             couponCount(this.coupon_details.id);
           }
           toastr.success("Your order placed successfully.");
+          this.$router.push('/myorders');
         });
       }
     },

@@ -104,7 +104,6 @@ export default {
             store.dispatch("user", res.data);
             userWishlist(store.getters.user.user_id).then((res) => {
               let wishlist = [];
-              console.log(store.getters.user);
               res.data.product.map((product) =>
                 wishlist.push(product.product_id)
               );

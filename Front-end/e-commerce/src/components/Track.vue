@@ -37,7 +37,10 @@
                 />
                 <span
                   class="text-danger"
-                  v-if="!$v.track.tracking_id.required && $v.track.tracking_id.$dirty"
+                  v-if="
+                    !$v.track.tracking_id.required &&
+                    $v.track.tracking_id.$dirty
+                  "
                 >
                   Tracking Id is required!
                 </span>
@@ -53,13 +56,24 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5 pb" v-if="status === 'Yet to be Dispatched'">
           <h2>Status</h2>
-          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <p class="status">
+            <span>&bull;</span> Yet to be Dispatched <br />
+            ({{ created_at | formatDate }} {{ created_at | formatTime }})
+          </p>
         </div>
         <div class="col-sm-5 pb" v-if="status === 'Dispatched'">
           <h2>Status</h2>
-          <p class="status"><span>&bull;</span> Yet to be Dispatched</p>
+          <p class="status">
+            <span>&bull;</span> Yet to be Dispatched <br> ({{
+              created_at | formatDate
+            }}
+            {{ created_at | formatTime }})
+          </p>
           <div class="line"></div>
-          <p class="status"><span>&bull;</span> Dispatched</p>
+          <p class="status">
+            <span>&bull;</span> Dispatched <br> ({{ updated_at | formatDate }}
+            {{ updated_at | formatTime }})
+          </p>
         </div>
         <div class="col-sm-5 pb" v-if="status === 'Shipped'">
           <h2>Status</h2>
@@ -98,6 +112,7 @@
 
 <script>
 import { trackOrder } from "../common/Service";
+import { formatDate, formatTime } from "../common/Filter";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
@@ -114,7 +129,13 @@ export default {
       },
       error: null,
       status: null,
+      created: null,
+      updated: null,
     };
+  },
+  filters: {
+    formatDate,
+    formatTime,
   },
   validations: {
     track: {
@@ -131,6 +152,8 @@ export default {
             this.error = "Invalid Order Details";
           } else {
             this.status = res.data.status;
+            this.created = res.data.created_at;
+            this.created = res.data.updated_at;
           }
         });
       }

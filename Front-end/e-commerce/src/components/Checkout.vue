@@ -329,19 +329,23 @@
                   <div class="total_area">
                     <ul>
                       <li>
-                        Cart Sub Total <span>{{ subTotal }}</span>
+                        Cart Sub Total <span>{{ subTotal | rupee }}</span>
                       </li>
                       <li>
                         Shipping Cost
-                        <span v-if="subTotal < 500">{{ shipping_cost }}</span
+                        <span v-if="subTotal < 500">{{
+                          shipping_cost | rupee
+                        }}</span
                         ><span v-else>Free</span>
                       </li>
                       <li>
-                        Discount <span>{{ discount }}</span>
+                        Discount <span>{{ discount.toFixed(2) | rupee }}</span>
                       </li>
                       <li class="text-orange">
                         Total
-                        <span>{{ subTotal + shipping_cost - discount }}</span>
+                        <span>{{
+                          (subTotal + shipping_cost - discount) | rupee
+                        }}</span>
                       </li>
                     </ul>
                   </div>
@@ -551,7 +555,7 @@ export default {
         if (res.data.coupon != null) {
           this.coupon_details = res.data.coupon;
           usedCoupon(this.checkout.id).then((res) => {
-            console.log(res.data.coupon_used)
+            console.log(res.data.coupon_used);
             if (res.data.coupon_used.includes(this.coupon_details.id)) {
               this.coupon_error = "You already used this coupon!";
             } else if (this.subTotal < this.coupon_details.minvalue) {
@@ -626,7 +630,7 @@ export default {
             couponCount(this.coupon_details.id);
           }
           toastr.success("Your order placed successfully.");
-          this.$router.push('/myorders');
+          this.$router.push("/myorders");
         });
       }
     },

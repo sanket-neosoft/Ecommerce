@@ -103,7 +103,7 @@ class CouponController extends Controller
             $coupon->limit = $request->climit;
             $coupon->quantity = $request->cquantity;
             if ($coupon->save()) {
-                return response()->json(['success']);
+                return response()->json('success');
             } else {
                 return response()->json(['failed']);
             }

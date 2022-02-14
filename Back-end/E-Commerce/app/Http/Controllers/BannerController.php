@@ -103,7 +103,7 @@ class BannerController extends Controller
                 $request->bimage->move(public_path('banners'), $banner->image);
             }
             if ($banner->save()) {
-                return response()->json(['success']);
+                return response()->json(true);
             }
         } 
     }

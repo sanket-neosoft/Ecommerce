@@ -218,7 +218,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon far fa-window-restore"></i>
                                 <p>
-                                    Coupon Management
+                                    Coupon
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -233,6 +233,29 @@
                                     <a href="{{ url('/coupon-management/add-coupon') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Coupon</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-window-restore"></i>
+                                <p>
+                                    CMS
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/cms-management') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>CMS</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('/cms-management/add-cms') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add CMS</p>
                                     </a>
                                 </li>
                             </ul>

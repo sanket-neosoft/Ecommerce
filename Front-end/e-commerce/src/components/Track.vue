@@ -57,22 +57,17 @@
         <div class="col-sm-5 pb" v-if="status === 'Yet to be Dispatched'">
           <h2>Status</h2>
           <p class="status">
-            <span>&bull;</span> Yet to be Dispatched <br />
-            ({{ created_at | formatDate }} {{ created_at | formatTime }})
+            <span>&bull;</span> Yet to be Dispatched
           </p>
         </div>
         <div class="col-sm-5 pb" v-if="status === 'Dispatched'">
           <h2>Status</h2>
           <p class="status">
-            <span>&bull;</span> Yet to be Dispatched <br> ({{
-              created_at | formatDate
-            }}
-            {{ created_at | formatTime }})
+            <span>&bull;</span> Yet to be Dispatched
           </p>
           <div class="line"></div>
           <p class="status">
-            <span>&bull;</span> Dispatched <br> ({{ updated_at | formatDate }}
-            {{ updated_at | formatTime }})
+            <span>&bull;</span> Dispatched
           </p>
         </div>
         <div class="col-sm-5 pb" v-if="status === 'Shipped'">

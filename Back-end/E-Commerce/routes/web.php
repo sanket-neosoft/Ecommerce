@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
     // User Controller 
     Route::get('/user-management/add-user', [UserController::class, 'addUserForm'])->name('add-user');
-    Route::post('/user-management/add', [Userontroller::class, 'addUser']);
+    Route::post('/user-management/add', [UserController::class, 'addUser']);
     Route::get('/user-management', [UserController::class, 'getUsers'])->name('user-management');
     Route::get('/user-management/user/{id}', [UserController::class, 'getUser']);
     Route::post('/user-management/edit/{id}', [UserController::class, 'editUser']);

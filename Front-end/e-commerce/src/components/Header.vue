@@ -74,7 +74,7 @@
                   >
                 </li>
                 <li>
-                  <router-link to="cart"
+                  <router-link to="/cart"
                     ><i class="fa fa-shopping-cart"></i>
                     <span
                       >Cart <span class="badge">{{ cartCount }}</span></span
@@ -148,7 +148,7 @@
                     </li>
                   </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" v-if="user !== null">
                   <a href="javascript:void(0)"
                     >Orders<i class="fa fa-angle-down"></i
                   ></a>

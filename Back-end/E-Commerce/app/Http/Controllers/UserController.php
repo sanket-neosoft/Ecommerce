@@ -86,7 +86,9 @@ class UserController extends Controller
             } else {
                 $user->active = false;
             }
-            $user->save();
+            if ($user->save()) {
+                return response()->json('success');
+            }
             return redirect('/user-management')->with('status', 'success');
         }
     }
@@ -128,7 +130,6 @@ class UserController extends Controller
             $user->firstname = $request->fname;
             $user->lastname = $request->lname;
             $user->email = $request->email;
-            $user->notification_email = $request->email;
             $user->password = Hash::make($request->password);
             $user->role_id = $request->role;
             if ($request->active === 'active') {

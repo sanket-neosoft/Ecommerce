@@ -84,20 +84,16 @@
                         <div class="form-group col-md-6">
                             <label for="bcaption">Banner Caption</label>
                             <input type="text" class="form-control @error('bcaption') is-invalid @enderror" name="bcaption" id="bcaption" placeholder="Enter banner caption" autofocus value="">
-                            @error('bcaption')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="bcaption_error"></strong></small>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="fname">Banner link (optional)</label>
                             <input type="text" class="form-control @error('blink') is-invalid @enderror" name="blink" id="blink" placeholder="Enter banner link">
-                            @error('blink')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <strong id="blink_error"></strong>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label>Banner Description (optional)</label>
@@ -112,11 +108,9 @@
                                         <label class="custom-file-label" for="banner-image">Choose file</label>
                                     </div>
                                 </div>
-                                @error('bimage')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong id="bimage_error"></strong>
                                 </span>
-                                @enderror
                             </div>
                             <div class="form-group">
                                 <div class="border rounded preview">
@@ -186,6 +180,7 @@
                 success: function(response) {
                     console.log(response);
                     $("#bcaption").val(response.caption);
+                    $("#bcaption_error").text("");
                     $("#blink").val(response.link);
                     $("#id").val(response.id);
                     $("#bdescription").val(response.description);
@@ -205,8 +200,11 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
-                    location.reload();
+                    if (response) {
+                        location.reload();
+                    } else {
+                        $("#bcaption_error").text(response.bcaption[0]);
+                    }
                 },
             });
         });

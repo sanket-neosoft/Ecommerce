@@ -84,55 +84,48 @@
                             <div class="form-group">
                                 <label for="ccode">Coupon Code</label>
                                 <input type="text" class="form-control @error('ccode') is-invalid @enderror" name="ccode" disabled id="ccode" placeholder="Enter coupon code" autofocus value="{{ old('ccode') }}">
-                                @error('ccode')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong id="ccode_error"></strong>
                                 </span>
-                                @enderror
+                                <span class="text-danger" role="alert">
+                                    <small><strong id="ccode_error"></strong></small>
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cmin">Coupon Minimum Value</label>
                                 <input type="number" class="form-control @error('cmin') is-invalid @enderror" name="cmin" id="cmin" placeholder="Enter minimum amount" value="{{ old('cmin') }}">
-                                @error('cmin')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger" role="alert">
+                                    <small><strong id="cmin_error"></strong></small>
                                 </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cpercent">Coupon Percentage</label>
                                 <input type="number" class="form-control @error('cpercent') is-invalid @enderror" name="cpercent" id="cpercent" placeholder="Enter percentage" value="{{ old('cpercent') }}">
-                                @error('cpercent')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger" role="alert">
+                                    <small><strong id="cpercent_error"></strong></small>
                                 </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="climit">Coupon Limit</label>
                                 <input type="number" class="form-control @error('climit') is-invalid @enderror" name="climit" id="climit" placeholder="Enter coupon limit" value="{{ old('climit') }}">
-                                @error('climit')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger" role="alert">
+                                    <small><strong id="climit_error"></strong></small>
                                 </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cquantity">Coupon Quantity</label>
                                 <input type="number" class="form-control @error('ccode') is-invalid @enderror" name="cquantity" id="cquantity" placeholder="Enter coupon quantity" value="{{ old('cquantity') }}">
-                                @error('cquantity')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger" role="alert">
+                                    <small><strong id="cquantity_error"></strong></small>
                                 </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
@@ -187,6 +180,10 @@
                     $("#cpercent").val(response.percent);
                     $("#climit").val(response.limit);
                     $("#cquantity").val(response.quantity);
+                    $("#climit_error").text("");
+                    $("#cmin_error").text("");
+                    $("#cpercent_error").text("");
+                    $("#cquantity_error").text("");
                 }
             });
         });
@@ -202,7 +199,23 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
+                    console.log(response)
+                    if (response === 'success') {
+                        location.reload();
+                    } else {
+                        if (response.climit) {
+                            $("#climit_error").text(response.climit[0]);
+                        }
+                        if (response.cmin) {
+                            $("#cmin_error").text(response.cmin[0]);
+                        }
+                        if (response.cpercent) {
+                            $("#cpercent_error").text(response.cpercent[0]);
+                        }
+                        if (response.cquantity) {
+                            $("#cquantity_error").text(response.cquantity[0]);
+                        }
+                    }
                 },
             });
         });

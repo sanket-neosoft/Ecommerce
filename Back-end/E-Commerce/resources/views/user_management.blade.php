@@ -81,55 +81,47 @@
                         <div class="form-group col-md-6">
                             <label for="fname">First Name</label>
                             <input type="text" class="form-control @error('fname') is-invalid @enderror" name="fname" id="fname" placeholder="Enter first name" autofocus value="">
-                            @error('fname')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="fname_error"></strong></small>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="lname">Last Name</label>
                             <input type="text" class="form-control @error('lname') is-invalid @enderror" name="lname" id="lname" placeholder="Enter last name" value="">
-                            @error('lname')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="lname_error"></strong></small>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="email">Email</label>
                             <input type="text" class="form-control @error('email') is-invalid @enderror" disabled name="email" id="email" placeholder="Enter email" value="">
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="email_error"></strong></small>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label>Select Role</label>
-                            <select name="role" class="form-control @error('email') is-invalid @enderror">
+                            <select name="role" id='role' class="form-control @error('email') is-invalid @enderror">
                                 @foreach ($roles as $role)
                                 <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
                                 @endforeach
                             </select>
-                            @error('role')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="role_error"></strong></small>
                             </span>
-                            @enderror
                         </div>
                         <div class="form-group col-md-6 ">
                             <label for="password">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Enter password">
-                            <span class="invalid-feedback" role="alert">
-                                <strong></strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="password_error"></strong></small>
                             </span>
                         </div>
                         <div class="form-group col-md-6 ">
                             <label for="cnf-password">Confirm Password</label>
                             <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="cnf-password" placeholder="Confirm password">
-                            <span class="invalid-feedback" role="alert">
-                                <strong></strong>
+                            <span class="text-danger" role="alert">
+                                <small><strong id="password_confirmation_error"></strong></small>
                             </span>
                         </div>
                         <div class="form-group col-md-6 my-3">
@@ -198,7 +190,7 @@
         $("#edit-form").on("submit", function(event) {
             event.preventDefault();
             let id = $("#id").val();
-            console.log($("select option:selected").val());
+            console.log($("#role").val());
             $.ajax({
                 url: `/user-management/edit/${id}`,
                 type: "post",
@@ -207,13 +199,28 @@
                     fname: $("input[name='fname']").val(),
                     lname: $("input[name='lname']").val(),
                     email: $("input[name='email']").val(),
-                    role: 2,
+                    role: $("#role").val(),
                     active: $("input[name='active']").val(),
                     password: $("input[name='password']").val(),
                     password_confirmation: $("input[name=password_confirmation]").val(),
                 },
                 success: function(response) {
-                    console.log(response);
+                    if (response === "success") {
+                        console.log(response)
+                    } else {
+                        if (response.fname) {
+                            $("#fname_error").text(response.fname[0]);
+                        }
+                        if (response.lname) {
+                            $("#lname_error").text(response.lname[0]);
+                        }
+                        if (response.password) {
+                            $("#password_error").text(response.password[0]);
+                        }
+                        if (response.password_confirmation) {
+                            $("#password_confirmation_error").text(response.password_confirmation[0]);
+                        }
+                    }
                 },
             });
         });

@@ -66,7 +66,7 @@
 < x-delete-alert data="Do you really want to delete this User?" />
 <!-- Edit modal -->
 <div class="modal fade" id="modal-edit" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog">
         <div class="modal-content card card-warning card-outline">
             <div class="modal-header">
                 <h4 class="modal-title">Edit</h4>
@@ -108,20 +108,6 @@
                             </select>
                             <span class="text-danger" role="alert">
                                 <small><strong id="role_error"></strong></small>
-                            </span>
-                        </div>
-                        <div class="form-group col-md-6 ">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Enter password">
-                            <span class="text-danger" role="alert">
-                                <small><strong id="password_error"></strong></small>
-                            </span>
-                        </div>
-                        <div class="form-group col-md-6 ">
-                            <label for="cnf-password">Confirm Password</label>
-                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="cnf-password" placeholder="Confirm password">
-                            <span class="text-danger" role="alert">
-                                <small><strong id="password_confirmation_error"></strong></small>
                             </span>
                         </div>
                         <div class="form-group col-md-6 my-3">
@@ -201,24 +187,16 @@
                     email: $("input[name='email']").val(),
                     role: $("#role").val(),
                     active: $("input[name='active']").val(),
-                    password: $("input[name='password']").val(),
-                    password_confirmation: $("input[name=password_confirmation]").val(),
                 },
                 success: function(response) {
                     if (response === "success") {
-                        console.log(response)
+                        location.reload();
                     } else {
                         if (response.fname) {
                             $("#fname_error").text(response.fname[0]);
                         }
                         if (response.lname) {
                             $("#lname_error").text(response.lname[0]);
-                        }
-                        if (response.password) {
-                            $("#password_error").text(response.password[0]);
-                        }
-                        if (response.password_confirmation) {
-                            $("#password_confirmation_error").text(response.password_confirmation[0]);
                         }
                     }
                 },

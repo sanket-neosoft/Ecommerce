@@ -16,7 +16,7 @@ class CreateUserOrdersTable extends Migration
     {
         Schema::create('user_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
+            $table->foreignId('user_id')->constrained('users', 'id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('user_name');
             $table->string('user_email');
             $table->string('user_contact');

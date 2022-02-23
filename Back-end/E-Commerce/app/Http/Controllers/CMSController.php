@@ -116,7 +116,7 @@ class CMSController extends Controller
     public function deleteCMS($id)
     {
         $cms = Cms::find($id);
-        if (unlink(public_path('cms/' . $cms->image))) {
+        if (unlink(public_path($cms->image))) {
             $cms->delete();
         }
     }

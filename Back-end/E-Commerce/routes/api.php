@@ -6,6 +6,7 @@ use App\Http\Controllers\CMSController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JWTController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -68,3 +69,5 @@ Route::get('/cms', [CMSController::class, 'getCMSsApi']);
 
 // Single Cms api
 Route::get('/cms/{slug}', [CMSController::class, 'getCMSApi']);
+
+Route::get('/test',[ UserController::class, 'apiTEST']);
